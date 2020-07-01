@@ -73,6 +73,9 @@ MonoBehaviour:
   - UseRigidBodyGravity
   - Live
   - RPC_LoadScene
+  - rpc
+  - rpc_s
+  - RPC_SpawnObjects
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 0
+  DevRegionSetOnce: 1

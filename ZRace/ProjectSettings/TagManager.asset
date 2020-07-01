@@ -30,6 +30,10 @@ TagManager:
   - CoverPoint
   - Interactable
   - AIAction
+  - Wheel
+  - Vehicle
+  - Road
+  - DirtRoad
   layers:
   - Default
   - TransparentFX
@@ -48,7 +52,7 @@ TagManager:
   - HeadTrack
   - BodyPart
   - BlockAIRayCast
-  - 
+  - WheelsControllerIgnore
   - 
   - 
   - 
