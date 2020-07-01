@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: bd3eebc4-43bd-4ade-9891-a17ead500adf
+    AppIdRealtime: 
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 1
+    AppVersion: 
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -25,7 +25,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: eu
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -43,6 +43,7 @@ MonoBehaviour:
   - GenericSync_SetTrigger
   - InvokeNoInputEvent
   - Item_NetworkDestroy
+  - Live
   - MasterClientInstantiate
   - MeleeManager_ReceiveSetLeftWeapon
   - MeleeManager_ReceiveSetRightWeapon
@@ -62,6 +63,7 @@ MonoBehaviour:
   - ReceiveDamage
   - ResetTriggers
   - RespawnSpaceship
+  - RPC_LoadScene
   - SendDamage
   - SendNetworkBreakObject
   - SendToScene
@@ -71,11 +73,6 @@ MonoBehaviour:
   - SetTriggers
   - UpdateEntrancePoint
   - UseRigidBodyGravity
-  - Live
-  - RPC_LoadScene
-  - rpc
-  - rpc_s
-  - RPC_SpawnObjects
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
-  DevRegionSetOnce: 1
+  ShowSettings: 0
+  DevRegionSetOnce: 0
