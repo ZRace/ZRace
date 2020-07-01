@@ -38,11 +38,10 @@ public class PlayFabLoginEditor : Editor
 
 		GUILayout.BeginVertical("HelpBox");
 
-		GUILayout.BeginVertical("box");
 
 
 		GUI.color = new Color32(255, 163, 56, 255);
-		GUILayout.BeginHorizontal("box");
+		GUILayout.BeginHorizontal("HelpBox");
 		GUILayout.FlexibleSpace();
 		GUILayout.Label("PlayFab Manager", EditorStyles.boldLabel);
 		GUILayout.FlexibleSpace();
@@ -83,12 +82,11 @@ public class PlayFabLoginEditor : Editor
 			serializedObject.ApplyModifiedProperties();
 		}
 
-		GUILayout.EndVertical();
-		GUILayout.Space(10);
-		GUILayout.BeginVertical("box");
+
+		GUILayout.Space(20);
 
 		GUI.color = new Color32(83, 255, 252, 255);
-		GUILayout.BeginHorizontal("box");
+		GUILayout.BeginHorizontal("HelpBox");
 		GUILayout.FlexibleSpace();
 		GUILayout.Label("Account Player Info", EditorStyles.boldLabel);
 		GUILayout.FlexibleSpace();
@@ -97,12 +95,11 @@ public class PlayFabLoginEditor : Editor
 
 		GetInfo();
 		GUILayout.EndVertical();
-		GUILayout.EndVertical();
 	}
 
 	private void Register()
 	{
-		GUILayout.BeginVertical("box");
+		GUILayout.BeginVertical("HelpBox");
 		EditorGUILayout.PropertyField(regEmail, new GUIContent("Email:"));
 		EditorGUILayout.PropertyField(regUsername, new GUIContent("Username:"));
 		EditorGUILayout.PropertyField(regPassword, new GUIContent("Password:"));
@@ -124,7 +121,7 @@ public class PlayFabLoginEditor : Editor
 
 	private void Log()
 	{
-		GUILayout.BeginVertical("box");
+		GUILayout.BeginVertical("HelpBox");
 		EditorGUILayout.PropertyField(logUsername, new GUIContent("Username:"));
 		EditorGUILayout.PropertyField(logPassword, new GUIContent("Password:"));
 		EditorGUILayout.PropertyField(loadScene, new GUIContent("Name the scene to load: "));
@@ -147,7 +144,7 @@ public class PlayFabLoginEditor : Editor
 
 	private void Errors()
 	{
-		GUILayout.BeginVertical("box");
+		GUILayout.BeginVertical("HelpBox");
 		EditorGUILayout.PropertyField(errorText, new GUIContent("Callbacks Errors: "));
 		if (errorText.objectReferenceValue == null)
 		{
@@ -159,7 +156,7 @@ public class PlayFabLoginEditor : Editor
 
 	private void GetInfo()
 	{
-		GUILayout.BeginVertical("box");
+		GUILayout.BeginVertical("HelpBox");
 		EditorGUILayout.PropertyField(contactEmail, new GUIContent("Contact Email:"));
 		EditorGUILayout.PropertyField(playFabID, new GUIContent("ID Username:"));
 		EditorGUILayout.PropertyField(displayName, new GUIContent("Display Name:"));
