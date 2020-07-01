@@ -71,6 +71,8 @@ MonoBehaviour:
   - SetTriggers
   - UpdateEntrancePoint
   - UseRigidBodyGravity
+  - Live
+  - RPC_LoadScene
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0
