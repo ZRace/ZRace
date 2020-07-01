@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using PlayFab.ClientModels;
 using PlayFab;
 using TMPro;
@@ -19,6 +20,8 @@ public class PlayFabLogin : MonoBehaviour
 	[HideInInspector] public TMP_InputField logUsername;
 	[Tooltip("Input field of log in Password")]
 	[HideInInspector] public TMP_InputField logPassword;
+	[Tooltip("If number it's 0 = no online, else if number it's 1 = online")]
+	[HideInInspector] public int isOnline;
 
 
 	[Tooltip("Text for error messages")]
@@ -33,7 +36,6 @@ public class PlayFabLogin : MonoBehaviour
 	[HideInInspector] public string displayName;
 	[Tooltip("Scene number to load")]
 	[HideInInspector] public string loadScene;
-
 
 
 	#region ConntectAPI
@@ -143,6 +145,50 @@ public class PlayFabLogin : MonoBehaviour
 	{
 		print("<color=#00bc04>" + "Inicio de sesión válido" + "</color>");
 		playFabID = obj.PlayFabId;
+
+		var request = new GetPlayerStatisticsRequest();
+
+		request.StatisticNames = new List<string>() { "isOnline" };
+
+
+		PlayFabClientAPI.GetPlayerStatistics(request, OnOnlineResult, OnOnlineError);
+
+	}
+
+	private void OnOnlineResult(GetPlayerStatisticsResult obj)
+	{
+		foreach(var stat in obj.Statistics)
+		{
+			isOnline = stat.Value;
+		}
+		
+		if (isOnline == 0)
+		{
+			isOnline = 1;
+			var request = new UpdatePlayerStatisticsRequest();
+
+			request.Statistics = new List<StatisticUpdate>();
+
+			var stat = new StatisticUpdate { StatisticName = "isOnline", Value = isOnline };
+
+			request.Statistics.Add(stat);
+			PlayFabClientAPI.UpdatePlayerStatistics(request, Continue, OnPlayFabError);
+			//Continue();
+		}
+		else
+		{
+			print("<color=#f51c00>" + "Esta cuenta esta en online" + "</color>");
+			errorText.text = "This account is online.";
+		}
+	}
+
+	private void OnOnlineError(PlayFabError obj)
+	{
+		
+	}
+
+	private void Continue(UpdatePlayerStatisticsResult obj)
+	{
 		GetAccountInfo(); // Llamamos a esta funcion para obtener la informacion del usuario que logea
 	}
 	#endregion

@@ -2749,6 +2749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1710613149}
   - component: {fileID: 1710613148}
+  - component: {fileID: 1710613150}
   m_Layer: 0
   m_Name: PlayFabManager
   m_TagString: Untagged
@@ -2773,6 +2774,7 @@ MonoBehaviour:
   regPassword: {fileID: 2127173430}
   logUsername: {fileID: 1717776429}
   logPassword: {fileID: 47750537}
+  isOnline: 0
   errorText: {fileID: 2115011679}
   playFabID: 
   contactEmail: 
@@ -2792,6 +2794,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1710613150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710613147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef9965f8b1a0a0b458aac3faf0fe282c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1716497152
 GameObject:
   m_ObjectHideFlags: 0

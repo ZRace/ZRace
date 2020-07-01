@@ -7,7 +7,7 @@ using UnityEditor;
 public class PlayFabLoginEditor : Editor
 {
 	SerializedProperty regEmail, regUsername, regPassword, logUsername, logPassword, errorText,
-		contactEmail, playFabID, displayName, loadScene;
+		contactEmail, playFabID, displayName, loadScene, isOnline;
 
 	GUIStyle fieldBox;
 
@@ -23,6 +23,7 @@ public class PlayFabLoginEditor : Editor
 
 		logUsername = serializedObject.FindProperty("logUsername");
 		logPassword = serializedObject.FindProperty("logPassword");
+		isOnline = serializedObject.FindProperty("isOnline");
 		playFabID = serializedObject.FindProperty("playFabID");
 		displayName = serializedObject.FindProperty("displayName");
 		loadScene = serializedObject.FindProperty("loadScene");
@@ -160,6 +161,7 @@ public class PlayFabLoginEditor : Editor
 		EditorGUILayout.PropertyField(contactEmail, new GUIContent("Contact Email:"));
 		EditorGUILayout.PropertyField(playFabID, new GUIContent("ID Username:"));
 		EditorGUILayout.PropertyField(displayName, new GUIContent("Display Name:"));
+		EditorGUILayout.PropertyField(isOnline, new GUIContent("Online Number"));
 		EditorGUILayout.HelpBox("This section can't be changed.", MessageType.Warning);
 		GUILayout.EndVertical();
 	}
