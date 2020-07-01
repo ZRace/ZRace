@@ -1911,7 +1911,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8567096300416212498
 Transform:
   m_ObjectHideFlags: 0
@@ -3168,7 +3168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8573217368036780718
 Transform:
   m_ObjectHideFlags: 0
@@ -3618,7 +3618,7 @@ GameObject:
   - component: {fileID: 8570863125629225244}
   - component: {fileID: 8570863125629225243}
   m_Layer: 8
-  m_Name: vShooterController_SM_Chr_Biker_Male_01
+  m_Name: vShooterController_SM_Chr
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4563,6 +4563,14 @@ MonoBehaviour:
     addToEquipArea: 0
     indexArea: 0
   - id: 25
+    name: 
+    amount: 1
+    attributes: []
+    changeAttributes: 0
+    autoEquip: 1
+    addToEquipArea: 1
+    indexArea: 0
+  - id: 10
     name: 
     amount: 1
     attributes: []
