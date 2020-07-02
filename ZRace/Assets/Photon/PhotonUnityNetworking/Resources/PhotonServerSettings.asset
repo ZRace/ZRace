@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: bd3eebc4-43bd-4ade-9891-a17ead500adf
-    AppIdChat: 
-    AppIdVoice: 
+    AppIdChat: 05795e32-7649-4e84-bbe7-e3dda6b6834e
+    AppIdVoice: de7543cc-9816-4ae2-bf7c-bf88538e091f
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -63,7 +63,10 @@ MonoBehaviour:
   - ReceiveDamage
   - ResetTriggers
   - RespawnSpaceship
+  - rpc
   - RPC_LoadScene
+  - rpc_s
+  - RPC_SpawnObjects
   - SendDamage
   - SendNetworkBreakObject
   - SendToScene
@@ -73,9 +76,6 @@ MonoBehaviour:
   - SetTriggers
   - UpdateEntrancePoint
   - UseRigidBodyGravity
-  - rpc
-  - rpc_s
-  - RPC_SpawnObjects
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
