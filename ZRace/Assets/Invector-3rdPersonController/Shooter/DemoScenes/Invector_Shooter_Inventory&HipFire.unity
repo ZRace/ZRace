@@ -6378,6 +6378,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 702455344}
     m_Modifications:
+    - target: {fileID: 1289219825712412, guid: a16cbf43beb9f864595ba71c37132c83, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593178534263834, guid: a16cbf43beb9f864595ba71c37132c83, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671884421353350, guid: a16cbf43beb9f864595ba71c37132c83, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1914592376871148, guid: a16cbf43beb9f864595ba71c37132c83, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4447286785858562, guid: a16cbf43beb9f864595ba71c37132c83, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.9635434
@@ -6409,6 +6425,36 @@ PrefabInstance:
     - target: {fileID: 4447286785858562, guid: a16cbf43beb9f864595ba71c37132c83, type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114267645560294864, guid: a16cbf43beb9f864595ba71c37132c83,
+        type: 3}
+      propertyPath: targetsInArea.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114587693973821878, guid: a16cbf43beb9f864595ba71c37132c83,
+        type: 3}
+      propertyPath: openCloseWindow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114871562875845146, guid: a16cbf43beb9f864595ba71c37132c83,
+        type: 3}
+      propertyPath: selectedToolbar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114871562875845146, guid: a16cbf43beb9f864595ba71c37132c83,
+        type: 3}
+      propertyPath: layersToDetect.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 114871562875845146, guid: a16cbf43beb9f864595ba71c37132c83,
+        type: 3}
+      propertyPath: passiveToDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114871562875845146, guid: a16cbf43beb9f864595ba71c37132c83,
+        type: 3}
+      propertyPath: agressiveAtFirstSight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224313555893490306, guid: a16cbf43beb9f864595ba71c37132c83,
         type: 3}
@@ -6445,7 +6491,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.002494812
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 135008520678164108, guid: a16cbf43beb9f864595ba71c37132c83, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a16cbf43beb9f864595ba71c37132c83, type: 3}
 --- !u!4 &1691481411 stripped
 Transform:
