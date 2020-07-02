@@ -22,6 +22,8 @@ namespace NWH.VehiclePhysics2
         public static Color disabledColor = new Color32(66, 66, 66, 255);
         public static Color enabledColor = new Color32(76,175,80, 255);
 
+        public float live;
+
         public Text promptText;
 
         public GameObject helpWindow;
@@ -148,7 +150,9 @@ namespace NWH.VehiclePhysics2
             }
 
             damageButton.targetGraphic.color = _vc.damageHandler.Active ? enabledColor : disabledColor;
-            damageSlider.value = _vc.damageHandler.Damage;
+            live = -_vc.damageHandler.Damage;
+            damageSlider.value = live;
+            
 
             _prevVc = _vc;
         }

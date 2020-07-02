@@ -7,7 +7,6 @@
 // </summary>
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -27,7 +26,9 @@ namespace Photon.Pun.UtilityScripts
     public class OnJoinedInstantiate : MonoBehaviour
         , IMatchmakingCallbacks
     {
+
         public enum SpawnSequence { Connection, Random, RoundRobin }
+        public GameObject controllerObject;
 
         #region Inspector Items
 
@@ -46,8 +47,20 @@ namespace Photon.Pun.UtilityScripts
         // Record of spawned objects, used for Despawn All
         public Stack<GameObject> SpawnedObjects = new Stack<GameObject>();
 
-#if UNITY_EDITOR
+        public void Start()
+        {
+            if (PhotonNetwork.InRoom == true)
+            {
+                OnJoinedRoom();
+            }
+            else
+            {
+                Debug.LogError("No hay rooms");
+            }
 
+        }
+
+#if UNITY_EDITOR
         protected void OnValidate()
         {
             /// Check the prefab to make sure it is the actual resource, and not a scene object or other instance.
@@ -111,25 +124,25 @@ namespace Photon.Pun.UtilityScripts
 
 #if UNITY_2018_3_OR_NEWER
 
-			GameObject validated = null;
+            GameObject validated = null;
 
-			if (unvalidated != null)
-			{
+            if (unvalidated != null)
+            {
 
-				if (PrefabUtility.IsPartOfPrefabAsset(unvalidated))
-					return unvalidated;
+                if (PrefabUtility.IsPartOfPrefabAsset(unvalidated))
+                    return unvalidated;
 
-				var prefabStatus = PrefabUtility.GetPrefabInstanceStatus(unvalidated);
-				var isValidPrefab = prefabStatus == PrefabInstanceStatus.Connected || prefabStatus == PrefabInstanceStatus.Disconnected;
+                var prefabStatus = PrefabUtility.GetPrefabInstanceStatus(unvalidated);
+                var isValidPrefab = prefabStatus == PrefabInstanceStatus.Connected || prefabStatus == PrefabInstanceStatus.Disconnected;
 
-				if (isValidPrefab)
-					validated = PrefabUtility.GetCorrespondingObjectFromSource(unvalidated) as GameObject;
-				else
-					return null;
+                if (isValidPrefab)
+                    validated = PrefabUtility.GetCorrespondingObjectFromSource(unvalidated) as GameObject;
+                else
+                    return null;
 
-				if (!PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(validated).Contains("/Resources"))
-					Debug.LogWarning("Player Prefab needs to be a Prefab in a Resource folder.");
-			}
+                if (!PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(validated).Contains("/Resources"))
+                    Debug.LogWarning("Player Prefab needs to be a Prefab in a Resource folder.");
+            }
 #else
             GameObject validated = unvalidated;
 
@@ -155,11 +168,11 @@ namespace Photon.Pun.UtilityScripts
 
         public virtual void OnJoinedRoom()
         {
-            if (autoSpawnObjects)
-                SpawnObjects();
+            RPC_SpawnObjects();
         }
 
-        public virtual void SpawnObjects()
+        [PunRPC]
+        private void RPC_SpawnObjects()
         {
 
             if (this.PrefabsToInstantiate != null)
@@ -177,7 +190,11 @@ namespace Photon.Pun.UtilityScripts
 
                     var newobj = PhotonNetwork.Instantiate(o.name, spawnPos, spawnRot, 0);
                     SpawnedObjects.Push(newobj);
+                    controllerObject = newobj;
+
                 }
+
+
             }
         }
 
@@ -198,7 +215,11 @@ namespace Photon.Pun.UtilityScripts
         public virtual void OnCreateRoomFailed(short returnCode, string message) { }
         public virtual void OnJoinRoomFailed(short returnCode, string message) { }
         public virtual void OnJoinRandomFailed(short returnCode, string message) { }
-        public virtual void OnLeftRoom() { }
+        public virtual void OnLeftRoom()
+        {
+            PhotonNetwork.Disconnect();
+        }
+        // Cuando se desconecta de los servicios de photon
 
         protected int lastUsedSpawnPointIndex = -1;
 

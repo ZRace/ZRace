@@ -1,6 +1,20 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:ZRace/Assets/PlayMaker/Versions.meta
 guid: ffdafdd673346bd48b5a93242e4da18a
 folderAsset: yes
+========
+<<<<<<< HEAD:ZRace/Assets/Invector-3rdPersonController/Basic Locomotion/Resources/v2DPlatformAddon.unitypackage.meta
+guid: c5d93cd340b88a24282390f8d5228358
+=======
+guid: a1861af303e15624eb16330586976c66
+folderAsset: yes
+>>>>>>> 9d39f3104a319f001b9e1e972ed6c89d461c41b3:ZRace/Assets/InvectorMultiplayerAddon-4.4.7/Editor/Images/Bones.meta
+>>>>>>>> f9a05a95c9a1e3bd204ae79eacc812323785cdf0:ZRace/Assets/Invector-3rdPersonController/Basic Locomotion/Resources/v2DPlatformAddon.unitypackage.meta
+=======
+guid: b08e5472af8597f4bbb58c9cffc90513
+folderAsset: yes
+>>>>>>> f9a05a95c9a1e3bd204ae79eacc812323785cdf0
 DefaultImporter:
   externalObjects: {}
   userData: 

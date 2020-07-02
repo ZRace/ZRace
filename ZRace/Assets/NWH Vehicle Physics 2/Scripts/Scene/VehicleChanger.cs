@@ -104,8 +104,8 @@ namespace NWH.VehiclePhysics2.SceneManagement
                         }
                     }
 
-                    Debug.LogWarning("'ChangeVehicle' input binding is not set under Project Settings > Input, falling back to default. " +
-                                     "Check input section of manual on which input bindings need to be set up for NVP to work properly.");
+                   //Debug.LogWarning("'ChangeVehicle' input binding is not set under Project Settings > Input, falling back to default. " +
+                   //                 "Check input section of manual on which input bindings need to be set up for NVP to work properly.");
                 }
 
                 if (changeVehiclePressed)
