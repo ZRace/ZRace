@@ -76,6 +76,9 @@ MonoBehaviour:
   - SetTriggers
   - UpdateEntrancePoint
   - UseRigidBodyGravity
+  - NetworkDestroy
+  - ReceiveSetLeftWeapon
+  - ReceiveSetRightWeapon
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
