@@ -2446,7 +2446,7 @@ MonoBehaviour:
   openCloseEvents: 0
   openCloseWindow: 0
   selectedToolbar: 0
-  damageMultiplier: 1
+  damageMultiplier: 200
   ragdoll: {fileID: 0}
   overrideReactionID: 0
   reactionID: 0
