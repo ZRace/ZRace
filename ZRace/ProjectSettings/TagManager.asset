@@ -30,6 +30,7 @@ TagManager:
   - CoverPoint
   - Interactable
   - AIAction
+  - ZBot_Active
   layers:
   - Default
   - TransparentFX
