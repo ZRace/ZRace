@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
   m_Name: PlayFabEditorPrefsSO
   m_EditorClassIdentifier: 
-  DevAccountEmail: zombiercinfo@gmail.com
-  DevAccountToken: enawedgjrg44osat1ihtgog3reyafhg88dudghs9johdpkr8yfy6f5iqisbye9rs8tm4buw49hunu9bjxuiqpm33jegyyy8ksgxf1xipr3ka6gk63y1npb95d7eyrekqsuzips6sb9ymy3oyyjd8ha6m5f9giwarnph3e1qkc85usrkkcpohhwur1m658f9tdwjzptrt
-  SelectedStudio: ZRace
-  SdkPath: Assets/PlayFabSDK
+  DevAccountEmail: 
+  DevAccountToken: 
+  SelectedStudio: 
+  SdkPath: 
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0
-  curMainMenuIdx: 1
+  curMainMenuIdx: 0
   curSubMenuIdx: 0
