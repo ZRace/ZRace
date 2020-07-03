@@ -55,7 +55,7 @@ namespace Invector.vShooter
             previousPosition = transform.position - transform.forward * 0.1f;
         }
 
-        protected virtual void Update()
+		protected virtual void Update()
         {
             RaycastHit hitInfo;
             if (_rigidBody.velocity.magnitude > 1)

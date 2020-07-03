@@ -410,7 +410,7 @@ MonoBehaviour:
           tooltip: 
           showInInspector: 0
           networkSync: 0
-          value: {fileID: 2384083502528150401, guid: afa0be4f0806dcf49a4d6f0e7e923dbb,
+          value: {fileID: 5647860374320106759, guid: 1f4fd089b15f82d4088eb8d5cd4ddb6b,
             type: 3}
         - useVariable: 1
           name: LV_Obj_ZBot_Spawn_Pos

@@ -116,7 +116,7 @@ namespace NWH.VehiclePhysics2.Effects
         /// <summary>
         ///     Current vehicle (drivetrain) damage in range from 0 (no damage) to 1 (fully damaged).
         /// </summary>
-        public float Damage { get; private set; }
+        public float Damage;
 
         public override void Initialize()
         {
