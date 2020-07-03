@@ -121,7 +121,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 4327c1667fc416c458b02ca6838975e3, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 348796e1fa8416840a1f8769426709a0, type: 2}
 --- !u!1001 &8141131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2234,7 +2234,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &535827040
 PrefabInstance:
@@ -5393,7 +5393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22443792, guid: 041726e4330290b43ac95e1cf84d3636, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22443792, guid: 041726e4330290b43ac95e1cf84d3636, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7004,7 +7004,7 @@ GameObject:
   m_TagString: Concrete
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &1812720412
 MeshRenderer:
