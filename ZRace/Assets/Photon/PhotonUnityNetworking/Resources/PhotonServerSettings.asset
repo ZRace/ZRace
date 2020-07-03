@@ -76,6 +76,6 @@ MonoBehaviour:
   - SetTriggers
   - UpdateEntrancePoint
   - UseRigidBodyGravity
-  DisableAutoOpenWizard: 1
+  DisableAutoOpenWizard: 0
   ShowSettings: 0
   DevRegionSetOnce: 0
