@@ -95,12 +95,12 @@ namespace Invector.vCharacterController.AI
                     currentTarget.transform = null;
                 }
             }
-            else if (currentHealth <= 0f)
-            {
-                destination = transform.position;
-                currentTarget.transform = null;
-            }
-        }
+			else if (currentHealth <= 0f)
+			{
+				destination = transform.position;
+				currentTarget.transform = null;
+			}
+		}
 
         bool CheckTargetIsAlive()
         {

@@ -9324,7 +9324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 5
+  selectedToolbar: 0
   _isDead: 0
   _currentHealth: 0
   isImmortal: 0
@@ -9385,11 +9385,12 @@ MonoBehaviour:
   minStrafeSwape: 0
   maxStrafeSwape: 0
   strafeRotationSpeed: 0
-  currentState: 3
+  currentState: 0
   sphereSensor: {fileID: 2384083502581892175}
   tagsToDetect:
     tags:
     - Player
+    - Vehicle
   layersToDetect:
     serializedVersion: 2
     m_Bits: 256
@@ -9419,9 +9420,9 @@ MonoBehaviour:
   lowerShield: 1
   distanceToChangeWaypoint: 90
   patrollingStopDistance: 85
-  patrolWithoutAreaStyle: 1
+  patrolWithoutAreaStyle: 2
   pathArea: {fileID: 0}
-  randomWaypoints: 1
+  randomWaypoints: 0
   _capsuleCollider: {fileID: 0}
   healthSlider: {fileID: 0}
   meleeManager: {fileID: 0}
