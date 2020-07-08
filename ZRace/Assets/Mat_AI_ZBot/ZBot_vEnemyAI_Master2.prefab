@@ -7811,7 +7811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 7
+  selectedToolbar: 0
   _isDead: 0
   _currentHealth: 0
   isImmortal: 0
@@ -7834,7 +7834,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   deathBy: 0
-  removeComponentsAfterDie: 1
+  removeComponentsAfterDie: 0
   debugActionListener: 0
   OnCrouch:
     m_PersistentCalls:

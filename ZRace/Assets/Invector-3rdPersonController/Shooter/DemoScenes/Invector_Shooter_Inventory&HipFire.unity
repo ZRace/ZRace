@@ -72,7 +72,7 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 1
-    m_BakeBackend: 0
+    m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
@@ -1278,6 +1278,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].attributes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: openCloseWindow
       value: 1
       objectReference: {fileID: 0}
@@ -1299,7 +1303,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: startItems.Array.data[0].changeAttributes
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: startItems.Array.data[8].id
@@ -1365,9 +1369,49 @@ PrefabInstance:
       propertyPath: startItems.Array.data[3].changeAttributes
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].attributes.Array.data[0].name
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].attributes.Array.data[0].value
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].attributes.Array.data[1].name
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].attributes.Array.data[1].value
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].attributes.Array.data[2].name
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].attributes.Array.data[2].value
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].attributes.Array.data[3].name
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 11405222, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: startItems.Array.data[1].changeAttributes
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 11407282, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: openCloseWindow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407282, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: selectedToolbar
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407282, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: unlockCursorOnStart
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11409756, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: openCloseWindow
@@ -1379,7 +1423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11432684, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: selectedToolbar
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11432684, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: hipfireAimTime
@@ -1423,7 +1467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11448040, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: selectedToolbar
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11448040, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: isImmortal
@@ -5234,7 +5278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 466.1, y: -468.2}
+  m_AnchoredPosition: {x: 466.1, y: -468.25}
   m_SizeDelta: {x: 166.52, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1213861449
