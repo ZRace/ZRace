@@ -11699,7 +11699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeFrictionPreset: {fileID: 11400000, guid: 99d32cdf55d3d6541a201d4e6306e35e,
     type: 2}
-  applyForceToOthers: 0
+  applyForceToOthers: 1
   autoSetupLayerMask: 1
   cachedTransform: {fileID: 0}
   cachedVisualTransform: {fileID: 0}
@@ -11833,7 +11833,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -11994,7 +11994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeFrictionPreset: {fileID: 11400000, guid: 99d32cdf55d3d6541a201d4e6306e35e,
     type: 2}
-  applyForceToOthers: 0
+  applyForceToOthers: 1
   autoSetupLayerMask: 1
   cachedTransform: {fileID: 0}
   cachedVisualTransform: {fileID: 0}
@@ -12128,7 +12128,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -12441,7 +12441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeFrictionPreset: {fileID: 11400000, guid: 99d32cdf55d3d6541a201d4e6306e35e,
     type: 2}
-  applyForceToOthers: 0
+  applyForceToOthers: 1
   autoSetupLayerMask: 1
   cachedTransform: {fileID: 0}
   cachedVisualTransform: {fileID: 0}
@@ -12575,7 +12575,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -12724,7 +12724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeFrictionPreset: {fileID: 11400000, guid: 99d32cdf55d3d6541a201d4e6306e35e,
     type: 2}
-  applyForceToOthers: 0
+  applyForceToOthers: 1
   autoSetupLayerMask: 1
   cachedTransform: {fileID: 0}
   cachedVisualTransform: {fileID: 0}
@@ -12858,7 +12858,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0

@@ -6867,6 +6867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5647860374190247850}
   - component: {fileID: 5647860374190247851}
+  - component: {fileID: 8141119378261683768}
   m_Layer: 0
   m_Name: Zombie_Bellboy_Male_01
   m_TagString: Untagged
@@ -6989,6 +6990,180 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0000010728836, y: 0.8709697, z: -0.05633028}
     m_Extent: {x: 1.0245606, y: 0.9690748, z: 0.27961087}
   m_DirtyAABB: 0
+--- !u!205 &8141119378261683768
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5647860374190247852}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.006684363, y: 0.9249732, z: -0.05454354}
+  m_Size: 2.2117481
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5647860374190247851}
+    - renderer: {fileID: 5647860374003563777}
+    - renderer: {fileID: 5647860373563572986}
+    - renderer: {fileID: 5647860374366280884}
+    - renderer: {fileID: 5647860373454017209}
+    - renderer: {fileID: 5647860375024036264}
+    - renderer: {fileID: 5647860375088397655}
+    - renderer: {fileID: 5647860373605131108}
+    - renderer: {fileID: 5647860374104933116}
+    - renderer: {fileID: 5647860373982835010}
+    - renderer: {fileID: 5647860374379381317}
+    - renderer: {fileID: 5647860375141688328}
+    - renderer: {fileID: 5647860375077120981}
+    - renderer: {fileID: 5647860374921936461}
+    - renderer: {fileID: 5647860373948764716}
+    - renderer: {fileID: 5647860373445622945}
+    - renderer: {fileID: 5647860375005466860}
+    - renderer: {fileID: 5647860373512219276}
+    - renderer: {fileID: 5647860373735523713}
+    - renderer: {fileID: 5647860374669035829}
+    - renderer: {fileID: 5647860374779340160}
+    - renderer: {fileID: 5647860374688252413}
+    - renderer: {fileID: 5647860374775832058}
+    - renderer: {fileID: 5647860373606454680}
+    - renderer: {fileID: 5647860375390826243}
+    - renderer: {fileID: 5647860375374272096}
+    - renderer: {fileID: 5647860373878409456}
+    - renderer: {fileID: 5647860375364037132}
+    - renderer: {fileID: 5647860374462790630}
+    - renderer: {fileID: 5647860374179550666}
+    - renderer: {fileID: 5647860373419409401}
+    - renderer: {fileID: 5647860374482677190}
+    - renderer: {fileID: 5647860374322460637}
+    - renderer: {fileID: 5647860375245137527}
+    - renderer: {fileID: 5647860374517841488}
+    - renderer: {fileID: 5647860373444407539}
+    - renderer: {fileID: 5647860375489372734}
+    - renderer: {fileID: 5647860374384389452}
+    - renderer: {fileID: 5647860375389134341}
+    - renderer: {fileID: 5647860374832720379}
+    - renderer: {fileID: 5647860373828562255}
+    - renderer: {fileID: 5647860375045191008}
+    - renderer: {fileID: 5647860374442371298}
+    - renderer: {fileID: 5647860374857761439}
+    - renderer: {fileID: 5647860373777733485}
+    - renderer: {fileID: 5647860373839636537}
+    - renderer: {fileID: 5647860373731582200}
+    - renderer: {fileID: 5647860375379729991}
+    - renderer: {fileID: 5647860373569709255}
+    - renderer: {fileID: 5647860375064741836}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5647860374190247851}
+    - renderer: {fileID: 5647860374003563777}
+    - renderer: {fileID: 5647860373563572986}
+    - renderer: {fileID: 5647860374366280884}
+    - renderer: {fileID: 5647860373454017209}
+    - renderer: {fileID: 5647860375024036264}
+    - renderer: {fileID: 5647860375088397655}
+    - renderer: {fileID: 5647860373605131108}
+    - renderer: {fileID: 5647860374104933116}
+    - renderer: {fileID: 5647860373982835010}
+    - renderer: {fileID: 5647860374379381317}
+    - renderer: {fileID: 5647860375141688328}
+    - renderer: {fileID: 5647860375077120981}
+    - renderer: {fileID: 5647860374921936461}
+    - renderer: {fileID: 5647860373948764716}
+    - renderer: {fileID: 5647860373445622945}
+    - renderer: {fileID: 5647860375005466860}
+    - renderer: {fileID: 5647860373512219276}
+    - renderer: {fileID: 5647860373735523713}
+    - renderer: {fileID: 5647860374669035829}
+    - renderer: {fileID: 5647860374779340160}
+    - renderer: {fileID: 5647860374688252413}
+    - renderer: {fileID: 5647860374775832058}
+    - renderer: {fileID: 5647860373606454680}
+    - renderer: {fileID: 5647860375390826243}
+    - renderer: {fileID: 5647860375374272096}
+    - renderer: {fileID: 5647860373878409456}
+    - renderer: {fileID: 5647860375364037132}
+    - renderer: {fileID: 5647860374462790630}
+    - renderer: {fileID: 5647860374179550666}
+    - renderer: {fileID: 5647860373419409401}
+    - renderer: {fileID: 5647860374482677190}
+    - renderer: {fileID: 5647860374322460637}
+    - renderer: {fileID: 5647860375245137527}
+    - renderer: {fileID: 5647860374517841488}
+    - renderer: {fileID: 5647860373444407539}
+    - renderer: {fileID: 5647860375489372734}
+    - renderer: {fileID: 5647860374384389452}
+    - renderer: {fileID: 5647860375389134341}
+    - renderer: {fileID: 5647860374832720379}
+    - renderer: {fileID: 5647860373828562255}
+    - renderer: {fileID: 5647860375045191008}
+    - renderer: {fileID: 5647860374442371298}
+    - renderer: {fileID: 5647860374857761439}
+    - renderer: {fileID: 5647860373777733485}
+    - renderer: {fileID: 5647860373839636537}
+    - renderer: {fileID: 5647860373731582200}
+    - renderer: {fileID: 5647860375379729991}
+    - renderer: {fileID: 5647860373569709255}
+    - renderer: {fileID: 5647860375064741836}
+  - screenRelativeHeight: 0.06426719
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5647860374190247851}
+    - renderer: {fileID: 5647860374003563777}
+    - renderer: {fileID: 5647860373563572986}
+    - renderer: {fileID: 5647860374366280884}
+    - renderer: {fileID: 5647860373454017209}
+    - renderer: {fileID: 5647860375024036264}
+    - renderer: {fileID: 5647860375088397655}
+    - renderer: {fileID: 5647860373605131108}
+    - renderer: {fileID: 5647860374104933116}
+    - renderer: {fileID: 5647860373982835010}
+    - renderer: {fileID: 5647860374379381317}
+    - renderer: {fileID: 5647860375141688328}
+    - renderer: {fileID: 5647860375077120981}
+    - renderer: {fileID: 5647860374921936461}
+    - renderer: {fileID: 5647860373948764716}
+    - renderer: {fileID: 5647860373445622945}
+    - renderer: {fileID: 5647860375005466860}
+    - renderer: {fileID: 5647860373512219276}
+    - renderer: {fileID: 5647860373735523713}
+    - renderer: {fileID: 5647860374669035829}
+    - renderer: {fileID: 5647860374779340160}
+    - renderer: {fileID: 5647860374688252413}
+    - renderer: {fileID: 5647860374775832058}
+    - renderer: {fileID: 5647860373606454680}
+    - renderer: {fileID: 5647860375390826243}
+    - renderer: {fileID: 5647860375374272096}
+    - renderer: {fileID: 5647860373878409456}
+    - renderer: {fileID: 5647860375364037132}
+    - renderer: {fileID: 5647860374462790630}
+    - renderer: {fileID: 5647860374179550666}
+    - renderer: {fileID: 5647860373419409401}
+    - renderer: {fileID: 5647860374482677190}
+    - renderer: {fileID: 5647860374322460637}
+    - renderer: {fileID: 5647860375245137527}
+    - renderer: {fileID: 5647860374517841488}
+    - renderer: {fileID: 5647860373444407539}
+    - renderer: {fileID: 5647860375489372734}
+    - renderer: {fileID: 5647860374384389452}
+    - renderer: {fileID: 5647860375389134341}
+    - renderer: {fileID: 5647860374832720379}
+    - renderer: {fileID: 5647860373828562255}
+    - renderer: {fileID: 5647860375045191008}
+    - renderer: {fileID: 5647860374442371298}
+    - renderer: {fileID: 5647860374857761439}
+    - renderer: {fileID: 5647860373777733485}
+    - renderer: {fileID: 5647860373839636537}
+    - renderer: {fileID: 5647860373731582200}
+    - renderer: {fileID: 5647860375379729991}
+    - renderer: {fileID: 5647860373569709255}
+    - renderer: {fileID: 5647860375064741836}
+  m_Enabled: 1
 --- !u!1 &5647860374247823716
 GameObject:
   m_ObjectHideFlags: 0
@@ -7768,7 +7943,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5647860374320106759}
-  m_Material: {fileID: 13400000, guid: 0e4a8a5b33ffcc94db69de987c95c210, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
@@ -8027,8 +8202,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
-  openCloseWindow: 0
-  selectedToolbar: 0
+  openCloseWindow: 1
+  selectedToolbar: 1
   startRagdolled: 0
   debugTimeToStayRagdolled: 0
   groundLayer:
