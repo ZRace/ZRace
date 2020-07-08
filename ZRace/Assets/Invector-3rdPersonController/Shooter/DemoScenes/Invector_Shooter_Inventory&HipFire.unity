@@ -1217,6 +1217,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 107906, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 465398, guid: 9288b13bf7e52dc43bc87fc07083383d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.14
@@ -4215,6 +4219,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sports Car
       objectReference: {fileID: 0}
+    - target: {fileID: 405683190207747730, guid: 14a323b67045ec642a6ff3dc4c4cb6ec,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 2800000, guid: 380ebb27019273c4c8d8f8c141edcce2, type: 3}
     - target: {fileID: 7213973026030840557, guid: 14a323b67045ec642a6ff3dc4c4cb6ec,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5099,6 +5108,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5912014223217342481, guid: 26c0e5b278c2dde45b01e3c71811c0d3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -22.291016
+      objectReference: {fileID: 0}
+    - target: {fileID: 5912014223306155355, guid: 26c0e5b278c2dde45b01e3c71811c0d3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 45.30078
       objectReference: {fileID: 0}
     - target: {fileID: 5912014223587670661, guid: 26c0e5b278c2dde45b01e3c71811c0d3,
         type: 3}
@@ -7016,7 +7035,7 @@ PrefabInstance:
     - target: {fileID: 114871562875845146, guid: a16cbf43beb9f864595ba71c37132c83,
         type: 3}
       propertyPath: selectedToolbar
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114871562875845146, guid: a16cbf43beb9f864595ba71c37132c83,
         type: 3}
@@ -7031,6 +7050,11 @@ PrefabInstance:
     - target: {fileID: 114871562875845146, guid: a16cbf43beb9f864595ba71c37132c83,
         type: 3}
       propertyPath: agressiveAtFirstSight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114871562875845146, guid: a16cbf43beb9f864595ba71c37132c83,
+        type: 3}
+      propertyPath: sortTargetFromDistance
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224313555893490306, guid: a16cbf43beb9f864595ba71c37132c83,

@@ -37,9 +37,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Medkit
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 2
   description: Recover Health
   type: 0
@@ -81,9 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 5
   description: Pistol
   type: 2
@@ -124,9 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Turret
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 1
   description: Shot things until there's nothing left
   type: 5
@@ -164,9 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Wooden Boards
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 24
   description: Use to build a barricade on a window
   type: 5
@@ -203,9 +191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: FlameThrower Fuel
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 3
   description: Fuel for the FlameThrower
   type: 3
@@ -242,9 +227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Turret AmmoCase
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 4
   description: Case full with ammo for the automatic turret
   type: 3
@@ -281,9 +263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: Explosive Mine
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 26
   description: Explode within a small radius but powerful
   type: 5
@@ -321,9 +300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: FlameThrower
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 0
   description: Burn things to the ground
   type: 5
@@ -361,9 +337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: vKeyCard Red
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 23
   description: Open Red Doors
   type: 0
@@ -400,9 +373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
   m_Name: SpikeTrap
   m_EditorClassIdentifier: 
-  itemsToCraft: []
-  canCraft: 1
-  price: 0
   id: 25
   description: Use to Trap Enemies
   type: 5
