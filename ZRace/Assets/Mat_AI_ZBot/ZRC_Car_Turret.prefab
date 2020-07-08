@@ -34242,7 +34242,6 @@ GameObject:
   - component: {fileID: 4807690898329505072}
   - component: {fileID: 4810263447898015108}
   - component: {fileID: 4820318604774820752}
-  - component: {fileID: 4779194201865678262}
   m_Layer: 0
   m_Name: SM_Wep_Veh_MiniGun_01
   m_TagString: Untagged
@@ -34312,20 +34311,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &4779194201865678262
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4806378922595384506}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43793263092734854, guid: 4b0a2e95db92b6e48952d1d04a549979, type: 2}
 --- !u!1 &4806419146870327530
 GameObject:
   m_ObjectHideFlags: 0
