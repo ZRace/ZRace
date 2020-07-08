@@ -7811,7 +7811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 7
+  selectedToolbar: 3
   _isDead: 0
   _currentHealth: 0
   isImmortal: 0
@@ -7826,7 +7826,18 @@ MonoBehaviour:
       m_Calls: []
   _onDead:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5647860374320106759}
+        m_MethodName: set_tag
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Untagged
+          m_BoolArgument: 0
+        m_CallState: 2
   onChangeHealth:
     m_PersistentCalls:
       m_Calls: []
@@ -7834,7 +7845,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   deathBy: 0
-  removeComponentsAfterDie: 1
+  removeComponentsAfterDie: 0
   debugActionListener: 0
   OnCrouch:
     m_PersistentCalls:
@@ -7872,7 +7883,7 @@ MonoBehaviour:
   minStrafeSwape: 0
   maxStrafeSwape: 0
   strafeRotationSpeed: 0
-  currentState: 0
+  currentState: 2
   sphereSensor: {fileID: 5647860374399529673}
   tagsToDetect:
     tags:

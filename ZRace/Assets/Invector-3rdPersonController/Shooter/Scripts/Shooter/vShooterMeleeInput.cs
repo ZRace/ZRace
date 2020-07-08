@@ -3,7 +3,8 @@
 namespace Invector.vCharacterController
 {
     using IK;
-    using vShooter;
+	using System;
+	using vShooter;
     [vClassHeader("SHOOTER/MELEE INPUT", iconName = "inputIcon")]
     public class vShooterMeleeInput : vMeleeCombatInput, vIShooterIKController, PlayerController.vILockCamera
     {
@@ -1309,9 +1310,9 @@ namespace Invector.vCharacterController
             }
         }
 
-        #endregion
+		#endregion
 
-    }
+	}
 
     public static partial class vAnimatorParameters
     {
