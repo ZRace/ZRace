@@ -1,21 +1,28 @@
 ﻿using UnityEngine;
 using UnityEditor;
-
+using System.IO;
+using CBGames.Editors;
 
 [CustomEditor(typeof(PlayFabLogin), true)]
 [CanEditMultipleObjects]
 public class PlayFabLoginEditor : Editor
 {
+
+
 	SerializedProperty regEmail, regUsername, regPassword, logUsername, logPassword, errorText,
 		contactEmail, playFabID, displayName, loadScene, isOnline;
-
-	GUIStyle fieldBox;
 
 	int toolbarInt = 0;
 	string[] toolbarString = { "Register", "Log In", "Callbacks Errors" };
 
+	GUISkin _skin = null;
+	GUISkin _original = null;
+	Color _titleColor;
+
 	private void OnEnable()
 	{
+		if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPathZRace);
+		_titleColor = new Color32(1, 9, 28, 255); //dark blue
 		regEmail = serializedObject.FindProperty("regEmail");
 		regUsername = serializedObject.FindProperty("regUsername");
 		regPassword = serializedObject.FindProperty("regPassword");
@@ -34,65 +41,44 @@ public class PlayFabLoginEditor : Editor
 
 	public override void OnInspectorGUI()
 	{
+		//Apply the gui skin
+		_original = GUI.skin;
+		GUI.skin = _skin;
+		var rect = GUILayoutUtility.GetRect(1, 1);
 
-		base.OnInspectorGUI();
+		GUILayout.BeginVertical(_skin.customStyles[0]);
 
-		GUILayout.BeginVertical("HelpBox");
+		GUILayout.Label("PlayFab Manager", _skin.GetStyle("Label"));
 
+		GUILayout.Space(15);
 
-
-		GUI.color = new Color32(255, 163, 56, 255);
-		GUILayout.BeginHorizontal("HelpBox");
-		GUILayout.FlexibleSpace();
-		GUILayout.Label("PlayFab Manager", EditorStyles.boldLabel);
-		GUILayout.FlexibleSpace();
-		GUILayout.EndHorizontal();
-		GUI.color = Color.white;
-
-
-
-		const int PAD = 6;
-		if (fieldBox == null)
-			fieldBox = new GUIStyle("HelpBox") { padding = new RectOffset(PAD, PAD, PAD, PAD) };
-		toolbarInt = GUILayout.Toolbar(toolbarInt, toolbarString);
+		GUILayout.BeginVertical(_skin.customStyles[1]);
+		toolbarInt = GUILayout.Toolbar(toolbarInt, toolbarString, _skin.customStyles[2]);
 
 		EditorGUI.BeginChangeCheck();
-
-
 
 		if (toolbarInt == 0)
 		{
 			Register();
 		}
 
-
-
-		if(toolbarInt == 1)
+		if (toolbarInt == 1)
 		{
 			Log();
 		}
 
-
-		if(toolbarInt == 2)
+		if (toolbarInt == 2)
 		{
 			Errors();
 		}
+		GUILayout.EndVertical();
 
 		if (EditorGUI.EndChangeCheck())
 		{
 			serializedObject.ApplyModifiedProperties();
 		}
 
-
 		GUILayout.Space(20);
-
-		GUI.color = new Color32(83, 255, 252, 255);
-		GUILayout.BeginHorizontal("HelpBox");
-		GUILayout.FlexibleSpace();
-		GUILayout.Label("Account Player Info", EditorStyles.boldLabel);
-		GUILayout.FlexibleSpace();
-		GUILayout.EndHorizontal();
-		GUI.color = Color.white;
 
 		GetInfo();
 		GUILayout.EndVertical();
@@ -100,11 +86,14 @@ public class PlayFabLoginEditor : Editor
 
 	private void Register()
 	{
-		GUILayout.BeginVertical("HelpBox");
+		GUILayout.BeginVertical(_skin.customStyles[3]);
 		EditorGUILayout.PropertyField(regEmail, new GUIContent("Email:"));
+		GUILayout.Space(5);
 		EditorGUILayout.PropertyField(regUsername, new GUIContent("Username:"));
+		GUILayout.Space(5);
 		EditorGUILayout.PropertyField(regPassword, new GUIContent("Password:"));
-		if(regEmail.objectReferenceValue == null)
+		GUILayout.Space(5);
+		if (regEmail.objectReferenceValue == null)
 		{
 			EditorGUILayout.HelpBox("Select the input field for email.", MessageType.Error);
 		}
@@ -117,15 +106,20 @@ public class PlayFabLoginEditor : Editor
 			EditorGUILayout.HelpBox("Select the input field for password.", MessageType.Error);
 		}
 		EditorGUILayout.HelpBox("In this section you only need to select the input fields of the registration panel (text mesh pro).", MessageType.None);
+
 		GUILayout.EndVertical();
 	}
 
+
 	private void Log()
 	{
-		GUILayout.BeginVertical("HelpBox");
+		GUILayout.BeginVertical(_skin.customStyles[3]);
 		EditorGUILayout.PropertyField(logUsername, new GUIContent("Username:"));
+		GUILayout.Space(5);
 		EditorGUILayout.PropertyField(logPassword, new GUIContent("Password:"));
+		GUILayout.Space(5);
 		EditorGUILayout.PropertyField(loadScene, new GUIContent("Name the scene to load: "));
+		GUILayout.Space(5);
 		if (logUsername.objectReferenceValue == null)
 		{
 			EditorGUILayout.HelpBox("Select the input field for username.", MessageType.Error);
@@ -134,19 +128,21 @@ public class PlayFabLoginEditor : Editor
 		{
 			EditorGUILayout.HelpBox("Select the input field for password.", MessageType.Error);
 		}
-		if(loadScene.stringValue.Length == 0)
+		if (loadScene.stringValue.Length == 0)
 		{
 			EditorGUILayout.HelpBox("Write the scene to load.", MessageType.Error);
 		}
 		EditorGUILayout.HelpBox("In this section you only need to select the input fields of the log in panel (text mesh pro).", MessageType.None);
+
 		GUILayout.EndVertical();
 	}
 
 
 	private void Errors()
 	{
-		GUILayout.BeginVertical("HelpBox");
+		GUILayout.BeginVertical(_skin.customStyles[3]);
 		EditorGUILayout.PropertyField(errorText, new GUIContent("Callbacks Errors: "));
+		GUILayout.Space(5);
 		if (errorText.objectReferenceValue == null)
 		{
 			EditorGUILayout.HelpBox("Select the input field for password.", MessageType.Error);
@@ -157,12 +153,15 @@ public class PlayFabLoginEditor : Editor
 
 	private void GetInfo()
 	{
-		GUILayout.BeginVertical("HelpBox");
+		GUILayout.BeginVertical(_skin.customStyles[4]);
+		GUILayout.Label("Get Info Player", _skin.GetStyle("textInfoPlayer"));
+		GUILayout.BeginVertical(_skin.customStyles[3]);
 		EditorGUILayout.PropertyField(contactEmail, new GUIContent("Contact Email:"));
 		EditorGUILayout.PropertyField(playFabID, new GUIContent("ID Username:"));
 		EditorGUILayout.PropertyField(displayName, new GUIContent("Display Name:"));
 		EditorGUILayout.PropertyField(isOnline, new GUIContent("Online Number"));
 		EditorGUILayout.HelpBox("This section can't be changed.", MessageType.Warning);
+		GUILayout.EndVertical();
 		GUILayout.EndVertical();
 	}
 }

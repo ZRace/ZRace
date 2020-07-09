@@ -1272,6 +1272,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3845812677147598482, guid: f9f22e80c7d96e047a2429415a87923b,
+        type: 3}
+      propertyPath: selectedToolbar
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5462802518811318842, guid: f9f22e80c7d96e047a2429415a87923b,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -6,7 +6,6 @@ using UnityEngine.Events;
 [vClassHeader("vTURRET", openClose = false)]
 public class vTurret : vMonoBehaviour
 {
-    
     private Quaternion defaultPosition;
     [vEditorToolbar("Settings")]
     public float maxUsageTime;
