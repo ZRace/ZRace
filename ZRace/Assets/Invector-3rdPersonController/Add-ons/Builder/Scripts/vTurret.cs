@@ -5,6 +5,8 @@ using UnityEngine.Events;
 [vClassHeader("vTURRET", openClose = false)]
 public class vTurret : vMonoBehaviour
 {
+    
+    private Quaternion defaultPosition;
     [vEditorToolbar("Settings")]
     public float maxUsageTime;
     [vBarDisplay("maxUsageTime")]
@@ -46,6 +48,7 @@ public class vTurret : vMonoBehaviour
 
     void Start()
     {
+        defaultPosition = gameObject.transform.localRotation;
         _collider = GetComponent<SphereCollider>();
         _collider.radius = range;
         defaultRotation = transform.rotation;
@@ -108,8 +111,8 @@ public class vTurret : vMonoBehaviour
         else
         {
             ResetTarget();
-            transform.rotation = Quaternion.Slerp(transform.rotation, defaultRotation, Time.deltaTime * turnSmooth);
-        }
+            gameObject.transform.localRotation = Quaternion.Slerp(gameObject.transform.localRotation, defaultPosition, Time.deltaTime * turnSmooth);
+		}
     }
 
     bool CheckObtacles(Vector3 targetPos)
