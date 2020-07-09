@@ -5510,7 +5510,8 @@ MonoBehaviour:
   target: {fileID: 0}
   aimReference: {fileID: 4355921876183124848}
   angleReference: {fileID: 4353907342593307998}
-  targetTag: Enemy
+  targetTag:
+  - Enemy
   targetOffSetY: 1.3
   range: 10
   smoothFollow: 2
