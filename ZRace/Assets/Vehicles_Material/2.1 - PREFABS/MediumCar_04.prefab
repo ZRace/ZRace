@@ -2824,11 +2824,52 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZRC_Car_Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 7239783402904129838}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: set_sharedMaterial
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Material, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e63447c4fd0a49545becb8789baca31b, type: 3}
 --- !u!4 &7222733552156497504 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4354149069019041326, guid: e63447c4fd0a49545becb8789baca31b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6363945159573313614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7239783402904129838 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4335179469325175136, guid: e63447c4fd0a49545becb8789baca31b,
     type: 3}
   m_PrefabInstance: {fileID: 6363945159573313614}
   m_PrefabAsset: {fileID: 0}
@@ -2898,6 +2939,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ZRC_Car_Turret (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e63447c4fd0a49545becb8789baca31b, type: 3}
