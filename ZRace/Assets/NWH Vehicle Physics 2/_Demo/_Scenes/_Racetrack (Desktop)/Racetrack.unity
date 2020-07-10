@@ -1711,6 +1711,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 663341382}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &676079634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3282884767459728886, guid: acc94c4b7b64af14497d0f6ba4b11443,
+    type: 3}
+  m_PrefabInstance: {fileID: 998114941}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1384774831, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &756210566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100020, guid: 2900802f2515dbb4fa92e4c056d36b9f,
@@ -1989,6 +2001,71 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MediumCar_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 6983733254019852554, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: selectedToolbar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329976527621368446, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: selectedToolbar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 676079634}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: SendEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
+      value: turnOff
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onLostTarget.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991254087999021949, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: onLostTarget.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acc94c4b7b64af14497d0f6ba4b11443, type: 3}
