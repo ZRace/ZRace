@@ -131,3 +131,7 @@ ZRace/Assets/InvectorMultiplayerAddon-master/Editor/Scripts/Inspector/Attributes
 ZRace/Assets/InvectorMultiplayerAddon-master/Editor/Scripts/Helpers.meta
 ZRace/Assets/InvectorMultiplayerAddon-master/Editor/Scripts/CoRoutines.meta
 ZRace/Assets/InvectorMultiplayerAddon-master/Editor/Images/Bones.meta
+ZRace/Assets/InvectorMultiplayerAddon-master/UI/Voice.meta
+ZRace/Assets/InvectorMultiplayerAddon-master/UI/UI_Elements.meta
+ZRace/Assets/InvectorMultiplayerAddon-master/UI/UI_Animations/Title.meta
+*.meta
