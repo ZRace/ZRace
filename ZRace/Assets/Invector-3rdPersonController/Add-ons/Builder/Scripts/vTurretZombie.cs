@@ -1,11 +1,11 @@
 ﻿using Invector;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [vClassHeader("vTURRET", openClose = false)]
-public class vTurret : vMonoBehaviour
+public class vTurretZombie : vMonoBehaviour
 {
+    
     private Quaternion defaultPosition;
     [vEditorToolbar("Settings")]
     public float maxUsageTime;
@@ -17,7 +17,7 @@ public class vTurret : vMonoBehaviour
     public Transform aimReference;
     [Tooltip("Fixed Transform to calc max angle")]
     public Transform angleReference;
-    public List<string> targetTag;
+    public string targetTag = "Enemy";
     public float targetOffSetY = 0.5f;
     public float range = 3;
     public float smoothFollow = 2f;
@@ -143,7 +143,7 @@ public class vTurret : vMonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (targetTag.Contains(other.tag) && target == null)
+        if (other.gameObject.CompareTag(targetTag) && target == null)
         {
             var _target = new Vector3(other.transform.position.x, other.transform.position.y + targetOffSetY, other.transform.position.z);
             var v3Target = (_target - aimReference.position);
@@ -158,7 +158,7 @@ public class vTurret : vMonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (targetTag.Contains(other.tag) && target != null)
+        if (other.gameObject.CompareTag(targetTag) && target != null)
         {
             ResetTarget();
         }

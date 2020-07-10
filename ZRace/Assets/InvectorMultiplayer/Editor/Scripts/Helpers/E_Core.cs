@@ -7,6 +7,7 @@ namespace CBGames.Editors
     public class E_Core : MonoBehaviour
     {   
         public static string e_guiSkinPath = string.Format("Assets{0}InvectorMultiplayer{0}Editor{0}CBSkin.guiskin", Path.DirectorySeparatorChar);
+        public static string e_guiSkinPathZRace = string.Format("Assets{0}skinGUIZRace{0}CustomSkinZRace.guiskin", Path.DirectorySeparatorChar);
         public static string e_guiTitleImgPath = string.Format("InvectorMultiplayer{0}Editor{0}Images{0}CBTitle.png", Path.DirectorySeparatorChar);
         public static string e_guiBoxPath = string.Format("InvectorMultiplayer{0}Editor{0}Images{0}Box.png", Path.DirectorySeparatorChar);
         public static string e_invectorMPTitle = string.Format("{1}{0}Assets{0}InvectorMultiplayer{0}Editor{0}Images{0}InvectorMultiTransp.png", Path.DirectorySeparatorChar, Directory.GetCurrentDirectory());
