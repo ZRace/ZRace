@@ -5406,6 +5406,7 @@ MonoBehaviour:
   openCloseEvents: 0
   openCloseWindow: 1
   selectedToolbar: 0
+  isOn: 0
   maxUsageTime: 100
   currentUsageTime: 0
   startOff: 0
@@ -5423,10 +5424,34 @@ MonoBehaviour:
   minStartAngleToShot: 10
   onFindTarget:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4335179469325175136}
+        m_MethodName: set_material
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2100000, guid: 9bac7a2a6fe81c546b86cbf97b857a6e,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onLostTarget:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4335179469325175136}
+        m_MethodName: set_material
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2100000, guid: d4989a99fb16be149be0add71d1c9597,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onShot:
     m_PersistentCalls:
       m_Calls:
@@ -5441,12 +5466,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 4335179469325175136}
+        m_MethodName: set_material
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 2100000, guid: 9bac7a2a6fe81c546b86cbf97b857a6e,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5478,7 +5504,7 @@ MonoBehaviour:
         m_MethodName: set_material
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2100000, guid: 57a4ec3e493b1cb4c8a8a16b70a5c441,
+          m_ObjectArgument: {fileID: 2100000, guid: 9bac7a2a6fe81c546b86cbf97b857a6e,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
           m_IntArgument: 0
@@ -5504,7 +5530,7 @@ MonoBehaviour:
         m_MethodName: set_sharedMaterial
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2100000, guid: 0ae5af998e1060f48a4280fc7eaa42c6,
+          m_ObjectArgument: {fileID: 2100000, guid: d4989a99fb16be149be0add71d1c9597,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
           m_IntArgument: 0
@@ -5528,7 +5554,6 @@ MonoBehaviour:
   obstacles:
     serializedVersion: 2
     m_Bits: 1
-  isOn: 0
 --- !u!135 &4441242538190284186
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -4268,7 +4268,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5647860374320106759}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0e4a8a5b33ffcc94db69de987c95c210, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
@@ -4528,7 +4528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 1
+  selectedToolbar: 0
   startRagdolled: 0
   debugTimeToStayRagdolled: 0
   groundLayer:

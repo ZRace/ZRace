@@ -217,7 +217,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cc0145c95bac15548b0b171aac453e23, type: 2}
+  - {fileID: 2100000, guid: 0d7385983c49a7b4189f00b7e3f21101, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -641,7 +641,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 0
+  useRimCollider: 1
   vehicleSide: 1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -858,7 +858,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 0
+  useRimCollider: 1
   vehicleSide: -1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -1178,7 +1178,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 0
+  useRimCollider: 1
   vehicleSide: -1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -2670,7 +2670,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 0
+  useRimCollider: 1
   vehicleSide: 1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
