@@ -50,7 +50,7 @@ MonoBehaviour:
   openCloseEvents: 0
   openCloseWindow: 0
   selectedToolbar: 0
-  maxUsageTime: 10
+  maxUsageTime: 100
   currentUsageTime: 0
   startOff: 0
   target: {fileID: 0}
@@ -59,13 +59,13 @@ MonoBehaviour:
   targetTag:
   - Enemy
   - Player
-  targetOffSetY: 0.85
+  targetOffSetY: 1.3
   range: 10
   smoothFollow: 2
   limitAngle: 1
   turnSmooth: 4
   maxAngle: 60
-  minStartAngleToShot: 45
+  minStartAngleToShot: 10
   onFindTarget:
     m_PersistentCalls:
       m_Calls:
