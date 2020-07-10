@@ -356,7 +356,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2156922240279763280}
-  m_Mesh: {fileID: -2588167970802840864, guid: 0bcd299c1dd51ff4686fa62f5550ab64, type: 3}
+  m_Mesh: {fileID: -2588167970802840864, guid: 57259471d4750104c99b469053000f71, type: 3}
 --- !u!23 &2141852653763938662
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -2588167970802840864, guid: 0bcd299c1dd51ff4686fa62f5550ab64, type: 3}
+  m_Mesh: {fileID: -2588167970802840864, guid: 57259471d4750104c99b469053000f71, type: 3}
 --- !u!1 &2619698821620259219
 GameObject:
   m_ObjectHideFlags: 0
@@ -34133,7 +34133,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     length: 0
     maxForce: 16000
-    maxLength: 0.2
+    maxLength: 0.15
     overExtended: 0
     prevLength: 0
     targetPoint: {x: 0, y: 0, z: 0}
@@ -34170,8 +34170,8 @@ MonoBehaviour:
     steerAngle: 0
     up: {x: 1.2246469e-16, y: 1, z: -1.2246469e-16}
     visualIsNull: 0
-    visualPositionOffset: {x: 0, y: 0, z: 0}
-    visualRotationOffset: {x: 0, y: 0, z: 0}
+    visualPositionOffset: {x: -0.1, y: 0, z: 0}
+    visualRotationOffset: {x: 0, y: 180, z: 0}
     width: 0.25
     worldPosition: {x: 3.9978716, y: 15.99144, z: 10.635763}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -34350,7 +34350,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     length: 0
     maxForce: 16000
-    maxLength: 0.2
+    maxLength: 0.15
     overExtended: 0
     prevLength: 0
     targetPoint: {x: 0, y: 0, z: 0}
@@ -34670,7 +34670,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     length: 0
     maxForce: 16000
-    maxLength: 0.2
+    maxLength: 0.15
     overExtended: 0
     prevLength: 0
     targetPoint: {x: 0, y: 0, z: 0}
@@ -34707,7 +34707,7 @@ MonoBehaviour:
     steerAngle: 0
     up: {x: 0, y: 1, z: 0}
     visualIsNull: 0
-    visualPositionOffset: {x: 0, y: 0, z: 0}
+    visualPositionOffset: {x: -0.1, y: 0, z: 0}
     visualRotationOffset: {x: 0, y: 0, z: 0}
     width: 0.25
     worldPosition: {x: 2.4138715, y: 15.99144, z: 10.635763}
@@ -35144,11 +35144,13 @@ MonoBehaviour:
       name: 
     collisionIgnoreTags:
     - Wheel
+    - Weapon
     collisionTimeout: 0.8
     damageIntensity: 1
     decelerationThreshold: 500
     deformationIgnoreTags:
     - Wheel
+    - Weapon
     deformationRadius: 0.4
     deformationRandomness: 0.01
     deformationStrength: 1
@@ -36160,7 +36162,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     length: 0
     maxForce: 16000
-    maxLength: 0.2
+    maxLength: 0.15
     overExtended: 0
     prevLength: 0
     targetPoint: {x: 0, y: 0, z: 0}
@@ -36198,7 +36200,7 @@ MonoBehaviour:
     up: {x: 1.2246469e-16, y: 1, z: -1.2246469e-16}
     visualIsNull: 0
     visualPositionOffset: {x: 0, y: 0, z: 0}
-    visualRotationOffset: {x: 0, y: 0, z: 0}
+    visualRotationOffset: {x: 0, y: 180, z: 0}
     width: 0.25
     worldPosition: {x: 4.0282793, y: 15.99144, z: 7.886458}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
