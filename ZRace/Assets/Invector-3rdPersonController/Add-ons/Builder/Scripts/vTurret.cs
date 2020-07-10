@@ -8,6 +8,8 @@ public class vTurret : vMonoBehaviour
 {
     private Quaternion defaultPosition;
     [vEditorToolbar("Settings")]
+    [vReadOnly(false)]
+    [SerializeField] public bool isOn;
     public float maxUsageTime;
     [vBarDisplay("maxUsageTime")]
     public float currentUsageTime;
@@ -43,8 +45,7 @@ public class vTurret : vMonoBehaviour
     public bool useObstacles;
     [vHideInInspector("useObstacles")]
     public LayerMask obstacles;
-    [vReadOnly(false)]
-    protected bool isOn;
+
 
     void Start()
     {
@@ -98,7 +99,7 @@ public class vTurret : vMonoBehaviour
                 v3Target = Quaternion.AngleAxis(maxAngle, v3Axis) * angleReference.forward;
                 ResetTarget();
             }
-            else if (angleOfAim < minStartAngleToShot)
+            else if (angleOfAim < minStartAngleToShot && isOn)
             {
                 OnShot();
                 currentUsageTime -= Time.deltaTime;
@@ -124,12 +125,12 @@ public class vTurret : vMonoBehaviour
 
     private void CheckOnOff()
     {
-        if (currentUsageTime <= 0 && isOn)
+        if (currentUsageTime <= 0 || !isOn)
         {
             onTurnOff.Invoke();
             isOn = false;
         }
-        else if (currentUsageTime > 0 && !isOn)
+        else if (currentUsageTime > 0 || isOn)
         {
             onTurnOn.Invoke();
             isOn = true;
