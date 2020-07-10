@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using Photon.Pun.UtilityScripts;
+using CBGames.Editors;
 
 
 [CustomEditor(typeof(AutoLobby), true)]
@@ -17,16 +18,19 @@ public class AutoLobbyEditor : Editor
     SerializedProperty Version, AutoConnect;
 
 
-    // Esto es como va ser el estilo de la caja contenedora.
-    GUIStyle fieldBox;
+    GUISkin _skin = null;
+    GUISkin _original = null;
+    Color _titleColor;
 
     int toolbarInt = 0;
-    string[] toolbarString = { "Connections", "Comparatives", "Parameters Room", "Parameters Photon" };
+    string[] toolbarString = { "Connections", "Comparatives", "Param. Room", "Param. Photon" };
 
     // Antes de poner la GUI en el inspector, asignaremos las variables su propiedad
     // los nombres tienen que concidir para que funcionen.
     private void OnEnable()
     {
+        if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPathZRace);
+        _titleColor = new Color32(1, 9, 28, 255); //dark blue
         nickName = serializedObject.FindProperty("nickName");
         textPlayers = serializedObject.FindProperty("textPlayers");
         connections = serializedObject.FindProperty("connections");
@@ -54,29 +58,20 @@ public class AutoLobbyEditor : Editor
     // Toda esta parte es lo que se vera en el inspector.
     public override void OnInspectorGUI()
     {
-        // Muestra el script que hemos usado
-        base.OnInspectorGUI();
-
-        const int PAD = 6;
-
-        if (fieldBox == null)
-            fieldBox = new GUIStyle("HelpBox") { padding = new RectOffset(PAD, PAD, PAD, PAD) };
+        //Apply the gui skin
+        _original = GUI.skin;
+        GUI.skin = _skin;
+        var rect = GUILayoutUtility.GetRect(1, 1);
 
         // Crea la caja contenedora que puede ser en vertical u horizontal
-        GUILayout.BeginVertical(fieldBox);
+        GUILayout.BeginVertical(_skin.customStyles[0]);
 
-        GUI.color = new Color32(83, 255, 252, 255);
-        GUILayout.BeginHorizontal("box");
-        GUILayout.FlexibleSpace();
-        GUILayout.Label("Photon Manager", EditorStyles.boldLabel);
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
-        GUI.color = Color.white;
+        GUILayout.Label("Photon Manager", _skin.GetStyle("photonTitle"));
 
-        GUILayout.BeginVertical("HelpBox");
+        GUILayout.BeginVertical(_skin.customStyles[7]);
         // Primero de todo asignamos un valor a una variable y luego ese valor
         // serán las proporciones de la caja contenedora
-        toolbarInt = GUILayout.Toolbar(toolbarInt, toolbarString);
+        toolbarInt = GUILayout.Toolbar(toolbarInt, toolbarString, _skin.customStyles[2]);
 
 
         // Asignamos en BeginChangeChek para poder cambiar los valores de los parametros.
@@ -116,17 +111,11 @@ public class AutoLobbyEditor : Editor
     private void ConnectionsComponents()
     {
 
-        // Para coger la propiedad de la variables usaremos el comando "PropertyField".
-
+        GUILayout.BeginVertical(_skin.customStyles[3]);
 
         // Prefabs
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        GUILayout.Label("Prefabs Instances", EditorStyles.boldLabel);
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
 
-        GUILayout.Space(5);
+        GUILayout.Label("Prefabs Instances", _skin.GetStyle("textSubTitlePhoton"));
 
         EditorGUILayout.PropertyField(nickName);
         EditorGUILayout.PropertyField(connections);
@@ -144,7 +133,7 @@ public class AutoLobbyEditor : Editor
         // Text
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        GUILayout.Label("Text Components", EditorStyles.boldLabel);
+        GUILayout.Label("Text Components", _skin.GetStyle("textSubTitlePhoton"));
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
 
@@ -160,7 +149,7 @@ public class AutoLobbyEditor : Editor
         // More
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        GUILayout.Label("More Components", EditorStyles.boldLabel);
+        GUILayout.Label("More Components", _skin.GetStyle("textSubTitlePhoton"));
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
 
@@ -172,11 +161,13 @@ public class AutoLobbyEditor : Editor
             EditorGUILayout.HelpBox("Please select the object with the correct component", MessageType.Error);
 
         // Sirve para finalizar la caja contenedora.
+        GUILayout.EndVertical();
 
     }
 
     private void Comparatives()
     {
+        GUILayout.BeginVertical(_skin.customStyles[3]);
         EditorGUILayout.PropertyField(isLoading);
         if (!isLoading.boolValue)
         {
@@ -191,26 +182,20 @@ public class AutoLobbyEditor : Editor
         EditorGUILayout.PropertyField(canRotate);
         EditorGUILayout.PropertyField(rotSpeed, GUILayout.MinWidth(50f));
         EditorGUILayout.EndHorizontal();
+        GUILayout.EndVertical();
     }
 
     private void ParametersRoom()
     {
-        Rect windowRect = new Rect(20, 20, 120, 50);
-        EditorGUILayout.BeginVertical(fieldBox);
-        GUILayout.BeginHorizontal("box");
-        GUILayout.FlexibleSpace();
-        GUILayout.Label("You can edit the parameters for your room", EditorStyles.boldLabel);
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
+        GUILayout.BeginVertical(_skin.customStyles[3]);
+        GUILayout.Label("You can edit the parameters for your room", _skin.GetStyle("textSubTitlePhoton"));
         EditorGUILayout.PropertyField(MaxPlayers, new GUIContent("Max Players for room"));
         EditorGUILayout.PropertyField(minPlayersPerRoom, new GUIContent("Min Players for room"));
         EditorGUILayout.PropertyField(playersCount);
         EditorGUILayout.PropertyField(NameScene);
-        GUILayout.EndVertical();
 
         GUILayout.Space(5);
 
-        GUILayout.BeginVertical("box");
         EditorGUILayout.PropertyField(gameObjectListPlayers);
         if (gameObjectListPlayers.objectReferenceValue == null)
             EditorGUILayout.HelpBox("Please select the list for look all players in room", MessageType.Error);
@@ -219,11 +204,11 @@ public class AutoLobbyEditor : Editor
 
     private void ParametersPhoton()
     {
-        EditorGUILayout.BeginHorizontal();
+        GUILayout.BeginVertical(_skin.customStyles[3]);
         EditorGUILayout.PropertyField(AutoConnect, new GUIContent("Auto connect to Photon"));
-        EditorGUILayout.EndHorizontal();
         EditorGUILayout.PropertyField(Version);
         EditorGUILayout.HelpBox("Game version of Photon, Please don't touch", MessageType.Warning);
+        GUILayout.EndVertical();
     }
 }
 
