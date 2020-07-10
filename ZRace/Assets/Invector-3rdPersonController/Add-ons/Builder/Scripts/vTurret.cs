@@ -8,6 +8,8 @@ public class vTurret : vMonoBehaviour
 {
     private Quaternion defaultPosition;
     [vEditorToolbar("Settings")]
+    [vReadOnly(false)]
+    [SerializeField] public bool isOn;
     public float maxUsageTime;
     [vBarDisplay("maxUsageTime")]
     public float currentUsageTime;
@@ -43,8 +45,6 @@ public class vTurret : vMonoBehaviour
     public bool useObstacles;
     [vHideInInspector("useObstacles")]
     public LayerMask obstacles;
-    [vReadOnly(false)]
-    [SerializeField] public bool isOn;
 
 
     void Start()

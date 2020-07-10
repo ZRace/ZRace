@@ -2002,6 +2002,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MediumCar_04
       objectReference: {fileID: 0}
+    - target: {fileID: 6983733254019852554, guid: acc94c4b7b64af14497d0f6ba4b11443,
+        type: 3}
+      propertyPath: selectedToolbar
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7329976527621368446, guid: acc94c4b7b64af14497d0f6ba4b11443,
         type: 3}
       propertyPath: selectedToolbar
