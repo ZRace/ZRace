@@ -311,7 +311,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5ba887ddfb7c5ce4fa07196f50872a58, type: 2}
+  - {fileID: 2100000, guid: ecaab5cf3f6644e4fb07e7ed520ad458, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -521,8 +521,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9025241485717366553}
-  - {fileID: 7222733552156497504}
-  - {fileID: 7020402315419369026}
+  - {fileID: 4425347234026231712}
+  - {fileID: 4978308544482347219}
   - {fileID: 2003632399632301035}
   m_Father: {fileID: 4889455065074641070}
   m_RootOrder: 5
@@ -767,7 +767,7 @@ MonoBehaviour:
     visualPositionOffset: {x: -0.1, y: 0, z: 0}
     visualRotationOffset: {x: 0, y: 180, z: 0}
     width: 0.25
-    worldPosition: {x: 3.9978716, y: 15.99144, z: 10.635763}
+    worldPosition: {x: 0.792, y: 16.39144, z: 10.739223}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
     nonRotatingVisual: {fileID: 0}
     visual: {fileID: 4889455064359708394}
@@ -984,7 +984,7 @@ MonoBehaviour:
     visualPositionOffset: {x: 0, y: 0, z: 0}
     visualRotationOffset: {x: 0, y: 0, z: 0}
     width: 0.25
-    worldPosition: {x: 2.3834639, y: 15.99144, z: 7.886458}
+    worldPosition: {x: -0.82240784, y: 16.39144, z: 7.9899173}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
     nonRotatingVisual: {fileID: 0}
     visual: {fileID: 2156473520284962654}
@@ -1304,7 +1304,7 @@ MonoBehaviour:
     visualPositionOffset: {x: -0.1, y: 0, z: 0}
     visualRotationOffset: {x: 0, y: 0, z: 0}
     width: 0.25
-    worldPosition: {x: 2.4138715, y: 15.99144, z: 10.635763}
+    worldPosition: {x: -0.792, y: 16.39144, z: 10.739223}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
     nonRotatingVisual: {fileID: 0}
     visual: {fileID: 4889455064860312122}
@@ -1648,6 +1648,9 @@ GameObject:
   - component: {fileID: 4889455065074641068}
   - component: {fileID: 4889455065074641059}
   - component: {fileID: 294966676045410177}
+  - component: {fileID: 3054956323928076071}
+  - component: {fileID: 6451823413498157582}
+  - component: {fileID: 4764557191261703460}
   m_Layer: 0
   m_Name: MediumCar_04
   m_TagString: Vehicle
@@ -2554,7 +2557,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4889455065074641071}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8a6ee24d8c766042b403d33a08151b1, type: 3}
   m_Name: 
@@ -2586,6 +2589,54 @@ MonoBehaviour:
       m_Calls: []
   collisionMethod: 1
   part: {fileID: 0}
+--- !u!114 &3054956323928076071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889455065074641071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc64a64f2888b1942b9b64877d834931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterBased: 0
+  currentVehicleIndex: 0
+  deactivateAll: 0
+  putOtherVehiclesToSleep: 0
+  vehicles:
+  - {fileID: 4889455065074641068}
+  vehicleTag: Vehicle
+--- !u!114 &6451823413498157582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889455065074641071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e7d9dd537dd43478ce33dded6cea87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterObject: {fileID: 0}
+  enterDistance: 2
+  enterExitTag: EnterExitPoint
+  maxEnterExitVehicleSpeed: 2
+  nearVehicle: 0
+--- !u!114 &4764557191261703460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889455065074641071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fe154161bba5034094381e28d5e1da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4889455065098083851
 GameObject:
   m_ObjectHideFlags: 0
@@ -2796,7 +2847,7 @@ MonoBehaviour:
     visualPositionOffset: {x: 0, y: 0, z: 0}
     visualRotationOffset: {x: 0, y: 180, z: 0}
     width: 0.25
-    worldPosition: {x: 4.0282793, y: 15.99144, z: 7.886458}
+    worldPosition: {x: 0.82240784, y: 16.39144, z: 7.9899173}
     worldRotation: {x: 0, y: 0, z: 0, w: 0}
     nonRotatingVisual: {fileID: 0}
     visual: {fileID: 2156298682997031608}
@@ -2852,7 +2903,7 @@ MonoBehaviour:
   autoFindCameras: 1
   currentCameraIndex: 0
   vehicleCameras: []
---- !u!1001 &6363945159573313614
+--- !u!1001 &73454380453353870
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2862,7 +2913,7 @@ PrefabInstance:
     - target: {fileID: 4354149069019041326, guid: e63447c4fd0a49545becb8789baca31b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.62899995
+      value: 0.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 4354149069019041326, guid: e63447c4fd0a49545becb8789baca31b,
         type: 3}
@@ -2919,66 +2970,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZRC_Car_Turret
       objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7239783402904129838}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: set_sharedMaterial
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Material, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onLostTarget.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e63447c4fd0a49545becb8789baca31b, type: 3}
---- !u!4 &7222733552156497504 stripped
+--- !u!4 &4425347234026231712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4354149069019041326, guid: e63447c4fd0a49545becb8789baca31b,
     type: 3}
-  m_PrefabInstance: {fileID: 6363945159573313614}
+  m_PrefabInstance: {fileID: 73454380453353870}
   m_PrefabAsset: {fileID: 0}
---- !u!23 &7239783402904129838 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4335179469325175136, guid: e63447c4fd0a49545becb8789baca31b,
-    type: 3}
-  m_PrefabInstance: {fileID: 6363945159573313614}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &6701480728764149868
+--- !u!1001 &8753742844907472637
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2988,7 +2988,7 @@ PrefabInstance:
     - target: {fileID: 4354149069019041326, guid: e63447c4fd0a49545becb8789baca31b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5999999
+      value: -0.62899995
       objectReference: {fileID: 0}
     - target: {fileID: 4354149069019041326, guid: e63447c4fd0a49545becb8789baca31b,
         type: 3}
@@ -3045,43 +3045,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZRC_Car_Turret (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOn.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onLostTarget.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
-        type: 3}
-      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e63447c4fd0a49545becb8789baca31b, type: 3}
---- !u!4 &7020402315419369026 stripped
+--- !u!4 &4978308544482347219 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4354149069019041326, guid: e63447c4fd0a49545becb8789baca31b,
     type: 3}
-  m_PrefabInstance: {fileID: 6701480728764149868}
+  m_PrefabInstance: {fileID: 8753742844907472637}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9029975547803562327
 PrefabInstance:

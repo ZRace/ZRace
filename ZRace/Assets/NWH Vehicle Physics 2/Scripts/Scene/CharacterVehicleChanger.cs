@@ -75,10 +75,12 @@ namespace NWH.VehiclePhysics2
                 VehicleChanger.Instance.characterBased = true;
                 VehicleChanger.Instance.deactivateAll = true;
             }
+            characterObject = GameObject.FindWithTag("Player");
         }
 
         private void Update()
         {
+
             if (!_insideVehicle)
             {
                 nearVehicle = false;
