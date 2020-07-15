@@ -508,7 +508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4889455063700419983
 Transform:
   m_ObjectHideFlags: 0
@@ -2970,6 +2970,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZRC_Car_Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onLostTarget.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e63447c4fd0a49545becb8789baca31b, type: 3}
 --- !u!4 &4425347234026231712 stripped
@@ -3044,6 +3054,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ZRC_Car_Turret (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onLostTarget.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461736079178029414, guid: e63447c4fd0a49545becb8789baca31b,
+        type: 3}
+      propertyPath: onTurnOff.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e63447c4fd0a49545becb8789baca31b, type: 3}
