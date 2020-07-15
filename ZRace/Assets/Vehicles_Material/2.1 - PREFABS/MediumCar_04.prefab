@@ -508,7 +508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4889455063700419983
 Transform:
   m_ObjectHideFlags: 0
@@ -2566,9 +2566,9 @@ MonoBehaviour:
   openCloseWindow: 1
   selectedToolbar: 0
   damage:
-    damageValue: 15
-    staminaBlockCost: 5
-    staminaRecoveryDelay: 1
+    damageValue: 100
+    staminaBlockCost: 0
+    staminaRecoveryDelay: 0
     ignoreDefense: 1
     activeRagdoll: 1
     senselessTime: 0
@@ -2577,13 +2577,13 @@ MonoBehaviour:
     hitPosition: {x: 0, y: 0, z: 0}
     hitReaction: 1
     recoil_id: 0
-    reaction_id: 0
-    damageType: 
+    reaction_id: -1
+    damageType: projectile
   overrideDamageSender: {fileID: 0}
   tags:
   - Enemy
   continuousDamage: 0
-  damageFrequency: 0.5
+  damageFrequency: 0
   onHit:
     m_PersistentCalls:
       m_Calls: []
