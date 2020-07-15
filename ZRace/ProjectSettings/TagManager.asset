@@ -53,8 +53,8 @@ TagManager:
   - HeadTrack
   - BodyPart
   - BlockAIRayCast
-  - 
-  - 
+  - LocalPlayer
+  - RemotePlayer
   - 
   - 
   - 

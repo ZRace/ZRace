@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 //using Photon.Pun;
 
-public class SendScore : MonoBehaviour
+public class SendScore : MonoBehaviourPun
 {
 	public int scoreAdd;
 
@@ -28,10 +28,12 @@ public class SendScore : MonoBehaviour
 		}
 
 	}
+	
 
 	private void Update()
 	{
-		if(checkIsDead)
+
+		if (checkIsDead)
 		{
 			if (controllerToCheck.isDead == true)
 			{
@@ -45,6 +47,8 @@ public class SendScore : MonoBehaviour
 				checkIsDead = false;
 			}
 		}
+
+
 
 	}
 }
