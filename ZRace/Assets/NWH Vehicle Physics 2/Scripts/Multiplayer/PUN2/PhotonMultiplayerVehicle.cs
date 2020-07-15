@@ -17,7 +17,9 @@ namespace NWH.VehiclePhysics2.Multiplayer
         private PhotonRigidbodyView _photonRigidbodyView;
         private PhotonTransformView _photonTransformView;
         private PhotonLiveRemote _photonLiveRemote;
+        private PhotonPuntuation _photonPuntuation;
         private PhotonView _photonView;
+
 
         private VehicleController _vehicleController;
 
@@ -62,11 +64,15 @@ namespace NWH.VehiclePhysics2.Multiplayer
             _photonRigidbodyView = GetComponent<PhotonRigidbodyView>();
             _photonTransformView = GetComponent<PhotonTransformView>();
             _photonLiveRemote = GetComponent<PhotonLiveRemote>();
+            _photonPuntuation = GetComponent<PhotonPuntuation>();
 
-            //_photonView.ObservedComponents.Clear();
-            _photonView.ObservedComponents.Add(_photonRigidbodyView);
+			_photonView.ObservedComponents.Clear();
+			_photonView.ObservedComponents.Add(_photonRigidbodyView);
             _photonView.ObservedComponents.Add(_photonTransformView);
             _photonView.ObservedComponents.Add(_photonLiveRemote);
+            _photonView.ObservedComponents.Add(_photonPuntuation);
+
+
             _photonView.ObservedComponents.Add(this);
         }
 

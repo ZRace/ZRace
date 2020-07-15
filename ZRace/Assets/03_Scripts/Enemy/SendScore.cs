@@ -1,4 +1,6 @@
 ﻿using Invector.vCharacterController.AI;
+using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using System.Collections.Generic;
 using UnityEngine;
 //using Photon.Pun;
@@ -34,8 +36,9 @@ public class SendScore : MonoBehaviour
 			if (controllerToCheck.isDead == true)
 			{
 				targetPlayer = transformPlayer.gameObject;
-				targetPlayer.GetComponent<Puntuation>().scorePlayer += AddScore;
-				targetPlayer.GetComponent<Puntuation>().SendScoreTargets();
+				targetPlayer.GetComponent<PhotonPuntuation>().scorePlayer += AddScore;
+				targetPlayer.GetComponent<PhotonPuntuation>().SendScoreTargets();
+				checkIsDead = false;
 			}
 			else
 			{

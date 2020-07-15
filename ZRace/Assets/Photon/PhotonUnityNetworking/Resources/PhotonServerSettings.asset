@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 
-    AppIdChat: 
-    AppIdVoice: 
+    AppIdRealtime: bd3eebc4-43bd-4ade-9891-a17ead500adf
+    AppIdChat: 05795e32-7649-4e84-bbe7-e3dda6b6834e
+    AppIdVoice: de7543cc-9816-4ae2-bf7c-bf88538e091f
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -25,7 +25,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: 
+  DevRegion: eu
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -72,11 +72,12 @@ MonoBehaviour:
   - SendToScene
   - SetActiveRagdoll
   - SetPositionRotation
-  - SetScore
   - SetTeam
   - SetTriggers
   - UpdateEntrancePoint
   - UseRigidBodyGravity
+  - SetScore
+  - SettScore
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
-  DevRegionSetOnce: 0
+  ShowSettings: 1
+  DevRegionSetOnce: 1

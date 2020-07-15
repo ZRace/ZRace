@@ -1,10 +1,13 @@
-﻿using Photon.Realtime;
+﻿using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
+using Photon.Voice.Unity.UtilityScripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerListing : MonoBehaviour
 {
+    public int score;
     public Player PhotonPlayer { get; private set; }
 
     [SerializeField]
@@ -13,11 +16,10 @@ public class PlayerListing : MonoBehaviour
     {
         get { return _playerName; }
     }
-
-
-    public void ApplyPhotonPlayer(Player photonPlayer)
+	public void ApplyPhotonPlayer(Player photonPlayer)
     {
+        photonPlayer.SetScore(score);
         PhotonPlayer = photonPlayer;
-        PlayerName.text = photonPlayer.NickName;
+        PlayerName.text = photonPlayer.NickName + " Score:";
     }
 }

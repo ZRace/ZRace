@@ -1,4 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PlayerManager.cs" company="Exit Games GmbH">
 //   Part of: Photon Unity Networking Demos
 // </copyright>
@@ -7,11 +8,13 @@
 // </summary>
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
-
 using UnityEngine;
 using UnityEditor;
 using Photon.Realtime;
 using Photon.Pun;
+using UnityEngine.UI;
+using System.Text;
+using Photon.Pun.UtilityScripts;
 //using WebSocketSharp;
 
 namespace Photon.Pun.Demo.PunBasics
@@ -36,6 +39,7 @@ namespace Photon.Pun.Demo.PunBasics
         [HideInInspector] public GameObject[] componentsToDisable;
         [Tooltip("Array de Scripts. Usala para desativar todos los scripts de los jugadores que no son locales.")]
         [HideInInspector] public Behaviour[] scriptsDisable;
+        public GameObject scoreBoard;
 
 
 
@@ -78,6 +82,8 @@ namespace Photon.Pun.Demo.PunBasics
             if (photonView.IsMine)
             {
                 LocalPlayerInstance = gameObject;
+                scoreBoard = GameObject.Find("CanvasPlayersRoom");
+                scoreBoard.SetActive(false);
             }
 
             // #Critical
@@ -86,12 +92,51 @@ namespace Photon.Pun.Demo.PunBasics
         }
         void Start()
         {
+
+
             if (!PhotonNetwork.LocalPlayer.IsLocal)
             {
                 DisableComponents();
             }
         }
-        public void DisableComponents()
+		public void Update()
+		{
+            if(photonView.IsMine)
+			{
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
+                    scoreBoard.SetActive(true);
+                    UpdateScoreBoard();
+                }
+                if (Input.GetKeyUp(KeyCode.Tab))
+                {
+                    scoreBoard.SetActive(false);
+                }
+                if (PhotonNetwork.LocalPlayer.NickName == "")
+                {
+                    PhotonNetwork.LocalPlayer.NickName = "Player #";
+                }
+            }
+			
+		}
+        public void UpdateScoreBoard()
+		{
+            var playerNames = new StringBuilder();
+
+   //         foreach(var player in PhotonNetwork.PlayerList)
+			//{
+   //             playerNames.Append(player.NickName + "\n");
+			//}
+
+            foreach(Player p in PhotonNetwork.PlayerList)
+			{
+                playerNames.Append(p.NickName + " Score:" + p.GetScore() + "\n");
+			}
+
+            string output = playerNames.ToString();
+            scoreBoard.GetComponentInChildren<Text>().text = output;
+		}
+		public void DisableComponents()
         {
             foreach (GameObject go in componentsToDisable)
             {
@@ -340,123 +385,123 @@ namespace Photon.Pun.Demo.PunBasics
         #endregion
     }
 #if UNITY_EDITOR
-    [CustomEditor(typeof(PlayerManager))]
-    [CanEditMultipleObjects]
+	[CustomEditor(typeof(PlayerManager))]
+	[CanEditMultipleObjects]
 
-    public class PlayerManagerEditor : Editor
-    {
-        SerializedProperty LocalPlayerInstance, componentsToDisable, scriptsDisable;
-        GUIStyle fieldBox;
+	public class PlayerManagerEditor : Editor
+	{
+		SerializedProperty LocalPlayerInstance, componentsToDisable, scriptsDisable;
+		GUIStyle fieldBox;
 
-        private void OnEnable()
-        {
-            LocalPlayerInstance = serializedObject.FindProperty("LocalPlayerInstance");
-            componentsToDisable = serializedObject.FindProperty("componentsToDisable");
-            scriptsDisable = serializedObject.FindProperty("scriptsDisable");
-        }
-
-
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-
-            const int PAD = 6;
-            if (fieldBox == null)
-                fieldBox = new GUIStyle("HelpBox") { padding = new RectOffset(PAD, PAD, PAD, PAD) };
-
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.BeginVertical(fieldBox);
-
-            EditorGUILayout.BeginVertical(fieldBox);
-            GUI.backgroundColor = new Color32(39, 46, 166, 255);
-            GUILayout.BeginHorizontal("box");
-
-            GUILayout.FlexibleSpace();
-            GUILayout.Label("List of Arrays", EditorStyles.boldLabel);
-            GUILayout.FlexibleSpace();
-
-            GUILayout.EndHorizontal();
-            GUI.backgroundColor = Color.white;
-            GUI.backgroundColor = new Color32(223, 19, 12, 255);
-            EditorGUILayout.HelpBox("Don't edit the script if you have no  idea to use it.", MessageType.Warning);
-            GUI.backgroundColor = Color.white;
-
-            GUILayout.Space(10);
-            EditorGUILayout.BeginVertical("box");
-            EditableReferenceList(componentsToDisable, new GUIContent(componentsToDisable.displayName, componentsToDisable.tooltip), fieldBox);
-            GUILayout.Label("Array list to disable all GameObjects for remote players in room.", EditorStyles.helpBox);
-            EditorGUILayout.EndVertical();
-
-            GUILayout.Space(10);
-
-            EditorGUILayout.BeginVertical("box");
-            EditableReferenceList(scriptsDisable, new GUIContent(scriptsDisable.displayName, scriptsDisable.tooltip), fieldBox);
-            GUILayout.Label("Array list to disable all Scripts for remote players in room.", EditorStyles.helpBox);
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.EndVertical();
-            GUILayout.Space(10);
-
-            EditorGUILayout.EndVertical();
-            if (EditorGUI.EndChangeCheck())
-            {
-                serializedObject.ApplyModifiedProperties();
-            }
-        }
+		private void OnEnable()
+		{
+			LocalPlayerInstance = serializedObject.FindProperty("LocalPlayerInstance");
+			componentsToDisable = serializedObject.FindProperty("componentsToDisable");
+			scriptsDisable = serializedObject.FindProperty("scriptsDisable");
+		}
 
 
 
-        public void EditableReferenceList(SerializedProperty list, GUIContent gc, GUIStyle style = null)
-        {
-            EditorGUILayout.LabelField(gc);
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
 
-            if (style == null)
-                style = new GUIStyle("HelpBox") { padding = new RectOffset(6, 6, 6, 6) };
+			const int PAD = 6;
+			if (fieldBox == null)
+				fieldBox = new GUIStyle("HelpBox") { padding = new RectOffset(PAD, PAD, PAD, PAD) };
 
-            EditorGUILayout.BeginVertical(style);
+			EditorGUI.BeginChangeCheck();
+			EditorGUILayout.BeginVertical(fieldBox);
 
-            int count = list.arraySize;
+			EditorGUILayout.BeginVertical(fieldBox);
+			GUI.backgroundColor = new Color32(39, 46, 166, 255);
+			GUILayout.BeginHorizontal("box");
 
-            if (count == 0)
-            {
-                if (GUI.Button(EditorGUILayout.GetControlRect(GUILayout.MaxWidth(20)), "+", (GUIStyle)"minibutton"))
-                {
-                    int newindex = list.arraySize;
-                    list.InsertArrayElementAtIndex(0);
-                    list.GetArrayElementAtIndex(0).objectReferenceValue = null;
-                }
-            }
-            else
-                // List Elements and Delete buttons
-                for (int i = 0; i < list.arraySize; ++i)
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    bool add = (GUI.Button(EditorGUILayout.GetControlRect(GUILayout.MaxWidth(20)), "+", (GUIStyle)"minibutton"));
-                    EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), GUIContent.none);
-                    bool remove = (GUI.Button(EditorGUILayout.GetControlRect(GUILayout.MaxWidth(20)), "x", (GUIStyle)"minibutton"));
+			GUILayout.FlexibleSpace();
+			GUILayout.Label("List of Arrays", EditorStyles.boldLabel);
+			GUILayout.FlexibleSpace();
 
-                    EditorGUILayout.EndHorizontal();
+			GUILayout.EndHorizontal();
+			GUI.backgroundColor = Color.white;
+			GUI.backgroundColor = new Color32(223, 19, 12, 255);
+			EditorGUILayout.HelpBox("Don't edit the script if you have no  idea to use it.", MessageType.Warning);
+			GUI.backgroundColor = Color.white;
 
-                    if (add)
-                    {
-                        int newindex = list.arraySize;
-                        list.InsertArrayElementAtIndex(i);
-                        list.GetArrayElementAtIndex(i).objectReferenceValue = null;
-                        EditorGUILayout.EndHorizontal();
-                        break;
-                    }
+			GUILayout.Space(10);
+			EditorGUILayout.BeginVertical("box");
+			EditableReferenceList(componentsToDisable, new GUIContent(componentsToDisable.displayName, componentsToDisable.tooltip), fieldBox);
+			GUILayout.Label("Array list to disable all GameObjects for remote players in room.", EditorStyles.helpBox);
+			EditorGUILayout.EndVertical();
 
-                    if (remove)
-                    {
-                        list.DeleteArrayElementAtIndex(i);
-                        EditorGUILayout.EndHorizontal();
-                        break;
-                    }
-                }
+			GUILayout.Space(10);
 
-            EditorGUILayout.EndVertical();
-        }
-    }
+			EditorGUILayout.BeginVertical("box");
+			EditableReferenceList(scriptsDisable, new GUIContent(scriptsDisable.displayName, scriptsDisable.tooltip), fieldBox);
+			GUILayout.Label("Array list to disable all Scripts for remote players in room.", EditorStyles.helpBox);
+			EditorGUILayout.EndVertical();
+
+			EditorGUILayout.EndVertical();
+			GUILayout.Space(10);
+
+			EditorGUILayout.EndVertical();
+			if (EditorGUI.EndChangeCheck())
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
+		}
+
+
+
+		public void EditableReferenceList(SerializedProperty list, GUIContent gc, GUIStyle style = null)
+		{
+			EditorGUILayout.LabelField(gc);
+
+			if (style == null)
+				style = new GUIStyle("HelpBox") { padding = new RectOffset(6, 6, 6, 6) };
+
+			EditorGUILayout.BeginVertical(style);
+
+			int count = list.arraySize;
+
+			if (count == 0)
+			{
+				if (GUI.Button(EditorGUILayout.GetControlRect(GUILayout.MaxWidth(20)), "+", (GUIStyle)"minibutton"))
+				{
+					int newindex = list.arraySize;
+					list.InsertArrayElementAtIndex(0);
+					list.GetArrayElementAtIndex(0).objectReferenceValue = null;
+				}
+			}
+			else
+				// List Elements and Delete buttons
+				for (int i = 0; i < list.arraySize; ++i)
+				{
+					EditorGUILayout.BeginHorizontal();
+					bool add = (GUI.Button(EditorGUILayout.GetControlRect(GUILayout.MaxWidth(20)), "+", (GUIStyle)"minibutton"));
+					EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), GUIContent.none);
+					bool remove = (GUI.Button(EditorGUILayout.GetControlRect(GUILayout.MaxWidth(20)), "x", (GUIStyle)"minibutton"));
+
+					EditorGUILayout.EndHorizontal();
+
+					if (add)
+					{
+						int newindex = list.arraySize;
+						list.InsertArrayElementAtIndex(i);
+						list.GetArrayElementAtIndex(i).objectReferenceValue = null;
+						EditorGUILayout.EndHorizontal();
+						break;
+					}
+
+					if (remove)
+					{
+						list.DeleteArrayElementAtIndex(i);
+						EditorGUILayout.EndHorizontal();
+						break;
+					}
+				}
+
+			EditorGUILayout.EndVertical();
+		}
+	}
 #endif
 }
