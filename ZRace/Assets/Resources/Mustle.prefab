@@ -7579,11 +7579,11 @@ GameObject:
   - component: {fileID: 7526730245879429998}
   - component: {fileID: 7526730245879429992}
   - component: {fileID: 4086428913233386384}
-  - component: {fileID: 2721257370907992082}
   - component: {fileID: 6983157694711015717}
   - component: {fileID: 1822521868400127799}
   - component: {fileID: 2497908841282666898}
   - component: {fileID: 2025447341820638876}
+  - component: {fileID: 3531965085005495933}
   m_Layer: 0
   m_Name: Mustle
   m_TagString: Vehicle
@@ -8633,13 +8633,14 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 2
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 7526730245879429906}
   - {fileID: 7526730245879429907}
+  - {fileID: 4086428913233386384}
+  - {fileID: 3531965085005495933}
   - {fileID: 7526730245879429996}
-  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -8706,6 +8707,7 @@ MonoBehaviour:
   - {fileID: 7526730245413171417}
   scriptsDisable:
   - {fileID: 7526730245879429998}
+  scoreBoard: {fileID: 0}
 --- !u!114 &7526730245879429998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8753,19 +8755,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   liveValue: 0
   liveSlider: {fileID: 7526730245998831137}
---- !u!114 &2721257370907992082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526730245879429994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f2d934d132c10b4198a2c85d1be9dfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scorePlayer: 0
 --- !u!114 &6983157694711015717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9224,7 +9213,7 @@ MonoBehaviour:
   openCloseWindow: 1
   selectedToolbar: 0
   damage:
-    damageValue: 15
+    damageValue: 100
     staminaBlockCost: 0
     staminaRecoveryDelay: 0
     ignoreDefense: 1
@@ -9247,6 +9236,19 @@ MonoBehaviour:
       m_Calls: []
   collisionMethod: 1
   part: {fileID: 0}
+--- !u!114 &3531965085005495933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526730245879429994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f2d934d132c10b4198a2c85d1be9dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scorePlayer: 0
 --- !u!1 &7526730245896428484
 GameObject:
   m_ObjectHideFlags: 0
