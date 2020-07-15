@@ -169,8 +169,8 @@ GameObject:
   - component: {fileID: 2159581079113817590}
   - component: {fileID: 2130477217532594364}
   - component: {fileID: 2141852653763938662}
-  - component: {fileID: 2156922240279763287}
   - component: {fileID: 4610350556310439452}
+  - component: {fileID: 8732575867456908432}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -239,20 +239,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &2156922240279763287
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2156922240279763280}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2588167970802840864, guid: 57259471d4750104c99b469053000f71, type: 3}
 --- !u!114 &4610350556310439452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +277,19 @@ MonoBehaviour:
   onResetHealth:
     m_PersistentCalls:
       m_Calls: []
+--- !u!65 &8732575867456908432
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156922240279763280}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.3200083, y: 1.3740513, z: 5.1428614}
+  m_Center: {x: -0.012581408, y: 0.08278334, z: 0.024745464}
 --- !u!1 &4116402824722913212
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,7 +774,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -992,7 +991,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -1312,7 +1311,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: -1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
@@ -2859,7 +2858,7 @@ MonoBehaviour:
   useExternalLatSlipCalculation: 0
   useExternalLongSlipCalculation: 0
   useExternalUpdate: 0
-  useRimCollider: 1
+  useRimCollider: 0
   vehicleSide: 1
   vehicleWheelCount: 0
   visualOnlyUpdate: 0
