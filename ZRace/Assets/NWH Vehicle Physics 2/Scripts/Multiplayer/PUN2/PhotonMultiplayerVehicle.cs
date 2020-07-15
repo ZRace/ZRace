@@ -63,7 +63,7 @@ namespace NWH.VehiclePhysics2.Multiplayer
             _photonTransformView = GetComponent<PhotonTransformView>();
             _photonLiveRemote = GetComponent<PhotonLiveRemote>();
 
-            _photonView.ObservedComponents.Clear();
+            //_photonView.ObservedComponents.Clear();
             _photonView.ObservedComponents.Add(_photonRigidbodyView);
             _photonView.ObservedComponents.Add(_photonTransformView);
             _photonView.ObservedComponents.Add(_photonLiveRemote);

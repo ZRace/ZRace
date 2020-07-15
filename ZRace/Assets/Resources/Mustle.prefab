@@ -3334,7 +3334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1037.7408, y: 0}
   m_SizeDelta: {x: 0, y: 193.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7526730245406584898
@@ -7579,6 +7579,7 @@ GameObject:
   - component: {fileID: 7526730245879429998}
   - component: {fileID: 7526730245879429992}
   - component: {fileID: 4086428913233386384}
+  - component: {fileID: 2721257370907992082}
   - component: {fileID: 6983157694711015717}
   - component: {fileID: 1822521868400127799}
   - component: {fileID: 2497908841282666898}
@@ -8752,6 +8753,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   liveValue: 0
   liveSlider: {fileID: 7526730245998831137}
+--- !u!114 &2721257370907992082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526730245879429994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f2d934d132c10b4198a2c85d1be9dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scorePlayer: 0
 --- !u!114 &6983157694711015717
 MonoBehaviour:
   m_ObjectHideFlags: 0
