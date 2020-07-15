@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 2130477217532594364}
   - component: {fileID: 2141852653763938662}
   - component: {fileID: 2156922240279763287}
+  - component: {fileID: 4610350556310439452}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -252,6 +253,44 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2588167970802840864, guid: 57259471d4750104c99b469053000f71, type: 3}
+--- !u!114 &4610350556310439452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156922240279763280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76437faf483939d48b79a33cc66c90ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 1
+  selectedToolbar: 0
+  _isDead: 0
+  _currentHealth: 0
+  isImmortal: 0
+  fillHealthOnStart: 1
+  maxHealth: 100
+  damageLive: 0
+  _vc: {fileID: 4889455065074641068}
+  healthRecovery: 0
+  healthRecoveryDelay: 0
+  currentHealthRecoveryDelay: 0
+  checkHealthEvents: []
+  _onReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDead:
+    m_PersistentCalls:
+      m_Calls: []
+  onChangeHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  onResetHealth:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4116402824722913212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,7 +1686,7 @@ GameObject:
   - component: {fileID: 4889455065074641069}
   - component: {fileID: 4889455065074641068}
   - component: {fileID: 4889455065074641059}
-  - component: {fileID: 294966676045410177}
+  - component: {fileID: 6508791298690536478}
   - component: {fileID: 3054956323928076071}
   - component: {fileID: 6451823413498157582}
   - component: {fileID: 4764557191261703460}
@@ -2550,7 +2589,7 @@ MonoBehaviour:
     maxDetectionSpeed: 1
     rotationSpeed: 1
     timeout: 3
---- !u!114 &294966676045410177
+--- !u!114 &6508791298690536478
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2559,34 +2598,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 4889455065074641071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8a6ee24d8c766042b403d33a08151b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a1b834ed6718ef4788a4945be0d4080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
   selectedToolbar: 0
   damage:
-    damageValue: 100
+    damageValue: 15
     staminaBlockCost: 0
     staminaRecoveryDelay: 0
-    ignoreDefense: 1
-    activeRagdoll: 1
+    ignoreDefense: 0
+    activeRagdoll: 0
     senselessTime: 0
     sender: {fileID: 0}
     receiver: {fileID: 0}
     hitPosition: {x: 0, y: 0, z: 0}
     hitReaction: 1
     recoil_id: 0
-    reaction_id: -1
-    damageType: projectile
+    reaction_id: 0
+    damageType: 
+  velocity: 0
   overrideDamageSender: {fileID: 0}
   tags:
   - Enemy
   continuousDamage: 0
-  damageFrequency: 0
+  damageFrequency: 0.5
   onHit:
     m_PersistentCalls:
       m_Calls: []
+  _vc: {fileID: 4889455065074641068}
   collisionMethod: 1
   part: {fileID: 0}
 --- !u!114 &3054956323928076071
@@ -2621,9 +2662,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterObject: {fileID: 0}
+  damageScript: {fileID: 6508791298690536478}
   enterDistance: 2
   enterExitTag: EnterExitPoint
   maxEnterExitVehicleSpeed: 2
+  maxVelocityScript: 2
   nearVehicle: 0
 --- !u!114 &4764557191261703460
 MonoBehaviour:

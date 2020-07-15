@@ -51,6 +51,7 @@ MonoBehaviour:
   openCloseEvents: 0
   openCloseWindow: 0
   selectedToolbar: 0
+  isOn: 0
   maxUsageTime: 100
   currentUsageTime: 0
   startOff: 0
@@ -59,7 +60,6 @@ MonoBehaviour:
   angleReference: {fileID: 4370787765818884}
   targetTag:
   - Enemy
-  - Player
   targetOffSetY: 1.3
   range: 10
   smoothFollow: 2
@@ -182,7 +182,6 @@ MonoBehaviour:
   obstacles:
     serializedVersion: 2
     m_Bits: 1
-  isOn: 0
 --- !u!135 &135755416266471266
 SphereCollider:
   m_ObjectHideFlags: 0

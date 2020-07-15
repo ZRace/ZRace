@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Invector;
 using NWH.VehiclePhysics2;
 using NWH.VehiclePhysics2.Input;
 using NWH.VehiclePhysics2.SceneManagement;
@@ -23,6 +24,7 @@ namespace NWH.VehiclePhysics2
         [FormerlySerializedAs("characterControllerObject")]
         [Tooltip("    Game object representing a character. Can also be another vehicle.")]
         public GameObject characterObject;
+        public vObjectDamageCar damageScript;
 
         /// <summary>
         ///     Maximum distance at which the character will be able to enter the vehicle.
@@ -44,6 +46,7 @@ namespace NWH.VehiclePhysics2
         /// </summary>
         [Tooltip("    Maximum speed at which the character will be able to enter / exit the vehicle.")]
         public float maxEnterExitVehicleSpeed = 2f;
+        public float maxVelocityScript;
 
         /// <summary>
         ///     True when character can enter the vehicle.
@@ -116,7 +119,18 @@ namespace NWH.VehiclePhysics2
                     _nearestVehicle = _nearestEnterExitPoint.GetComponentInParent<VehicleController>();
                 }
             }
-            
+            if(_insideVehicle)
+			{
+                if (_nearestVehicle.Speed > maxVelocityScript)
+                {
+                    damageScript.enabled = true;
+                }
+                else
+                {
+                    damageScript.enabled = false;
+                }
+            }
+
             bool any = false;
             foreach (InputProvider i in InputProvider.Instances)
             {
@@ -135,6 +149,8 @@ namespace NWH.VehiclePhysics2
 
         public void EnterExitVehicle()
         {
+
+
             // Enter vehicle
             if (nearVehicle && !_insideVehicle && _nearestVehicle.Speed < maxEnterExitVehicleSpeed)
             {
@@ -155,6 +171,7 @@ namespace NWH.VehiclePhysics2
                 characterObject.transform.position =
                     _nearestVehicle.transform.TransformPoint(_relativeEnterPosition);
                 characterObject.SetActive(true);
+                damageScript.enabled = false;
             }
         }
     }

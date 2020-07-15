@@ -4312,7 +4312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 8
+  selectedToolbar: 4
   _isDead: 0
   _currentHealth: 0
   isImmortal: 0
@@ -4388,11 +4388,11 @@ MonoBehaviour:
   sphereSensor: {fileID: 5647860374399529673}
   tagsToDetect:
     tags:
-    - Player
     - Vehicle
+    - Player
   layersToDetect:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 393472
   obstaclesLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -4493,6 +4493,7 @@ MonoBehaviour:
   hitProperties:
     hitDamageTags:
     - Player
+    - Vehicle
     useRecoil: 1
     drawRecoilGizmos: 1
     recoilRange: 44
@@ -4559,7 +4560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
-  openCloseWindow: 1
+  openCloseWindow: 0
   selectedToolbar: 0
   defaultDamageEffect: {fileID: 120346, guid: b8f2fe1ee1a01724cb72f5b0e6bd2eef, type: 3}
   customDamageEffects: []
@@ -4570,7 +4571,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5647860374320106759}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b935e9d8ff6ad3449844fbfb91f1869, type: 3}
   m_Name: 

@@ -17,9 +17,11 @@ namespace NWH.VehiclePhysics2.SceneManagement
             CharacterVehicleChanger cvc = drawer.GetObject<CharacterVehicleChanger>();
 
             drawer.Field("characterObject");
+            drawer.Field("damageScript");
             drawer.Field("enterDistance", true, "m");
             drawer.Field("enterExitTag");
             drawer.Field("maxEnterExitVehicleSpeed", true, "m/s");
+            drawer.Field("maxVelocityScript", true, "m/s");
             drawer.Field("nearVehicle", false);
 
             if (drawer.Button("Enter/Exit Vehicle"))
