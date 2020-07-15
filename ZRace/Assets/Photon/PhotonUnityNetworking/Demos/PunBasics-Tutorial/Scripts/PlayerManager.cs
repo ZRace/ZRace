@@ -84,6 +84,11 @@ namespace Photon.Pun.Demo.PunBasics
                 LocalPlayerInstance = gameObject;
                 scoreBoard = GameObject.Find("CanvasPlayersRoom");
                 scoreBoard.SetActive(false);
+                this.gameObject.layer = 17;
+            }
+            else
+            {
+                this.gameObject.layer = 18;
             }
 
             // #Critical

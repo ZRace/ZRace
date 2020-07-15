@@ -29424,6 +29424,9 @@ MonoBehaviour:
   openCloseWindow: 0
   selectedToolbar: 0
   bulletLifeSettings: {fileID: 0}
+  objectEnemy: {fileID: 0}
+  ParentPlayer: {fileID: 0}
+  namePlayer: 
   bulletLife: 1
   debugTrajetory: 0
   debugHittedObject: 0
@@ -29826,7 +29829,7 @@ MonoBehaviour:
     handleAnimatorMove: 0
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
-  eventHandlerComponentsAdded: 0
+  eventHandlerComponentsAdded: 1
 --- !u!1 &1629547762164416
 GameObject:
   m_ObjectHideFlags: 0
