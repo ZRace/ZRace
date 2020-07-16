@@ -9436,6 +9436,7 @@ MonoBehaviour:
   destinationRoutineIteration: 0.25
   findTargetIteration: 0.25
   smoothSpeed: 5
+  findTarget: {fileID: 0}
   onIdle:
     m_PersistentCalls:
       m_Calls: []
