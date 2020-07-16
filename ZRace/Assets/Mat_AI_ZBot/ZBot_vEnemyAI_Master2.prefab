@@ -4312,7 +4312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 4
+  selectedToolbar: 0
   _isDead: 0
   _currentHealth: 0
   isImmortal: 0
@@ -4435,6 +4435,7 @@ MonoBehaviour:
   destinationRoutineIteration: 0.25
   findTargetIteration: 0.25
   smoothSpeed: 5
+  findTarget: {fileID: 0}
   onIdle:
     m_PersistentCalls:
       m_Calls: []
@@ -4530,7 +4531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 0
+  selectedToolbar: 1
   startRagdolled: 0
   debugTimeToStayRagdolled: 0
   groundLayer:
@@ -4560,7 +4561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
-  openCloseWindow: 0
+  openCloseWindow: 1
   selectedToolbar: 0
   defaultDamageEffect: {fileID: 120346, guid: b8f2fe1ee1a01724cb72f5b0e6bd2eef, type: 3}
   customDamageEffects: []

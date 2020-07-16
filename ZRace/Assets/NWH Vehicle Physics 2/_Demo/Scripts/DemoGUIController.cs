@@ -24,6 +24,7 @@ namespace NWH.VehiclePhysics2
 
         public float live;
         public float animationHealth;
+        public float liveConverter;
 
         public Text promptText;
 
@@ -152,6 +153,7 @@ namespace NWH.VehiclePhysics2
 
             damageButton.targetGraphic.color = _vc.damageHandler.Active ? enabledColor : disabledColor;
             animationHealth = _vc.damageHandler.Damage;
+            liveConverter = _vc.damageHandler.Damage;
             live = -_vc.damageHandler.Damage;
             damageSlider.value = live;
             

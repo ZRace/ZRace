@@ -36822,9 +36822,9 @@ RectTransform:
   m_Father: {fileID: 7526730246442392091}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1037.7408, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1037.7408, y: -214.69}
   m_SizeDelta: {x: 0, y: 193.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7526730245406584898
@@ -37294,6 +37294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   live: 0
   animationHealth: 0
+  liveConverter: 0
   promptText: {fileID: 7526730245012504021}
   helpWindow: {fileID: 7526730246350832005}
   settingsWindow: {fileID: 7526730245479850942}
@@ -51369,6 +51370,7 @@ MonoBehaviour:
   fillHealthOnStart: 1
   maxHealth: 100
   damageLive: 0
+  liveConverter: 0
   _vc: {fileID: 7526730245879429914}
   healthRecovery: 0
   healthRecoveryDelay: 0
