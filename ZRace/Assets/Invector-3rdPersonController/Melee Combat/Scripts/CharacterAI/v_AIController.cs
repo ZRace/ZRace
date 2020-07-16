@@ -95,7 +95,7 @@ namespace Invector.vCharacterController.AI
                         }
 						else if(findTarget.tag == "Vehicle")
 						{
-                            meleeManager.defaultAttackDistance = 2f;
+                            meleeManager.defaultAttackDistance = 1.75f;
                         }
 
                     }
