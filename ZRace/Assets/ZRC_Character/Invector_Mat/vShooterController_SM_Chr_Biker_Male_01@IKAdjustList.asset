@@ -17,5 +17,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 240b077c184a5a24d93a4c3b2408e993, type: 2}
   ikRotationOffsetR: {x: 0, y: 0, z: 0}
   ikPositionOffsetR: {x: 0, y: 0, z: 0}
-  ikRotationOffsetL: {x: 0, y: 0, z: 0}
-  ikPositionOffsetL: {x: 0.04, y: 0, z: 0}
+  ikRotationOffsetL: {x: -12, y: -16, z: -71}
+  ikPositionOffsetL: {x: 0.083, y: -0.011, z: -0.05}
