@@ -1462,7 +1462,7 @@ MonoBehaviour:
       m_Left: 10
       m_Right: 10
       m_Top: 0
-      m_Bottom: 0
+      m_Bottom: 10
     m_Padding:
       m_Left: 0
       m_Right: 0
@@ -1485,7 +1485,7 @@ MonoBehaviour:
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_StretchWidth: 1
-    m_StretchHeight: 1
+    m_StretchHeight: 0
   - m_Name: buttonParam
     m_Normal:
       m_Background: {fileID: 2800000, guid: 5dfcf9622f12816418d439efe678683a, type: 3}
