@@ -169,8 +169,6 @@ GameObject:
   - component: {fileID: 2159581079113817590}
   - component: {fileID: 2130477217532594364}
   - component: {fileID: 2141852653763938662}
-  - component: {fileID: 4610350556310439452}
-  - component: {fileID: 8732575867456908432}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -239,57 +237,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4610350556310439452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2156922240279763280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76437faf483939d48b79a33cc66c90ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openCloseEvents: 0
-  openCloseWindow: 1
-  selectedToolbar: 0
-  _isDead: 0
-  _currentHealth: 0
-  isImmortal: 0
-  fillHealthOnStart: 1
-  maxHealth: 100
-  damageLive: 0
-  _vc: {fileID: 4889455065074641068}
-  healthRecovery: 0
-  healthRecoveryDelay: 0
-  currentHealthRecoveryDelay: 0
-  checkHealthEvents: []
-  _onReceiveDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  _onDead:
-    m_PersistentCalls:
-      m_Calls: []
-  onChangeHealth:
-    m_PersistentCalls:
-      m_Calls: []
-  onResetHealth:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!65 &8732575867456908432
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2156922240279763280}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.3200083, y: 1.3740513, z: 5.1428614}
-  m_Center: {x: -0.012581408, y: 0.08278334, z: 0.024745464}
 --- !u!1 &4116402824722913212
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,7 +552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4889455063890278552}
   - component: {fileID: 4889455063890278559}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Veh_Car_01_Wheel_fr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -822,7 +769,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4889455064223950741}
   - component: {fileID: 4889455064223950740}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Veh_Car_01_Wheel_rl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1142,7 +1089,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4889455064328137630}
   - component: {fileID: 4889455064328137629}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Veh_Car_01_Wheel_fl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1689,6 +1636,8 @@ GameObject:
   - component: {fileID: 3054956323928076071}
   - component: {fileID: 6451823413498157582}
   - component: {fileID: 4764557191261703460}
+  - component: {fileID: 2953409076301716551}
+  - component: {fileID: 4280446377211498167}
   m_Layer: 0
   m_Name: MediumCar_04
   m_TagString: Vehicle
@@ -2607,8 +2556,8 @@ MonoBehaviour:
     damageValue: 15
     staminaBlockCost: 0
     staminaRecoveryDelay: 0
-    ignoreDefense: 0
-    activeRagdoll: 0
+    ignoreDefense: 1
+    activeRagdoll: 1
     senselessTime: 0
     sender: {fileID: 0}
     receiver: {fileID: 0}
@@ -2679,6 +2628,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fe154161bba5034094381e28d5e1da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &2953409076301716551
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889455065074641071}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.348455, y: 1.5650673, z: 5.0309196}
+  m_Center: {x: -0.006421566, y: -0.28253365, z: 0.1435473}
+--- !u!114 &4280446377211498167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889455065074641071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76437faf483939d48b79a33cc66c90ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 1
+  selectedToolbar: 0
+  _isDead: 0
+  _currentHealth: 0
+  isImmortal: 0
+  fillHealthOnStart: 1
+  maxHealth: 100
+  damageLive: 0
+  liveConverter: 0
+  _vc: {fileID: 4889455065074641068}
+  healthRecovery: 0
+  healthRecoveryDelay: 0
+  currentHealthRecoveryDelay: 0
+  checkHealthEvents: []
+  _onReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDead:
+    m_PersistentCalls:
+      m_Calls: []
+  onChangeHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  onResetHealth:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4889455065098083851
 GameObject:
   m_ObjectHideFlags: 0
@@ -2689,7 +2690,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4889455065098083850}
   - component: {fileID: 4889455065098083849}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Veh_Car_01_Wheel_rr
   m_TagString: Untagged
   m_Icon: {fileID: 0}

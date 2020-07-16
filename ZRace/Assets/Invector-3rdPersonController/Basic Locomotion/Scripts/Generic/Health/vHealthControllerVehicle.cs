@@ -71,6 +71,7 @@ namespace Invector
             }
         }
         public float damageLive;
+        public float liveConverter;
         public VehicleController _vc;
         public float healthRecovery = 0f;
         public float healthRecoveryDelay = 0f;
@@ -190,12 +191,13 @@ namespace Invector
             if (damage != null)
             {
                 currentHealthRecoveryDelay = currentHealth <= 0 ? 0 : healthRecoveryDelay;
+                liveConverter = 1 - _vc.damageHandler.Damage;
 
                 if (currentHealth > 0 && !isImmortal)
                 {
                     currentHealth -= damage.damageValue;
                     
-                    damageLive += damage.damageValue * 0.001f;
+                    damageLive += damage.damageValue * 0.01f;
                     _vc.damageHandler.Damage = damageLive;
                 }
 
