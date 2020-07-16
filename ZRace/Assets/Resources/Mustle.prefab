@@ -41060,19 +41060,19 @@ GameObject:
   - component: {fileID: 7526730245879429909}
   - component: {fileID: 7526730245879429910}
   - component: {fileID: 7526730245879429911}
+  - component: {fileID: 7526730245879429998}
+  - component: {fileID: 8383772858045172388}
   - component: {fileID: 5800402062318577836}
+  - component: {fileID: 6136715338403043669}
   - component: {fileID: 7526730245879429905}
   - component: {fileID: 7526730245879429906}
   - component: {fileID: 7526730245879429907}
   - component: {fileID: 7526730245879429996}
   - component: {fileID: 7526730245879429997}
-  - component: {fileID: 7526730245879429998}
   - component: {fileID: 7526730245879429992}
   - component: {fileID: 4086428913233386384}
   - component: {fileID: 6983157694711015717}
   - component: {fileID: 1822521868400127799}
-  - component: {fileID: 2497908841282666898}
-  - component: {fileID: 2025447341820638876}
   - component: {fileID: 3531965085005495933}
   m_Layer: 0
   m_Name: Mustle
@@ -42096,6 +42096,44 @@ MonoBehaviour:
     TCSActive:
       m_PersistentCalls:
         m_Calls: []
+--- !u!114 &7526730245879429998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526730245879429994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc64a64f2888b1942b9b64877d834931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterBased: 1
+  currentVehicleIndex: 0
+  deactivateAll: 0
+  putOtherVehiclesToSleep: 0
+  vehicles:
+  - {fileID: 7526730245879429914}
+  vehicleTag: Vehicle
+--- !u!114 &8383772858045172388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526730245879429994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e7d9dd537dd43478ce33dded6cea87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterObject: {fileID: 0}
+  damageScript: {fileID: 6136715338403043669}
+  enterDistance: 2
+  enterExitTag: EnterExitPoint
+  maxEnterExitVehicleSpeed: 2
+  maxVelocityScript: 2
+  nearVehicle: 0
 --- !u!114 &5800402062318577836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42108,6 +42146,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fe154161bba5034094381e28d5e1da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6136715338403043669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526730245879429994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1b834ed6718ef4788a4945be0d4080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 1
+  selectedToolbar: 0
+  damage:
+    damageValue: 15
+    staminaBlockCost: 0
+    staminaRecoveryDelay: 0
+    ignoreDefense: 1
+    activeRagdoll: 1
+    senselessTime: 0
+    sender: {fileID: 0}
+    receiver: {fileID: 0}
+    hitPosition: {x: 0, y: 0, z: 0}
+    hitReaction: 1
+    recoil_id: 0
+    reaction_id: 0
+    damageType: 
+  velocity: 0
+  overrideDamageSender: {fileID: 0}
+  tags:
+  - Enemy
+  continuousDamage: 0
+  damageFrequency: 0.5
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+  _vc: {fileID: 7526730245879429914}
+  collisionMethod: 1
+  part: {fileID: 0}
 --- !u!114 &7526730245879429905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42198,25 +42277,6 @@ MonoBehaviour:
   scriptsDisable:
   - {fileID: 7526730245879429998}
   scoreBoard: {fileID: 0}
---- !u!114 &7526730245879429998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526730245879429994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc64a64f2888b1942b9b64877d834931, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterBased: 0
-  currentVehicleIndex: 0
-  deactivateAll: 0
-  putOtherVehiclesToSleep: 0
-  vehicles:
-  - {fileID: 7526730245879429914}
-  vehicleTag: Vehicle
 --- !u!114 &7526730245879429992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42674,58 +42734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9965f8b1a0a0b458aac3faf0fe282c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &2497908841282666898
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526730245879429994}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.7999961, y: 0.39160347, z: 6.1357775}
-  m_Center: {x: -0.008737922, y: 1.3985357, z: 0.018679976}
---- !u!114 &2025447341820638876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526730245879429994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8a6ee24d8c766042b403d33a08151b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openCloseEvents: 0
-  openCloseWindow: 1
-  selectedToolbar: 0
-  damage:
-    damageValue: 100
-    staminaBlockCost: 0
-    staminaRecoveryDelay: 0
-    ignoreDefense: 1
-    activeRagdoll: 1
-    senselessTime: 0
-    sender: {fileID: 0}
-    receiver: {fileID: 0}
-    hitPosition: {x: 0, y: 0, z: 0}
-    hitReaction: 1
-    recoil_id: 0
-    reaction_id: 0
-    damageType: 
-  overrideDamageSender: {fileID: 0}
-  tags:
-  - Enemy
-  continuousDamage: 0
-  damageFrequency: 0.5
-  onHit:
-    m_PersistentCalls:
-      m_Calls: []
-  collisionMethod: 1
-  part: {fileID: 0}
 --- !u!114 &3531965085005495933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51257,7 +51265,8 @@ GameObject:
   - component: {fileID: 8190145335503737567}
   - component: {fileID: 8201108427015015871}
   - component: {fileID: 8211456713808594385}
-  - component: {fileID: 8161057854446101371}
+  - component: {fileID: 3281905258252151306}
+  - component: {fileID: 8025917436065854031}
   m_Layer: 0
   m_Name: Body
   m_TagString: Vehicle
@@ -51326,8 +51335,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &8161057854446101371
-MeshCollider:
+--- !u!65 &3281905258252151306
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -51336,10 +51345,47 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43291593127826866, guid: 68bb4dc2c5281e5448bb2d04944d277b, type: 2}
+  serializedVersion: 2
+  m_Size: {x: 2.8225775, y: 1.9155483, z: 5.7155676}
+  m_Center: {x: -0.0050325394, y: 1.5760226, z: 0.1641593}
+--- !u!114 &8025917436065854031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8188037752392622249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76437faf483939d48b79a33cc66c90ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openCloseEvents: 0
+  openCloseWindow: 1
+  selectedToolbar: 0
+  _isDead: 0
+  _currentHealth: 0
+  isImmortal: 0
+  fillHealthOnStart: 1
+  maxHealth: 100
+  damageLive: 0
+  _vc: {fileID: 7526730245879429914}
+  healthRecovery: 0
+  healthRecoveryDelay: 0
+  currentHealthRecoveryDelay: 0
+  checkHealthEvents: []
+  _onReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDead:
+    m_PersistentCalls:
+      m_Calls: []
+  onChangeHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  onResetHealth:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8188140297070106637
 GameObject:
   m_ObjectHideFlags: 0

@@ -2641,7 +2641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc64a64f2888b1942b9b64877d834931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterBased: 0
+  characterBased: 1
   currentVehicleIndex: 0
   deactivateAll: 0
   putOtherVehiclesToSleep: 0
