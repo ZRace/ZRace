@@ -153,7 +153,7 @@ namespace NWH.VehiclePhysics2
 
             damageButton.targetGraphic.color = _vc.damageHandler.Active ? enabledColor : disabledColor;
             animationHealth = _vc.damageHandler.Damage;
-            liveConverter = 1 - _vc.damageHandler.Damage;
+            liveConverter = _vc.damageHandler.Damage;
             live = -_vc.damageHandler.Damage;
             damageSlider.value = live;
             
