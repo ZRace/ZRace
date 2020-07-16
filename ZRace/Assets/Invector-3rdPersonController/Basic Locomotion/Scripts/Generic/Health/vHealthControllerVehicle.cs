@@ -191,18 +191,19 @@ namespace Invector
             if (damage != null)
             {
                 currentHealthRecoveryDelay = currentHealth <= 0 ? 0 : healthRecoveryDelay;
-                liveConverter = 1 - _vc.damageHandler.Damage;
+                //liveConverter = 1 - _vc.damageHandler.Damage;
+                //currentHealth = 100 * liveConverter;
 
-                if (currentHealth > 0 && !isImmortal)
-                {
-                    currentHealth -= damage.damageValue;
-                    
-                    damageLive += damage.damageValue * 0.01f;
-                    _vc.damageHandler.Damage = damageLive;
-                }
+				if (currentHealth > 0 && !isImmortal)
+				{
+					currentHealth -= damage.damageValue;
 
-                //if (damage.damageValue > 0)
-                onReceiveDamage.Invoke(damage);
+					damageLive += damage.damageValue * 0.01f;
+					_vc.damageHandler.Damage = damageLive;
+				}
+
+				//if (damage.damageValue > 0)
+				onReceiveDamage.Invoke(damage);
                 HandleCheckHealthEvents();
             }
         }
