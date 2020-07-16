@@ -197,7 +197,7 @@ namespace Invector
 				if (currentHealth > 0 && !isImmortal)
 				{
 					currentHealth -= damage.damageValue;
-
+                    damageLive = _vc.damageHandler.Damage;
 					damageLive += damage.damageValue * 0.01f;
 					_vc.damageHandler.Damage = damageLive;
 				}
