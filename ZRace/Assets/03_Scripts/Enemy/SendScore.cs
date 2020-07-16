@@ -1,23 +1,27 @@
 ﻿using Invector.vCharacterController.AI;
 using Photon.Pun;
-using Photon.Pun.UtilityScripts;
 using System.Collections.Generic;
 using UnityEngine;
 //using Photon.Pun;
 
 public class SendScore : MonoBehaviourPun
 {
-	public int scoreAdd;
 
-	public Transform transformPlayer;
-	public GameObject targetPlayer;
-	public int AddScore;
+	[Tooltip("Gets the transform of the player when it collides. This part is only to get the transform and then see what object is")]
+	[HideInInspector] public Transform transformPlayer;
+	[Tooltip("Get the GameObject from the transform. It is used to see if the object has the script to add score to the player")]
+	[HideInInspector] public GameObject targetPlayer;
+	[Tooltip("Add the variable amount to the player's score")]
+	[HideInInspector] public int AddScore;
 
-	public List<string> tagsToDetect;
+	[Tooltip("Array to see what tag can be detected when it collides")]
+	[HideInInspector] public List<string> tagsToDetect;
 
-	public v_AIController controllerToCheck;
+	[Tooltip("Take the script to see if the zombie is dead. We do this to verify that the zombie is dead when it collides")]
+	[HideInInspector] public v_AIController controllerToCheck;
 
-	public bool checkIsDead;
+	[Tooltip("Bool to verify that when it collides see if the zombie is dead")]
+	[HideInInspector] public bool checkIsDead;
 
 	public void OnCollisionEnter(Collision collision)
 	{
