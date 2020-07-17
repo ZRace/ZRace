@@ -98,7 +98,7 @@ public class SendScoreEditor : Editor
 
 		if (count == 0)
 		{
-			if (GUI.Button(EditorGUILayout.GetControlRect(GUILayout.MaxWidth(20)), "+", (GUIStyle)"minibutton"))
+			if (GUI.Button(EditorGUILayout.GetControlRect(GUILayout.MaxWidth(20)), "+"))
 			{
 				int newindex = list.arraySize;
 				list.InsertArrayElementAtIndex(0);
