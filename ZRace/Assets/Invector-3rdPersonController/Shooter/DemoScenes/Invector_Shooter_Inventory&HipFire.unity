@@ -828,6 +828,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ctrl_ZBot_Group_10
       objectReference: {fileID: 0}
+    - target: {fileID: 6565765758293929351, guid: 889006a1c61dd8b49ac97a3382dacf75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6565765758293929368, guid: 889006a1c61dd8b49ac97a3382dacf75,
         type: 3}
       propertyPath: m_LocalPosition.x
