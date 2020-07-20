@@ -48,16 +48,16 @@ MonoBehaviour:
       head: {x: 0, y: 0}
   standingAiming:
     weaponHandOffset:
-      position: {x: -0.06730374, y: 0.0027710535, z: -0.0734537}
-      eulerAngles: {x: 2.6550803, y: 3.3559742, z: 2.9795096}
+      position: {x: 0.07512566, y: 0.11346622, z: -0.080584064}
+      eulerAngles: {x: 3.836074, y: 339.5049, z: 1.623871}
     weaponHintOffset:
-      position: {x: 0.0019885972, y: -0.09633612, z: 0.00080993026}
+      position: {x: 0.06240561, y: -0.14562386, z: -0.14779678}
       eulerAngles: {x: -0, y: 0, z: 0}
     supportHandOffset:
-      position: {x: -0.097871736, y: -0.055495515, z: 0.050527584}
-      eulerAngles: {x: 315.9145, y: 113.61814, z: 278.04587}
+      position: {x: -0.10352047, y: -0.094644204, z: 0.06513716}
+      eulerAngles: {x: 306.63235, y: 124.783104, z: 269.4567}
     supportHintOffset:
-      position: {x: -0.00006103469, y: -0.0001355391, z: -0.01227785}
+      position: {x: 0.0018659465, y: 0.014509622, z: -0.049332023}
       eulerAngles: {x: -0, y: 0, z: 0}
     spineOffset:
       spine: {x: 0, y: 0}
