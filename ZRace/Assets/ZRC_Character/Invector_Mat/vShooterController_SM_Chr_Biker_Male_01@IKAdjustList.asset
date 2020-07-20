@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIKAdjusts:
   - {fileID: 11400000, guid: cd3f6859f21a8004a8786146328a19eb, type: 2}
-  - {fileID: 11400000, guid: 240b077c184a5a24d93a4c3b2408e993, type: 2}
+  - {fileID: 11400000, guid: d14f78e0b06a31045a1e9508a1f9539c, type: 2}
   - {fileID: 11400000, guid: e76acd7b6be5dcf418722e6028c383a2, type: 2}
   - {fileID: 11400000, guid: 01ec6c668e77606428b5ec3ea11d6003, type: 2}
   ikRotationOffsetR: {x: 0, y: 0, z: 0}

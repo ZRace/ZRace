@@ -5165,7 +5165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 3
+  selectedToolbar: 5
   weaponCategory: RPG
   shootFrequency: 1
   isInfinityAmmo: 0
