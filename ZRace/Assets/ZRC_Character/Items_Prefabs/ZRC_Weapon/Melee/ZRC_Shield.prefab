@@ -188,10 +188,9 @@ GameObject:
   - component: {fileID: 7555109964760795744}
   - component: {fileID: 7547028357384728778}
   - component: {fileID: 7537453412637137094}
-  - component: {fileID: 7506699454154190696}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Sign_Shield_01
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -203,13 +202,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7551615070130894888}
-  m_LocalRotation: {x: 0.03125953, y: 0.021257654, z: 0.92395175, w: 0.38063666}
+  m_LocalRotation: {x: -0.107778005, y: 0.35172197, z: 0.8647538, w: 0.34187213}
   m_LocalPosition: {x: -0.001, y: -0.005, z: -0.061}
   m_LocalScale: {x: 1.09, y: 1.09, z: 0.9935132}
   m_Children: []
   m_Father: {fileID: 4000011964296060}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -0.887, y: 4.241, z: 135.18701}
+  m_LocalEulerAnglesHint: {x: -43, y: 4.241, z: 135.18701}
 --- !u!33 &7547028357384728778
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -257,17 +256,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &7506699454154190696
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7551615070130894888}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43213047424443526, guid: 56a7bc168caa932409c5b89432b6dc17, type: 2}
