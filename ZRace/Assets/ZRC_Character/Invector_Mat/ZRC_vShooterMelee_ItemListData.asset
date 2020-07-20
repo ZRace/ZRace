@@ -19,7 +19,8 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 170828, guid: a0ef3c70b27799d409935f45a6537bb0, type: 3}
+  originalObject: {fileID: 7545374925313474851, guid: d4d3f62cc6e17354092013c310b57cbc,
+    type: 3}
   dropObject: {fileID: 199660, guid: 38ebe90b46d37bd47822899bd47a318a, type: 3}
   attributes:
   - name: 2
@@ -212,7 +213,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 147976, guid: 490b027b4bc17844c86dfb0e3f50ba97, type: 3}
+  originalObject: {fileID: 147976, guid: b15be6455a3afff4d890acbb4b0930d7, type: 3}
   dropObject: {fileID: 170868, guid: 29c64441cf150e1478de24e3252446ec, type: 3}
   attributes:
   - name: 2
@@ -256,7 +257,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 109168, guid: c9d537197cc153745a468a97ec00241f, type: 3}
+  originalObject: {fileID: 109168, guid: f78e3c3b29fb46245abfb94a7bfd5907, type: 3}
   dropObject: {fileID: 150024, guid: b13b1a669dda56f4cbd8fb0d831eec76, type: 3}
   attributes:
   - name: 2
@@ -336,7 +337,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 136552, guid: e53efed3927a7254aa010f9c6752223c, type: 3}
+  originalObject: {fileID: 136552, guid: e57a24999df51cc44b3f35289339d6ba, type: 3}
   dropObject: {fileID: 121418, guid: 763836da888842349a25cd7daf28a752, type: 3}
   attributes:
   - name: 2
@@ -683,7 +684,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 1000010116632662, guid: 2232bbcc5a195274c9744c2c6352e910,
+  originalObject: {fileID: 1000010116632662, guid: 0b15dcbf85468d046917a8c78cc5bf62,
     type: 3}
   dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 3}
   attributes:
