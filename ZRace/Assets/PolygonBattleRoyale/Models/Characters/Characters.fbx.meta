@@ -1,218 +1,594 @@
 fileFormatVersion: 2
 guid: 0045ffb477e043a46950af7e617beb06
-timeCreated: 1536788388
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: Ankle_L
-    100002: Ankle_R
-    100004: Ball_L
-    100006: Ball_R
-    100008: Character_70sFemale_01
-    100010: Character_BusinessMale_01
-    100012: Character_GhillieSuit_01
-    100014: Character_GothFemale_01
-    100016: Character_MercenaryFemale_01
-    100018: Character_MercenaryMale_01
-    100020: Character_MilitaryFemale_01
-    100022: Character_MilitaryMale_01
-    100024: Character_RedneckMale_01
-    100026: Character_SportsBraFemale_01
-    100028: Character_SportyFemale_01
-    100030: Character_SportyFemale_02
-    100032: Character_SportyMale_01
-    100034: Character_SportyMale_02
-    100036: Character_ToplessMale_01
-    100038: //RootNode
-    100040: Clavicle_L
-    100042: Clavicle_R
-    100044: Elbow_L
-    100046: Elbow_R
-    100048: Eyebrows
-    100050: Eyes
-    100052: Finger_01
-    100054: Finger_01 1
-    100056: Finger_02
-    100058: Finger_02 1
-    100060: Finger_03
-    100062: Finger_03 1
-    100064: Finger_04
-    100066: Finger_04 1
-    100068: Hand_L
-    100070: Hand_R
-    100072: Head
-    100074: Hips
-    100076: IndexFinger_01
-    100078: IndexFinger_01 1
-    100080: IndexFinger_02
-    100082: IndexFinger_02 1
-    100084: IndexFinger_03
-    100086: IndexFinger_03 1
-    100088: IndexFinger_04
-    100090: IndexFinger_04 1
-    100092: LowerLeg_L
-    100094: LowerLeg_R
-    100096: Neck
-    100098: Root
-    100100: Shoulder_L
-    100102: Shoulder_R
-    100104: SM_Char_Attach_Female_Armor_01
-    100106: SM_Char_Attach_Female_Armor_02
-    100108: SM_Char_Attach_Female_Armor_03
-    100110: SM_Char_Attach_Male_Armor_01
-    100112: SM_Char_Attach_Male_Armor_02
-    100114: SM_Char_Attach_Male_Armor_03
-    100116: Spine_01
-    100118: Spine_02
-    100120: Spine_03
-    100122: Thumb_01
-    100124: Thumb_01 1
-    100126: Thumb_02
-    100128: Thumb_02 1
-    100130: Thumb_03
-    100132: Thumb_03 1
-    100134: Toes_L
-    100136: Toes_R
-    100138: UpperLeg_L
-    100140: UpperLeg_R
-    400000: Ankle_L
-    400002: Ankle_R
-    400004: Ball_L
-    400006: Ball_R
-    400008: Character_70sFemale_01
-    400010: Character_BusinessMale_01
-    400012: Character_GhillieSuit_01
-    400014: Character_GothFemale_01
-    400016: Character_MercenaryFemale_01
-    400018: Character_MercenaryMale_01
-    400020: Character_MilitaryFemale_01
-    400022: Character_MilitaryMale_01
-    400024: Character_RedneckMale_01
-    400026: Character_SportsBraFemale_01
-    400028: Character_SportyFemale_01
-    400030: Character_SportyFemale_02
-    400032: Character_SportyMale_01
-    400034: Character_SportyMale_02
-    400036: Character_ToplessMale_01
-    400038: //RootNode
-    400040: Clavicle_L
-    400042: Clavicle_R
-    400044: Elbow_L
-    400046: Elbow_R
-    400048: Eyebrows
-    400050: Eyes
-    400052: Finger_01
-    400054: Finger_01 1
-    400056: Finger_02
-    400058: Finger_02 1
-    400060: Finger_03
-    400062: Finger_03 1
-    400064: Finger_04
-    400066: Finger_04 1
-    400068: Hand_L
-    400070: Hand_R
-    400072: Head
-    400074: Hips
-    400076: IndexFinger_01
-    400078: IndexFinger_01 1
-    400080: IndexFinger_02
-    400082: IndexFinger_02 1
-    400084: IndexFinger_03
-    400086: IndexFinger_03 1
-    400088: IndexFinger_04
-    400090: IndexFinger_04 1
-    400092: LowerLeg_L
-    400094: LowerLeg_R
-    400096: Neck
-    400098: Root
-    400100: Shoulder_L
-    400102: Shoulder_R
-    400104: SM_Char_Attach_Female_Armor_01
-    400106: SM_Char_Attach_Female_Armor_02
-    400108: SM_Char_Attach_Female_Armor_03
-    400110: SM_Char_Attach_Male_Armor_01
-    400112: SM_Char_Attach_Male_Armor_02
-    400114: SM_Char_Attach_Male_Armor_03
-    400116: Spine_01
-    400118: Spine_02
-    400120: Spine_03
-    400122: Thumb_01
-    400124: Thumb_01 1
-    400126: Thumb_02
-    400128: Thumb_02 1
-    400130: Thumb_03
-    400132: Thumb_03 1
-    400134: Toes_L
-    400136: Toes_R
-    400138: UpperLeg_L
-    400140: UpperLeg_R
-    4300000: Character_SportyMale_01
-    4300002: Character_MercenaryMale_01
-    4300004: Character_ToplessMale_01
-    4300006: Character_MilitaryMale_01
-    4300008: Character_SportyMale_02
-    4300010: Character_RedneckMale_01
-    4300012: Character_BusinessMale_01
-    4300014: Character_70sFemale_01
-    4300016: Character_SportyFemale_02
-    4300018: Character_SportyFemale_01
-    4300020: Character_MercenaryFemale_01
-    4300022: Character_MilitaryFemale_01
-    4300024: Character_SportsBraFemale_01
-    4300026: Character_GothFemale_01
-    4300028: SM_Char_Attach_Male_Armor_01
-    4300030: SM_Char_Attach_Male_Armor_02
-    4300032: SM_Char_Attach_Male_Armor_03
-    4300034: SM_Char_Attach_Female_Armor_01
-    4300036: SM_Char_Attach_Female_Armor_02
-    4300038: SM_Char_Attach_Female_Armor_03
-    4300040: Character_GhillieSuit_01
-    7400000: Take 001
-    9500000: //RootNode
-    13700000: Character_70sFemale_01
-    13700002: Character_BusinessMale_01
-    13700004: Character_GhillieSuit_01
-    13700006: Character_GothFemale_01
-    13700008: Character_MercenaryFemale_01
-    13700010: Character_MercenaryMale_01
-    13700012: Character_MilitaryFemale_01
-    13700014: Character_MilitaryMale_01
-    13700016: Character_RedneckMale_01
-    13700018: Character_SportsBraFemale_01
-    13700020: Character_SportyFemale_01
-    13700022: Character_SportyFemale_02
-    13700024: Character_SportyMale_01
-    13700026: Character_SportyMale_02
-    13700028: Character_ToplessMale_01
-    13700030: SM_Char_Attach_Female_Armor_01
-    13700032: SM_Char_Attach_Female_Armor_02
-    13700034: SM_Char_Attach_Female_Armor_03
-    13700036: SM_Char_Attach_Male_Armor_01
-    13700038: SM_Char_Attach_Male_Armor_02
-    13700040: SM_Char_Attach_Male_Armor_03
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Ankle_L
+  - first:
+      1: 100002
+    second: Ankle_R
+  - first:
+      1: 100004
+    second: Ball_L
+  - first:
+      1: 100006
+    second: Ball_R
+  - first:
+      1: 100008
+    second: Character_70sFemale_01
+  - first:
+      1: 100010
+    second: Character_BusinessMale_01
+  - first:
+      1: 100012
+    second: Character_GhillieSuit_01
+  - first:
+      1: 100014
+    second: Character_GothFemale_01
+  - first:
+      1: 100016
+    second: Character_MercenaryFemale_01
+  - first:
+      1: 100018
+    second: Character_MercenaryMale_01
+  - first:
+      1: 100020
+    second: Character_MilitaryFemale_01
+  - first:
+      1: 100022
+    second: Character_MilitaryMale_01
+  - first:
+      1: 100024
+    second: Character_RedneckMale_01
+  - first:
+      1: 100026
+    second: Character_SportsBraFemale_01
+  - first:
+      1: 100028
+    second: Character_SportyFemale_01
+  - first:
+      1: 100030
+    second: Character_SportyFemale_02
+  - first:
+      1: 100032
+    second: Character_SportyMale_01
+  - first:
+      1: 100034
+    second: Character_SportyMale_02
+  - first:
+      1: 100036
+    second: Character_ToplessMale_01
+  - first:
+      1: 100038
+    second: //RootNode
+  - first:
+      1: 100040
+    second: Clavicle_L
+  - first:
+      1: 100042
+    second: Clavicle_R
+  - first:
+      1: 100044
+    second: Elbow_L
+  - first:
+      1: 100046
+    second: Elbow_R
+  - first:
+      1: 100048
+    second: Eyebrows
+  - first:
+      1: 100050
+    second: Eyes
+  - first:
+      1: 100052
+    second: Finger_01
+  - first:
+      1: 100054
+    second: Finger_01 1
+  - first:
+      1: 100056
+    second: Finger_02
+  - first:
+      1: 100058
+    second: Finger_02 1
+  - first:
+      1: 100060
+    second: Finger_03
+  - first:
+      1: 100062
+    second: Finger_03 1
+  - first:
+      1: 100064
+    second: Finger_04
+  - first:
+      1: 100066
+    second: Finger_04 1
+  - first:
+      1: 100068
+    second: Hand_L
+  - first:
+      1: 100070
+    second: Hand_R
+  - first:
+      1: 100072
+    second: Head
+  - first:
+      1: 100074
+    second: Hips
+  - first:
+      1: 100076
+    second: IndexFinger_01
+  - first:
+      1: 100078
+    second: IndexFinger_01 1
+  - first:
+      1: 100080
+    second: IndexFinger_02
+  - first:
+      1: 100082
+    second: IndexFinger_02 1
+  - first:
+      1: 100084
+    second: IndexFinger_03
+  - first:
+      1: 100086
+    second: IndexFinger_03 1
+  - first:
+      1: 100088
+    second: IndexFinger_04
+  - first:
+      1: 100090
+    second: IndexFinger_04 1
+  - first:
+      1: 100092
+    second: LowerLeg_L
+  - first:
+      1: 100094
+    second: LowerLeg_R
+  - first:
+      1: 100096
+    second: Neck
+  - first:
+      1: 100098
+    second: Root
+  - first:
+      1: 100100
+    second: Shoulder_L
+  - first:
+      1: 100102
+    second: Shoulder_R
+  - first:
+      1: 100104
+    second: SM_Char_Attach_Female_Armor_01
+  - first:
+      1: 100106
+    second: SM_Char_Attach_Female_Armor_02
+  - first:
+      1: 100108
+    second: SM_Char_Attach_Female_Armor_03
+  - first:
+      1: 100110
+    second: SM_Char_Attach_Male_Armor_01
+  - first:
+      1: 100112
+    second: SM_Char_Attach_Male_Armor_02
+  - first:
+      1: 100114
+    second: SM_Char_Attach_Male_Armor_03
+  - first:
+      1: 100116
+    second: Spine_01
+  - first:
+      1: 100118
+    second: Spine_02
+  - first:
+      1: 100120
+    second: Spine_03
+  - first:
+      1: 100122
+    second: Thumb_01
+  - first:
+      1: 100124
+    second: Thumb_01 1
+  - first:
+      1: 100126
+    second: Thumb_02
+  - first:
+      1: 100128
+    second: Thumb_02 1
+  - first:
+      1: 100130
+    second: Thumb_03
+  - first:
+      1: 100132
+    second: Thumb_03 1
+  - first:
+      1: 100134
+    second: Toes_L
+  - first:
+      1: 100136
+    second: Toes_R
+  - first:
+      1: 100138
+    second: UpperLeg_L
+  - first:
+      1: 100140
+    second: UpperLeg_R
+  - first:
+      4: 400000
+    second: Ankle_L
+  - first:
+      4: 400002
+    second: Ankle_R
+  - first:
+      4: 400004
+    second: Ball_L
+  - first:
+      4: 400006
+    second: Ball_R
+  - first:
+      4: 400008
+    second: Character_70sFemale_01
+  - first:
+      4: 400010
+    second: Character_BusinessMale_01
+  - first:
+      4: 400012
+    second: Character_GhillieSuit_01
+  - first:
+      4: 400014
+    second: Character_GothFemale_01
+  - first:
+      4: 400016
+    second: Character_MercenaryFemale_01
+  - first:
+      4: 400018
+    second: Character_MercenaryMale_01
+  - first:
+      4: 400020
+    second: Character_MilitaryFemale_01
+  - first:
+      4: 400022
+    second: Character_MilitaryMale_01
+  - first:
+      4: 400024
+    second: Character_RedneckMale_01
+  - first:
+      4: 400026
+    second: Character_SportsBraFemale_01
+  - first:
+      4: 400028
+    second: Character_SportyFemale_01
+  - first:
+      4: 400030
+    second: Character_SportyFemale_02
+  - first:
+      4: 400032
+    second: Character_SportyMale_01
+  - first:
+      4: 400034
+    second: Character_SportyMale_02
+  - first:
+      4: 400036
+    second: Character_ToplessMale_01
+  - first:
+      4: 400038
+    second: //RootNode
+  - first:
+      4: 400040
+    second: Clavicle_L
+  - first:
+      4: 400042
+    second: Clavicle_R
+  - first:
+      4: 400044
+    second: Elbow_L
+  - first:
+      4: 400046
+    second: Elbow_R
+  - first:
+      4: 400048
+    second: Eyebrows
+  - first:
+      4: 400050
+    second: Eyes
+  - first:
+      4: 400052
+    second: Finger_01
+  - first:
+      4: 400054
+    second: Finger_01 1
+  - first:
+      4: 400056
+    second: Finger_02
+  - first:
+      4: 400058
+    second: Finger_02 1
+  - first:
+      4: 400060
+    second: Finger_03
+  - first:
+      4: 400062
+    second: Finger_03 1
+  - first:
+      4: 400064
+    second: Finger_04
+  - first:
+      4: 400066
+    second: Finger_04 1
+  - first:
+      4: 400068
+    second: Hand_L
+  - first:
+      4: 400070
+    second: Hand_R
+  - first:
+      4: 400072
+    second: Head
+  - first:
+      4: 400074
+    second: Hips
+  - first:
+      4: 400076
+    second: IndexFinger_01
+  - first:
+      4: 400078
+    second: IndexFinger_01 1
+  - first:
+      4: 400080
+    second: IndexFinger_02
+  - first:
+      4: 400082
+    second: IndexFinger_02 1
+  - first:
+      4: 400084
+    second: IndexFinger_03
+  - first:
+      4: 400086
+    second: IndexFinger_03 1
+  - first:
+      4: 400088
+    second: IndexFinger_04
+  - first:
+      4: 400090
+    second: IndexFinger_04 1
+  - first:
+      4: 400092
+    second: LowerLeg_L
+  - first:
+      4: 400094
+    second: LowerLeg_R
+  - first:
+      4: 400096
+    second: Neck
+  - first:
+      4: 400098
+    second: Root
+  - first:
+      4: 400100
+    second: Shoulder_L
+  - first:
+      4: 400102
+    second: Shoulder_R
+  - first:
+      4: 400104
+    second: SM_Char_Attach_Female_Armor_01
+  - first:
+      4: 400106
+    second: SM_Char_Attach_Female_Armor_02
+  - first:
+      4: 400108
+    second: SM_Char_Attach_Female_Armor_03
+  - first:
+      4: 400110
+    second: SM_Char_Attach_Male_Armor_01
+  - first:
+      4: 400112
+    second: SM_Char_Attach_Male_Armor_02
+  - first:
+      4: 400114
+    second: SM_Char_Attach_Male_Armor_03
+  - first:
+      4: 400116
+    second: Spine_01
+  - first:
+      4: 400118
+    second: Spine_02
+  - first:
+      4: 400120
+    second: Spine_03
+  - first:
+      4: 400122
+    second: Thumb_01
+  - first:
+      4: 400124
+    second: Thumb_01 1
+  - first:
+      4: 400126
+    second: Thumb_02
+  - first:
+      4: 400128
+    second: Thumb_02 1
+  - first:
+      4: 400130
+    second: Thumb_03
+  - first:
+      4: 400132
+    second: Thumb_03 1
+  - first:
+      4: 400134
+    second: Toes_L
+  - first:
+      4: 400136
+    second: Toes_R
+  - first:
+      4: 400138
+    second: UpperLeg_L
+  - first:
+      4: 400140
+    second: UpperLeg_R
+  - first:
+      43: 4300000
+    second: Character_SportyMale_01
+  - first:
+      43: 4300002
+    second: Character_MercenaryMale_01
+  - first:
+      43: 4300004
+    second: Character_ToplessMale_01
+  - first:
+      43: 4300006
+    second: Character_MilitaryMale_01
+  - first:
+      43: 4300008
+    second: Character_SportyMale_02
+  - first:
+      43: 4300010
+    second: Character_RedneckMale_01
+  - first:
+      43: 4300012
+    second: Character_BusinessMale_01
+  - first:
+      43: 4300014
+    second: Character_70sFemale_01
+  - first:
+      43: 4300016
+    second: Character_SportyFemale_02
+  - first:
+      43: 4300018
+    second: Character_SportyFemale_01
+  - first:
+      43: 4300020
+    second: Character_MercenaryFemale_01
+  - first:
+      43: 4300022
+    second: Character_MilitaryFemale_01
+  - first:
+      43: 4300024
+    second: Character_SportsBraFemale_01
+  - first:
+      43: 4300026
+    second: Character_GothFemale_01
+  - first:
+      43: 4300028
+    second: SM_Char_Attach_Male_Armor_01
+  - first:
+      43: 4300030
+    second: SM_Char_Attach_Male_Armor_02
+  - first:
+      43: 4300032
+    second: SM_Char_Attach_Male_Armor_03
+  - first:
+      43: 4300034
+    second: SM_Char_Attach_Female_Armor_01
+  - first:
+      43: 4300036
+    second: SM_Char_Attach_Female_Armor_02
+  - first:
+      43: 4300038
+    second: SM_Char_Attach_Female_Armor_03
+  - first:
+      43: 4300040
+    second: Character_GhillieSuit_01
+  - first:
+      74: 7400000
+    second: Take 001
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Character_70sFemale_01
+  - first:
+      137: 13700002
+    second: Character_BusinessMale_01
+  - first:
+      137: 13700004
+    second: Character_GhillieSuit_01
+  - first:
+      137: 13700006
+    second: Character_GothFemale_01
+  - first:
+      137: 13700008
+    second: Character_MercenaryFemale_01
+  - first:
+      137: 13700010
+    second: Character_MercenaryMale_01
+  - first:
+      137: 13700012
+    second: Character_MilitaryFemale_01
+  - first:
+      137: 13700014
+    second: Character_MilitaryMale_01
+  - first:
+      137: 13700016
+    second: Character_RedneckMale_01
+  - first:
+      137: 13700018
+    second: Character_SportsBraFemale_01
+  - first:
+      137: 13700020
+    second: Character_SportyFemale_01
+  - first:
+      137: 13700022
+    second: Character_SportyFemale_02
+  - first:
+      137: 13700024
+    second: Character_SportyMale_01
+  - first:
+      137: 13700026
+    second: Character_SportyMale_02
+  - first:
+      137: 13700028
+    second: Character_ToplessMale_01
+  - first:
+      137: 13700030
+    second: SM_Char_Attach_Female_Armor_01
+  - first:
+      137: 13700032
+    second: SM_Char_Attach_Female_Armor_02
+  - first:
+      137: 13700034
+    second: SM_Char_Attach_Female_Armor_03
+  - first:
+      137: 13700036
+    second: SM_Char_Attach_Male_Armor_01
+  - first:
+      137: 13700038
+    second: SM_Char_Attach_Male_Armor_02
+  - first:
+      137: 13700040
+    second: SM_Char_Attach_Male_Armor_03
+  externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Avatar creation failed:\n\tTransform 'Armature' not found in
+      HumanDescription.\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
@@ -220,13 +596,23 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -236,12 +622,16 @@ ModelImporter:
     normalSmoothAngle: 0
     normalImportMode: 1
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human:
-    - boneName: Hips
+    - boneName: Root
       humanName: Hips
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -567,140 +957,185 @@ ModelImporter:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_70sFemale_01
+    - name: SM_Chr_Biker_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_BusinessMale_01
+    - name: SM_Chr_Business_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_GhillieSuit_01
+    - name: SM_Chr_Cool_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_GothFemale_01
+    - name: SM_Chr_Cool_Male_01
+      parentName: Characters(Clone)
+      position: {x: -15.698556, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Criminal_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_MercenaryFemale_01
+    - name: SM_Chr_Eastern_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_MercenaryMale_01
+    - name: SM_Chr_Emo_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_MilitaryFemale_01
+    - name: SM_Chr_Hazmat_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_MilitaryMale_01
+    - name: SM_Chr_Homeless_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_RedneckMale_01
+    - name: SM_Chr_Hunter_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_SportsBraFemale_01
+    - name: SM_Chr_Islander_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_SportyFemale_01
+    - name: SM_Chr_Mechanic_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_SportyFemale_02
+    - name: SM_Chr_Nerd_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_SportyMale_01
+    - name: SM_Chr_Nun_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_SportyMale_02
+    - name: SM_Chr_Patient_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_ToplessMale_01
+    - name: SM_Chr_Press_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: SM_Char_Attach_Female_Armor_01
+    - name: SM_Chr_Punk_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: SM_Char_Attach_Female_Armor_02
+    - name: SM_Chr_RiotCop_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: SM_Char_Attach_Female_Armor_03
+    - name: SM_Chr_Scout_Female_01
+      parentName: Characters(Clone)
+      position: {x: -4.2011557, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Sheriff_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: SM_Char_Attach_Male_Armor_01
+    - name: SM_Chr_Soldier_Female_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: SM_Char_Attach_Male_Armor_02
+    - name: SM_Chr_Soldier_Male_01
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: SM_Char_Attach_Male_Armor_03
+    - name: SM_Chr_Teen_Female_01
+      parentName: Characters(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Teen_Male_01
+      parentName: Characters(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Waitress_Female_01
+      parentName: Characters(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Wanderer_Male_01
+      parentName: Characters(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Zombie_Female_01
+      parentName: Characters(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Zombie_Female_02
+      parentName: Characters(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Zombie_Male_01
+      parentName: Characters(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SM_Chr_Zombie_Male_02
       parentName: Characters(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Root
       parentName: Characters(Clone)
-      position: {x: -0, y: 0, z: 0}
+      position: {x: 0, y: 0.028015926, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Hips
       parentName: Root
-      position: {x: 0, y: 0.904292, z: 0}
+      position: {x: -0, y: 0.8762761, z: 0}
       rotation: {x: 0.46113664, y: -0.5360532, z: -0.46113664, w: 0.5360532}
       scale: {x: 1, y: 1, z: 1}
     - name: Spine_01
       parentName: Hips
       position: {x: -0.10393265, y: 1.3322676e-17, z: 4.6155368e-17}
-      rotation: {x: 0.9950197, y: -0.09967895, z: 1.3224718e-15, w: 7.094358e-17}
+      rotation: {x: 0.9950197, y: -0.09967895, z: 1.2986438e-15, w: 6.855654e-17}
       scale: {x: 1, y: 1, z: 1}
     - name: Spine_02
       parentName: Spine_01
       position: {x: -0.18151169, y: 1.5543122e-17, z: -7.101073e-17}
-      rotation: {x: 0.99518615, y: -0.098002784, z: -6.023971e-16, w: -1.2085069e-16}
+      rotation: {x: 0.99518615, y: -0.098002784, z: -6.0366487e-16, w: -1.2097554e-16}
       scale: {x: 1, y: 1, z: 1}
     - name: Spine_03
       parentName: Spine_02
       position: {x: -0.17903724, y: 2.2204459e-17, z: 7.509725e-17}
-      rotation: {x: 0.9938103, y: -0.11109032, z: -1.5071849e-16, w: -7.846136e-17}
+      rotation: {x: 0.9938103, y: -0.11109032, z: -7.955034e-16, w: -1.5053684e-16}
       scale: {x: 1, y: 1, z: 1}
     - name: Neck
       parentName: Spine_03
       position: {x: -0.111889675, y: -6.661338e-18, z: -4.6244128e-17}
-      rotation: {x: -4.8210167e-16, y: 1.274878e-15, z: 0.04173335, w: 0.9991288}
+      rotation: {x: 7.053966e-17, y: 1.3040385e-15, z: 0.04173335, w: 0.9991288}
       scale: {x: 1, y: 1, z: 1}
     - name: Head
       parentName: Neck
@@ -715,6 +1150,11 @@ ModelImporter:
     - name: Eyebrows
       parentName: Head
       position: {x: 2.5243548e-31, y: 0.1276692, z: 0.12272215}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Jaw
+      parentName: Head
+      position: {x: -0.000045919798, y: 0.06247511, z: 0.02164003}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Clavicle_L
@@ -810,7 +1250,7 @@ ModelImporter:
     - name: Hand_R
       parentName: Elbow_R
       position: {x: 0.2711449, y: -2.842171e-16, z: 0.00038136088}
-      rotation: {x: -1.0083177e-16, y: -0.035830766, z: -1.1722682e-15, w: 0.9993579}
+      rotation: {x: -9.685131e-17, y: -0.035830766, z: -1.0612489e-15, w: 0.9993579}
       scale: {x: 1, y: 1, z: 1}
     - name: Thumb_01 1
       parentName: Hand_R
@@ -885,12 +1325,12 @@ ModelImporter:
     - name: Ball_R
       parentName: Ankle_R
       position: {x: -0.112840354, y: -1.1546319e-16, z: -2.113351e-17}
-      rotation: {x: -7.4757063e-16, y: 1.1439642e-15, z: -0.2700158, w: 0.96285594}
+      rotation: {x: -8.012619e-16, y: 1.2480334e-15, z: -0.2700158, w: 0.96285594}
       scale: {x: 1, y: 1, z: 1}
     - name: Toes_R
       parentName: Ball_R
       position: {x: -0.07295756, y: 2.040087e-18, z: 3.4087125e-18}
-      rotation: {x: 1.8856444e-14, y: -0.7071068, z: 1.8856444e-14, w: 0.7071068}
+      rotation: {x: 1.9013454e-14, y: -0.7071068, z: 1.9013454e-14, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
     - name: UpperLeg_L
       parentName: Hips
@@ -910,7 +1350,7 @@ ModelImporter:
     - name: Ball_L
       parentName: Ankle_L
       position: {x: 0.112840325, y: -0.00000001684957, z: -7.105427e-17}
-      rotation: {x: 3.533937e-15, y: 4.8918194e-15, z: -0.2700158, w: 0.96285594}
+      rotation: {x: 3.3983913e-15, y: 4.813244e-15, z: -0.2700158, w: 0.96285594}
       scale: {x: 1, y: 1, z: 1}
     - name: Toes_L
       parentName: Ball_L
@@ -924,14 +1364,17 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: ffdfcb810f2918b4f8fe9f917f07bc78,
+    type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 2
   additionalBone: 0
   userData: 
   assetBundleName: 
