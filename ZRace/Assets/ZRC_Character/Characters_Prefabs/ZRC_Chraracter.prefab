@@ -11623,16 +11623,18 @@ MonoBehaviour:
         - HutongGames.PlayMaker.Actions.SetParent
         - HutongGames.PlayMaker.Actions.SetParent
         - HutongGames.PlayMaker.Actions.SetParent
+        - HutongGames.PlayMaker.Actions.SetParent
         customNames:
         - 
         - 
         - 
         - 
         - 
-        actionEnabled: 0101010101
-        actionIsOpen: 0000000001
-        actionStartIndex: 0000000004000000080000000c00000010000000
-        actionHashCodes: ea32a105ea32a105ea32a105ea32a105ea32a105
+        - 
+        actionEnabled: 010101010101
+        actionIsOpen: 000000000000
+        actionStartIndex: 0000000004000000080000000c0000001000000014000000
+        actionHashCodes: ea32a105ea32a105ea32a105ea32a105ea32a105ea32a105
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 0
@@ -11641,12 +11643,6 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: {fileID: 1795181284595260804}
-        - useVariable: 0
-          name: 
-          tooltip: 
-          showInInspector: 0
-          networkSync: 0
-          value: {fileID: 1794926092778163160}
         - useVariable: 0
           name: 
           tooltip: 
@@ -11665,6 +11661,18 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: {fileID: 1794926092778163160}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1796232007576612138}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1795319958636583550}
         fsmOwnerDefaultParams:
         - ownerOption: 1
           gameObject:
@@ -11674,14 +11682,6 @@ MonoBehaviour:
             showInInspector: 0
             networkSync: 0
             value: {fileID: 2468252609375831958}
-        - ownerOption: 1
-          gameObject:
-            useVariable: 0
-            name: 
-            tooltip: 
-            showInInspector: 0
-            networkSync: 0
-            value: {fileID: 1672930286496534627}
         - ownerOption: 1
           gameObject:
             useVariable: 0
@@ -11706,6 +11706,22 @@ MonoBehaviour:
             showInInspector: 0
             networkSync: 0
             value: {fileID: 8369712528474627827}
+        - ownerOption: 1
+          gameObject:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 7041738698770737414}
+        - ownerOption: 1
+          gameObject:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 8261123366590300891}
         animationCurveParams: []
         functionCallParams: []
         fsmTemplateControlParams: []
@@ -11780,6 +11796,18 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -11791,7 +11819,7 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 1400000013000000110000001100000014000000130000001100000011000000140000001300000011000000110000001400000013000000110000001100000014000000130000001100000011000000
+        paramDataType: 140000001300000011000000110000001400000013000000110000001100000014000000130000001100000011000000140000001300000011000000110000001400000013000000110000001100000014000000130000001100000011000000
         paramName:
         - gameObject
         - parent
@@ -11813,8 +11841,12 @@ MonoBehaviour:
         - parent
         - resetLocalPosition
         - resetLocalRotation
-        paramDataPos: 0000000000000000000000000100000001000000010000000200000003000000020000000200000004000000050000000300000003000000060000000700000004000000040000000800000009000000
-        paramByteDataSize: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        - gameObject
+        - parent
+        - resetLocalPosition
+        - resetLocalRotation
+        paramDataPos: 000000000000000000000000010000000100000001000000020000000300000002000000020000000400000005000000030000000300000006000000070000000400000004000000080000000900000005000000050000000a0000000b000000
+        paramByteDataSize: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     events: []
     globalTransitions: []
     variables:
@@ -21941,7 +21973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3341116508312977114
 Transform:
   m_ObjectHideFlags: 0
@@ -22110,7 +22142,7 @@ MonoBehaviour:
         - 
         - 
         actionEnabled: 010101010101
-        actionIsOpen: 010101010101
+        actionIsOpen: 000000000101
         actionStartIndex: 0000000004000000080000000c0000001000000014000000
         actionHashCodes: ea32a105ea32a105ea32a105ea32a105ea32a105ea32a105
         unityObjectParams: []
@@ -28523,13 +28555,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3527316953267605873}
-  m_LocalRotation: {x: 0.0135552585, y: -0.03464347, z: -0.043480963, w: 0.99836147}
-  m_LocalPosition: {x: 0.20684382, y: 1.3541396, z: -0.060251206}
+  m_LocalRotation: {x: 0.036529746, y: -0.022537656, z: 0.08072454, w: 0.9958119}
+  m_LocalPosition: {x: 0.24, y: 1.351, z: -0.060251206}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1801080470565927710}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -178.227, y: 32.020996, z: -4.404999}
+  m_LocalEulerAnglesHint: {x: 4.381, y: -2.2410002, z: 9.183001}
 --- !u!33 &3495013227985135917
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -30187,13 +30219,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3898367866599888743}
-  m_LocalRotation: {x: 0.0031082476, y: -0.010562897, z: -0.0056992616, w: -0.9999232}
-  m_LocalPosition: {x: -0.21153897, y: 1.354136, z: -0.05142194}
+  m_LocalRotation: {x: 0.0015166799, y: 0.0008734096, z: 0.030816495, w: -0.9995235}
+  m_LocalPosition: {x: -0.231, y: 1.354136, z: -0.05142194}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1801080470565927710}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 29.213001, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.177, y: -0.095000006, z: -3.532}
 --- !u!33 &3920425073061452915
 MeshFilter:
   m_ObjectHideFlags: 0
