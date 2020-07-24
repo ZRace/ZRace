@@ -79,3 +79,5 @@ MonoBehaviour:
   - TO_IDLE
   - Tarjet_lost
   - Tarjet_find
+  - ExitCar
+  - EntreCar
