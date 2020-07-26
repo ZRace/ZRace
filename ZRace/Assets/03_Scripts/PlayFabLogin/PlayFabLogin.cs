@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayFabLogin : MonoBehaviour
 {
+	public string isOnline;
+
 	[Tooltip("Input field of register email")]
 	[HideInInspector] public TMP_InputField regEmail;
 	[Tooltip("Input field of register username")]
@@ -20,8 +22,6 @@ public class PlayFabLogin : MonoBehaviour
 	[HideInInspector] public TMP_InputField logUsername;
 	[Tooltip("Input field of log in Password")]
 	[HideInInspector] public TMP_InputField logPassword;
-	[Tooltip("If number it's 0 = no online, else if number it's 1 = online")]
-	[HideInInspector] public int isOnline;
 
 
 	[Tooltip("Text for error messages")]
@@ -146,51 +146,10 @@ public class PlayFabLogin : MonoBehaviour
 		print("<color=#00bc04>" + "Inicio de sesión válido" + "</color>");
 		playFabID = obj.PlayFabId;
 
-		var request = new GetPlayerStatisticsRequest();
-
-		request.StatisticNames = new List<string>() { "isOnline" };
-
-
-		PlayFabClientAPI.GetPlayerStatistics(request, OnOnlineResult, OnOnlineError);
-
-	}
-
-	private void OnOnlineResult(GetPlayerStatisticsResult obj)
-	{
-		foreach(var stat in obj.Statistics)
-		{
-			isOnline = stat.Value;
-		}
-		
-		if (isOnline == 0)
-		{
-			isOnline = 1;
-			var request = new UpdatePlayerStatisticsRequest();
-
-			request.Statistics = new List<StatisticUpdate>();
-
-			var stat = new StatisticUpdate { StatisticName = "isOnline", Value = isOnline };
-
-			request.Statistics.Add(stat);
-			PlayFabClientAPI.UpdatePlayerStatistics(request, Continue, OnPlayFabError);
-			//Continue();
-		}
-		else
-		{
-			print("<color=#f51c00>" + "Esta cuenta esta en online" + "</color>");
-			errorText.text = "This account is online.";
-		}
-	}
-
-	private void OnOnlineError(PlayFabError obj)
-	{
-		
-	}
-
-	private void Continue(UpdatePlayerStatisticsResult obj)
-	{
 		GetAccountInfo(); // Llamamos a esta funcion para obtener la informacion del usuario que logea
+
 	}
+
 	#endregion
 
 	#region GetDataUsers
@@ -222,6 +181,42 @@ public class PlayFabLogin : MonoBehaviour
 		PlayFabClientAPI.GetPlayerProfile(request, OnPlayerDataResult, OnPlayFabError);
 	}
 
+	public void GetOnlineStatus()
+	{
+		PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+		{
+			PlayFabId = playFabID,
+			Keys = null
+		}, Result, OnPlayFabError);
+	}
+
+	void Result(GetUserDataResult obj)
+	{
+		if(obj.Data.ContainsKey("IsOnline"))
+		{
+			
+			isOnline = obj.Data["IsOnline"].Value;
+			{
+				if(isOnline == "false")
+				{
+					print("<color=#00bc04>" + "Your account is now online" + "</color>");
+					InfoPlayerCorrect();
+				}
+				else
+				{
+					print("<color=#f51c00>" + "Your account is being used" + "</color>");
+					errorText.text = "Your account is being used.";
+				}
+			}
+		}
+		else
+		{
+			print("<color=#f51c00>" + "You don't have the IsOnline key. Creating the key..." + "</color>");
+			PlayFabCloudScripts.SetUserOnlineState(false);
+			print("<color=#00bc04>" + "The key has been created correctly, it will reconnect automatically." + "</color>");
+			GetOnlineStatus();
+		}
+	}
 	private void OnPlayerDataResult(GetPlayerProfileResult obj)
 	{
 		var myList = obj.PlayerProfile.ContactEmailAddresses;
@@ -234,7 +229,7 @@ public class PlayFabLogin : MonoBehaviour
 		else
 		{
 			print("<color=#00bc04>" + "Your account is verified" + "</color>");
-			InfoPlayerCorrect();
+			GetOnlineStatus();
 		}
 	}
 	#endregion

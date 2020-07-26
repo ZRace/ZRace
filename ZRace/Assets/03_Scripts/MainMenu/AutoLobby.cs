@@ -6,6 +6,7 @@ using Photon.Realtime;
 using TMPro;
 
 using UnityEditor;
+using System;
 
 namespace Photon.Pun.UtilityScripts
 {
@@ -59,14 +60,22 @@ namespace Photon.Pun.UtilityScripts
 
         public void Start()
         {
+            Application.quitting += Application_quitting;
+
+
             if (this.AutoConnect)
             {
                 this.ConnectNow();
             }
         }
 
-        // Conecta a photon con los ajustes y la version que le asignamos
-        public void ConnectNow()
+		private void Application_quitting()
+		{
+            PlayFabCloudScripts.SetUserOnlineState(false);
+		}
+
+		// Conecta a photon con los ajustes y la version que le asignamos
+		public void ConnectNow()
         {
             Debug.Log("ConnectAndJoinRandom.ConnectNow() will now call: PhotonNetwork.ConnectUsingSettings().");
 
@@ -90,6 +99,8 @@ namespace Photon.Pun.UtilityScripts
         // Cuando se conecta a los servicios de Photon
         public override void OnConnectedToMaster()
         {
+            PlayFabCloudScripts.SetUserOnlineState(true);
+
             // Creamos una variable local y esta variable sera iguala la creacion del prefab connections
             // Lo emparentamos
             // Escribimos el texto segun la conexion

@@ -159,7 +159,7 @@ public class PlayFabLoginEditor : Editor
 		EditorGUILayout.PropertyField(contactEmail, new GUIContent("Contact Email:"));
 		EditorGUILayout.PropertyField(playFabID, new GUIContent("ID Username:"));
 		EditorGUILayout.PropertyField(displayName, new GUIContent("Display Name:"));
-		EditorGUILayout.PropertyField(isOnline, new GUIContent("Online Number"));
+		EditorGUILayout.PropertyField(isOnline, new GUIContent("Online Text"));
 		EditorGUILayout.HelpBox("This section can't be changed.", MessageType.Warning);
 		GUILayout.EndVertical();
 		GUILayout.EndVertical();
