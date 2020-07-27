@@ -8,7 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayFabLogin : MonoBehaviour
 {
-	public string isOnline;
+
+	[Tooltip("String variable to set online")]
+	[HideInInspector] public string isOnline = "";
 
 	[Tooltip("Input field of register email")]
 	[HideInInspector] public TMP_InputField regEmail;
@@ -16,6 +18,11 @@ public class PlayFabLogin : MonoBehaviour
 	[HideInInspector] public TMP_InputField regUsername;
 	[Tooltip("Input field of register password")]
 	[HideInInspector] public TMP_InputField regPassword;
+	[Tooltip("Game object after register result. This gameobject will be desactivate after this.")]
+	[HideInInspector] public GameObject panelRegister;
+	[Tooltip("Game object after register result. This gameobject will be activate after this.")]
+	[HideInInspector] public GameObject panelLogIn;
+
 
 
 	[Tooltip("Input field of log in Username")]
@@ -24,8 +31,15 @@ public class PlayFabLogin : MonoBehaviour
 	[HideInInspector] public TMP_InputField logPassword;
 
 
+	public GameObject panelRecover;
+	public TMP_InputField requestEmail;
+	public TextMeshProUGUI textEmailSend;
+
+
+
 	[Tooltip("Text for error messages")]
 	[HideInInspector] public TextMeshProUGUI errorText;
+	[HideInInspector] public bool onError;
 
 
 	[Tooltip("String variable to save ID of user")]
@@ -80,6 +94,7 @@ public class PlayFabLogin : MonoBehaviour
 
 	private void OnPlayFabError(PlayFabError obj)
 	{
+		onError = true;
 		print("Type of error: " + "<color=#f51c00>" + obj.Error + "</color>");
 		errorText.text = obj.Error.ToString();
 
@@ -90,7 +105,7 @@ public class PlayFabLogin : MonoBehaviour
 		switch(obj.Error)
 		{
 			case PlayFabErrorCode.InvalidParams:
-				output = "Email is wrong";
+				output = "Password is wrong";
 				break;
 			case PlayFabErrorCode.AccountBanned:
 				output = "Your account it's banned";
@@ -115,6 +130,9 @@ public class PlayFabLogin : MonoBehaviour
 				break;
 			case PlayFabErrorCode.EmailAddressNotAvailable:
 				output = "This email not available";
+				break;
+			case PlayFabErrorCode.InvalidEmailAddress:
+				output = "This email does not exist or is incorrect.";
 				break;
 		}
 
@@ -152,6 +170,31 @@ public class PlayFabLogin : MonoBehaviour
 
 	#endregion
 
+	#region RecoverPassword
+
+	public void RecoverPassword()
+	{
+		string text = requestEmail.text;
+
+		if (text != "")
+		{
+			var request = new SendAccountRecoveryEmailRequest();
+			request.Email = text;
+			request.TitleId = "16175";
+
+			PlayFabClientAPI.SendAccountRecoveryEmail(request, OnRecoveryEmailSucces, OnPlayFabError);
+		}
+	}
+
+	private void OnRecoveryEmailSucces(SendAccountRecoveryEmailResult obj)
+	{
+		textEmailSend.text = "Check the email to recover the password.";
+	}
+
+
+	#endregion
+
+
 	#region GetDataUsers
 	public void AddOrUpdateContactEmail()
 	{
@@ -164,6 +207,8 @@ public class PlayFabLogin : MonoBehaviour
 	private void OnContactEmailResult(AddOrUpdateContactEmailResult obj)
 	{
 		print("<color=#00bc04>" + "Your email addres has been added to the contact email" + "</color>");
+		panelLogIn.SetActive(true);
+		panelRegister.SetActive(false);
 	}
 
 

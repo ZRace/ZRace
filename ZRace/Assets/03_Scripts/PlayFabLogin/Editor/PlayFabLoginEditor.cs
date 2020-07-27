@@ -10,10 +10,11 @@ public class PlayFabLoginEditor : Editor
 
 
 	SerializedProperty regEmail, regUsername, regPassword, logUsername, logPassword, errorText,
-		contactEmail, playFabID, displayName, loadScene, isOnline;
+		contactEmail, playFabID, displayName, loadScene, isOnline, panelLogIn, panelRegister,
+		panelRecover, requestEmail, textEmailSend;
 
 	int toolbarInt = 0;
-	string[] toolbarString = { "Register", "Log In", "Callbacks Errors" };
+	string[] toolbarString = { "Register", "Log In", "Callbacks Errors", "Recovery" };
 
 	GUISkin _skin = null;
 	GUISkin _original = null;
@@ -27,6 +28,8 @@ public class PlayFabLoginEditor : Editor
 		regUsername = serializedObject.FindProperty("regUsername");
 		regPassword = serializedObject.FindProperty("regPassword");
 		contactEmail = serializedObject.FindProperty("contactEmail");
+		panelLogIn = serializedObject.FindProperty("panelLogIn");
+		panelRegister = serializedObject.FindProperty("panelRegister");
 
 		logUsername = serializedObject.FindProperty("logUsername");
 		logPassword = serializedObject.FindProperty("logPassword");
@@ -34,6 +37,11 @@ public class PlayFabLoginEditor : Editor
 		playFabID = serializedObject.FindProperty("playFabID");
 		displayName = serializedObject.FindProperty("displayName");
 		loadScene = serializedObject.FindProperty("loadScene");
+
+
+		panelRecover = serializedObject.FindProperty("panelRecover");
+		requestEmail = serializedObject.FindProperty("requestEmail");
+		textEmailSend = serializedObject.FindProperty("textEmailSend");
 
 		errorText = serializedObject.FindProperty("errorText");
 	}
@@ -71,6 +79,11 @@ public class PlayFabLoginEditor : Editor
 		{
 			Errors();
 		}
+
+		if (toolbarInt == 3)
+		{
+			Recover();
+		}
 		GUILayout.EndVertical();
 
 		if (EditorGUI.EndChangeCheck())
@@ -81,8 +94,23 @@ public class PlayFabLoginEditor : Editor
 		GUILayout.Space(20);
 
 		GetInfo();
+
 		GUILayout.EndVertical();
 	}
+
+	private void Recover()
+	{
+		GUILayout.BeginVertical(_skin.customStyles[3]);
+		EditorGUILayout.PropertyField(panelRecover);
+		GUILayout.Space(5);
+		EditorGUILayout.PropertyField(requestEmail);
+		GUILayout.Space(5);
+		EditorGUILayout.PropertyField(textEmailSend);
+		GUILayout.Space(5);
+		GUILayout.EndVertical();
+	}
+
+
 
 	private void Register()
 	{
@@ -105,6 +133,9 @@ public class PlayFabLoginEditor : Editor
 		{
 			EditorGUILayout.HelpBox("Select the input field for password.", MessageType.Error);
 		}
+		EditorGUILayout.PropertyField(panelLogIn);
+		GUILayout.Space(5);
+		EditorGUILayout.PropertyField(panelRegister);
 		EditorGUILayout.HelpBox("In this section you only need to select the input fields of the registration panel (text mesh pro).", MessageType.None);
 
 		GUILayout.EndVertical();

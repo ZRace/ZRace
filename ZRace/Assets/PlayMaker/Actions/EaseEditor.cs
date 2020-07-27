@@ -1,4 +1,4 @@
-﻿// #define DEBUG_EASEEDITOR
+﻿// #define DEBUG_EASE_EDITOR
 
 #if UNITY_EDITOR
 
@@ -88,12 +88,17 @@ namespace HutongGames
 
 	        if (ease == EasingFunction.Ease.CustomCurve) return;
 
-	        var area = ActionHelpers.GetControlPreviewRect(40f);
+            var func = EasingFunction.GetEasingFunction(ease);
+            var derivFunc = EasingFunction.GetEasingFunctionDerivative(ease);
+
+            if (func == null || derivFunc == null) return;
+
+	        var area = ActionHelpers.GetControlPreviewRect(45f);
 
             // some ease functions overshoot 0 and 1
             // so leave some margins at top/bottom
 
-	        const float overflow = .25f;
+	        const float overflow = .3f;
 	        var yRange = area.height * (1 - 2 * overflow);
 
             // setup the range
@@ -113,9 +118,6 @@ namespace HutongGames
             // draw curve
 
 	        Handles.color = EditorStyles.label.normal.textColor;
-
-	        var func = EasingFunction.GetEasingFunction(ease);
-	        var derivFunc = EasingFunction.GetEasingFunctionDerivative(ease);
 
 	        var numSampleSteps = (int) area.width / 2;
 
@@ -144,9 +146,9 @@ namespace HutongGames
 	            }
 	        }
 
-            // add last point: (1,1)
+            // add last point, to guarantee at least 2 points (e.g., linear)
 
-            pointBuffer[pointIndex] = new Vector3(area.xMax, origin.y - yRange);
+            pointBuffer[pointIndex] = new Vector3(area.xMax, origin.y - func(0,1,1) * yRange);
 	        
 	        // draw the curve
 
@@ -173,7 +175,7 @@ namespace HutongGames
 	        Handles.color = Color.white;
 
 
-#if DEBUG_EASEEDITOR
+#if DEBUG_EASE_EDITOR
 
 // debug the number of points generated when sampling this curve
 

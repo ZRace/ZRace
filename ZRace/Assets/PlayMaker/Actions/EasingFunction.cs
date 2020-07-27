@@ -20,7 +20,7 @@
  * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -53,7 +53,7 @@
  * 
  * float value = func(0, 10, 0.67f);
  * 
- * EasingFunction.EaseingFunc derivativeFunc = GetEasingFunctionDerivative(ease);
+ * EasingFunction.EasingFunc derivativeFunc = GetEasingFunctionDerivative(ease);
  * 
  * float derivativeValue = derivativeFunc(0, 10, 0.67f);
  */
@@ -97,7 +97,8 @@ namespace HutongGames
             EaseInElastic,
             EaseOutElastic,
             EaseInOutElastic,
-            CustomCurve
+            CustomCurve,
+            Punch
         }
 
         private const float NATURAL_LOG_OF_2 = 0.693147181f;
@@ -790,10 +791,40 @@ namespace HutongGames
         public static float CustomCurve(float start, float end, float value)
         {
             if (AnimationCurve == null)
+            {
                 return Mathf.Lerp(start, end, value);
+            }
 
             return Mathf.Lerp(start, end, AnimationCurve.Evaluate(value));
         }
+
+        public static float Punch(float start, float end, float value)
+        {
+            if (value <= 0)
+            {
+                return start;
+            }
+
+            if (value >= 1)
+            {
+                return start;
+            }
+
+            const float p = 0.15f;
+            return Mathf.Pow( 2, -10 * value ) * Mathf.Sin( value * ( 2 * Mathf.PI ) / p );
+
+            //2^(-10*x)*sin(x*(2*pi)/y)
+        }
+
+        public static float PunchD(float start, float end, float value)
+        {
+            const float y = 0.15f;
+            return -(10 * Mathf.Log(2) * y * Mathf.Sin((2 * Mathf.PI * value) / y) - 2 * Mathf.PI * Mathf.Cos((2 * Mathf.PI * value) / y)) / (Mathf.Pow(y * 2, 10 * value));
+
+            //-(10*ln(2)*y*sin((2*pi*x)/y)-2*pi*cos((2*pi*x)/y))/(y*2^(10*x))
+        }
+
+        
 
         public delegate float Function(float s, float e, float v);
 
@@ -807,172 +838,79 @@ namespace HutongGames
         /// <returns>The easing function</returns>
         public static Function GetEasingFunction(Ease easingFunction)
         {
-            if (easingFunction == Ease.CustomCurve)
+            switch (easingFunction)
             {
-                return CustomCurve;
+                case Ease.CustomCurve:
+                    return CustomCurve;
+                case Ease.EaseInQuad:
+                    return EaseInQuad;
+                case Ease.EaseOutQuad:
+                    return EaseOutQuad;
+                case Ease.EaseInOutQuad:
+                    return EaseInOutQuad;
+                case Ease.EaseInCubic:
+                    return EaseInCubic;
+                case Ease.EaseOutCubic:
+                    return EaseOutCubic;
+                case Ease.EaseInOutCubic:
+                    return EaseInOutCubic;
+                case Ease.EaseInQuart:
+                    return EaseInQuart;
+                case Ease.EaseOutQuart:
+                    return EaseOutQuart;
+                case Ease.EaseInOutQuart:
+                    return EaseInOutQuart;
+                case Ease.EaseInQuint:
+                    return EaseInQuint;
+                case Ease.EaseOutQuint:
+                    return EaseOutQuint;
+                case Ease.EaseInOutQuint:
+                    return EaseInOutQuint;
+                case Ease.EaseInSine:
+                    return EaseInSine;
+                case Ease.EaseOutSine:
+                    return EaseOutSine;
+                case Ease.EaseInOutSine:
+                    return EaseInOutSine;
+                case Ease.EaseInExpo:
+                    return EaseInExpo;
+                case Ease.EaseOutExpo:
+                    return EaseOutExpo;
+                case Ease.EaseInOutExpo:
+                    return EaseInOutExpo;
+                case Ease.EaseInCirc:
+                    return EaseInCirc;
+                case Ease.EaseOutCirc:
+                    return EaseOutCirc;
+                case Ease.EaseInOutCirc:
+                    return EaseInOutCirc;
+                case Ease.Linear:
+                    return Linear;
+                case Ease.Spring:
+                    return Spring;
+                case Ease.EaseInBounce:
+                    return EaseInBounce;
+                case Ease.EaseOutBounce:
+                    return EaseOutBounce;
+                case Ease.EaseInOutBounce:
+                    return EaseInOutBounce;
+                case Ease.EaseInBack:
+                    return EaseInBack;
+                case Ease.EaseOutBack:
+                    return EaseOutBack;
+                case Ease.EaseInOutBack:
+                    return EaseInOutBack;
+                case Ease.EaseInElastic:
+                    return EaseInElastic;
+                case Ease.EaseOutElastic:
+                    return EaseOutElastic;
+                case Ease.EaseInOutElastic:
+                    return EaseInOutElastic;
+                case Ease.Punch:
+                    return Punch;
+                default:
+                    return null;
             }
-
-            if (easingFunction == Ease.EaseInQuad)
-            {
-                return EaseInQuad;
-            }
-
-            if (easingFunction == Ease.EaseOutQuad)
-            {
-                return EaseOutQuad;
-            }
-
-            if (easingFunction == Ease.EaseInOutQuad)
-            {
-                return EaseInOutQuad;
-            }
-
-            if (easingFunction == Ease.EaseInCubic)
-            {
-                return EaseInCubic;
-            }
-
-            if (easingFunction == Ease.EaseOutCubic)
-            {
-                return EaseOutCubic;
-            }
-
-            if (easingFunction == Ease.EaseInOutCubic)
-            {
-                return EaseInOutCubic;
-            }
-
-            if (easingFunction == Ease.EaseInQuart)
-            {
-                return EaseInQuart;
-            }
-
-            if (easingFunction == Ease.EaseOutQuart)
-            {
-                return EaseOutQuart;
-            }
-
-            if (easingFunction == Ease.EaseInOutQuart)
-            {
-                return EaseInOutQuart;
-            }
-
-            if (easingFunction == Ease.EaseInQuint)
-            {
-                return EaseInQuint;
-            }
-
-            if (easingFunction == Ease.EaseOutQuint)
-            {
-                return EaseOutQuint;
-            }
-
-            if (easingFunction == Ease.EaseInOutQuint)
-            {
-                return EaseInOutQuint;
-            }
-
-            if (easingFunction == Ease.EaseInSine)
-            {
-                return EaseInSine;
-            }
-
-            if (easingFunction == Ease.EaseOutSine)
-            {
-                return EaseOutSine;
-            }
-
-            if (easingFunction == Ease.EaseInOutSine)
-            {
-                return EaseInOutSine;
-            }
-
-            if (easingFunction == Ease.EaseInExpo)
-            {
-                return EaseInExpo;
-            }
-
-            if (easingFunction == Ease.EaseOutExpo)
-            {
-                return EaseOutExpo;
-            }
-
-            if (easingFunction == Ease.EaseInOutExpo)
-            {
-                return EaseInOutExpo;
-            }
-
-            if (easingFunction == Ease.EaseInCirc)
-            {
-                return EaseInCirc;
-            }
-
-            if (easingFunction == Ease.EaseOutCirc)
-            {
-                return EaseOutCirc;
-            }
-
-            if (easingFunction == Ease.EaseInOutCirc)
-            {
-                return EaseInOutCirc;
-            }
-
-            if (easingFunction == Ease.Linear)
-            {
-                return Linear;
-            }
-
-            if (easingFunction == Ease.Spring)
-            {
-                return Spring;
-            }
-
-            if (easingFunction == Ease.EaseInBounce)
-            {
-                return EaseInBounce;
-            }
-
-            if (easingFunction == Ease.EaseOutBounce)
-            {
-                return EaseOutBounce;
-            }
-
-            if (easingFunction == Ease.EaseInOutBounce)
-            {
-                return EaseInOutBounce;
-            }
-
-            if (easingFunction == Ease.EaseInBack)
-            {
-                return EaseInBack;
-            }
-
-            if (easingFunction == Ease.EaseOutBack)
-            {
-                return EaseOutBack;
-            }
-
-            if (easingFunction == Ease.EaseInOutBack)
-            {
-                return EaseInOutBack;
-            }
-
-            if (easingFunction == Ease.EaseInElastic)
-            {
-                return EaseInElastic;
-            }
-
-            if (easingFunction == Ease.EaseOutElastic)
-            {
-                return EaseOutElastic;
-            }
-
-            if (easingFunction == Ease.EaseInOutElastic)
-            {
-                return EaseInOutElastic;
-            }
-
-            return null;
         }
 
         /// <summary>
@@ -983,167 +921,77 @@ namespace HutongGames
         /// <returns>The derivative function</returns>
         public static Function GetEasingFunctionDerivative(Ease easingFunction)
         {
-            if (easingFunction == Ease.EaseInQuad)
+            switch (easingFunction)
             {
-                return EaseInQuadD;
+                case Ease.EaseInQuad:
+                    return EaseInQuadD;
+                case Ease.EaseOutQuad:
+                    return EaseOutQuadD;
+                case Ease.EaseInOutQuad:
+                    return EaseInOutQuadD;
+                case Ease.EaseInCubic:
+                    return EaseInCubicD;
+                case Ease.EaseOutCubic:
+                    return EaseOutCubicD;
+                case Ease.EaseInOutCubic:
+                    return EaseInOutCubicD;
+                case Ease.EaseInQuart:
+                    return EaseInQuartD;
+                case Ease.EaseOutQuart:
+                    return EaseOutQuartD;
+                case Ease.EaseInOutQuart:
+                    return EaseInOutQuartD;
+                case Ease.EaseInQuint:
+                    return EaseInQuintD;
+                case Ease.EaseOutQuint:
+                    return EaseOutQuintD;
+                case Ease.EaseInOutQuint:
+                    return EaseInOutQuintD;
+                case Ease.EaseInSine:
+                    return EaseInSineD;
+                case Ease.EaseOutSine:
+                    return EaseOutSineD;
+                case Ease.EaseInOutSine:
+                    return EaseInOutSineD;
+                case Ease.EaseInExpo:
+                    return EaseInExpoD;
+                case Ease.EaseOutExpo:
+                    return EaseOutExpoD;
+                case Ease.EaseInOutExpo:
+                    return EaseInOutExpoD;
+                case Ease.EaseInCirc:
+                    return EaseInCircD;
+                case Ease.EaseOutCirc:
+                    return EaseOutCircD;
+                case Ease.EaseInOutCirc:
+                    return EaseInOutCircD;
+                case Ease.Linear:
+                    return LinearD;
+                case Ease.Spring:
+                    return SpringD;
+                case Ease.EaseInBounce:
+                    return EaseInBounceD;
+                case Ease.EaseOutBounce:
+                    return EaseOutBounceD;
+                case Ease.EaseInOutBounce:
+                    return EaseInOutBounceD;
+                case Ease.EaseInBack:
+                    return EaseInBackD;
+                case Ease.EaseOutBack:
+                    return EaseOutBackD;
+                case Ease.EaseInOutBack:
+                    return EaseInOutBackD;
+                case Ease.EaseInElastic:
+                    return EaseInElasticD;
+                case Ease.EaseOutElastic:
+                    return EaseOutElasticD;
+                case Ease.EaseInOutElastic:
+                    return EaseInOutElasticD;
+                case Ease.Punch:
+                    return PunchD;
+                default:
+                    return null;
             }
-
-            if (easingFunction == Ease.EaseOutQuad)
-            {
-                return EaseOutQuadD;
-            }
-
-            if (easingFunction == Ease.EaseInOutQuad)
-            {
-                return EaseInOutQuadD;
-            }
-
-            if (easingFunction == Ease.EaseInCubic)
-            {
-                return EaseInCubicD;
-            }
-
-            if (easingFunction == Ease.EaseOutCubic)
-            {
-                return EaseOutCubicD;
-            }
-
-            if (easingFunction == Ease.EaseInOutCubic)
-            {
-                return EaseInOutCubicD;
-            }
-
-            if (easingFunction == Ease.EaseInQuart)
-            {
-                return EaseInQuartD;
-            }
-
-            if (easingFunction == Ease.EaseOutQuart)
-            {
-                return EaseOutQuartD;
-            }
-
-            if (easingFunction == Ease.EaseInOutQuart)
-            {
-                return EaseInOutQuartD;
-            }
-
-            if (easingFunction == Ease.EaseInQuint)
-            {
-                return EaseInQuintD;
-            }
-
-            if (easingFunction == Ease.EaseOutQuint)
-            {
-                return EaseOutQuintD;
-            }
-
-            if (easingFunction == Ease.EaseInOutQuint)
-            {
-                return EaseInOutQuintD;
-            }
-
-            if (easingFunction == Ease.EaseInSine)
-            {
-                return EaseInSineD;
-            }
-
-            if (easingFunction == Ease.EaseOutSine)
-            {
-                return EaseOutSineD;
-            }
-
-            if (easingFunction == Ease.EaseInOutSine)
-            {
-                return EaseInOutSineD;
-            }
-
-            if (easingFunction == Ease.EaseInExpo)
-            {
-                return EaseInExpoD;
-            }
-
-            if (easingFunction == Ease.EaseOutExpo)
-            {
-                return EaseOutExpoD;
-            }
-
-            if (easingFunction == Ease.EaseInOutExpo)
-            {
-                return EaseInOutExpoD;
-            }
-
-            if (easingFunction == Ease.EaseInCirc)
-            {
-                return EaseInCircD;
-            }
-
-            if (easingFunction == Ease.EaseOutCirc)
-            {
-                return EaseOutCircD;
-            }
-
-            if (easingFunction == Ease.EaseInOutCirc)
-            {
-                return EaseInOutCircD;
-            }
-
-            if (easingFunction == Ease.Linear)
-            {
-                return LinearD;
-            }
-
-            if (easingFunction == Ease.Spring)
-            {
-                return SpringD;
-            }
-
-            if (easingFunction == Ease.EaseInBounce)
-            {
-                return EaseInBounceD;
-            }
-
-            if (easingFunction == Ease.EaseOutBounce)
-            {
-                return EaseOutBounceD;
-            }
-
-            if (easingFunction == Ease.EaseInOutBounce)
-            {
-                return EaseInOutBounceD;
-            }
-
-            if (easingFunction == Ease.EaseInBack)
-            {
-                return EaseInBackD;
-            }
-
-            if (easingFunction == Ease.EaseOutBack)
-            {
-                return EaseOutBackD;
-            }
-
-            if (easingFunction == Ease.EaseInOutBack)
-            {
-                return EaseInOutBackD;
-            }
-
-            if (easingFunction == Ease.EaseInElastic)
-            {
-                return EaseInElasticD;
-            }
-
-            if (easingFunction == Ease.EaseOutElastic)
-            {
-                return EaseOutElasticD;
-            }
-
-            if (easingFunction == Ease.EaseInOutElastic)
-            {
-                return EaseInOutElasticD;
-            }
-
-            return null;
         }
     }
 
