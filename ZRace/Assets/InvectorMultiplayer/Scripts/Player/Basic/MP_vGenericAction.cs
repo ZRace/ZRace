@@ -2,9 +2,11 @@
 using Photon.Pun;
 using Invector.vCharacterController.vActions;
 using Invector.vCharacterController;
+using UnityEngine;
 
 namespace CBGames.Player
 {
+    [AddComponentMenu("CB GAMES/Player/MP Components/MP vGenericAction")]
     public class MP_vGenericAction : vGenericAction
     {
         //protected override void Start()
@@ -18,6 +20,11 @@ namespace CBGames.Player
         //        enabled = false;
         //    }
         //}
+
+        /// <summary>
+        /// Is used to call `AnimatorActionState` RPC which will have the network player
+        /// mimic the action stats of the owner player.
+        /// </summary>
         public override void TriggerAnimation()
         {
             if (playingAnimation || actionStarted) return;
@@ -53,6 +60,11 @@ namespace CBGames.Player
             }
 
         }
+
+        /// <summary>
+        /// Calls `AnimatorActionState` RPC which will have the network player reset
+        /// ther action stat when the owner player does.
+        /// </summary>
         public override void ResetActionState()
         {
             if (triggerAction && triggerAction.resetAnimatorActionState)
@@ -61,11 +73,21 @@ namespace CBGames.Player
                 GetComponent<PhotonView>().RPC("AnimatorActionState", RpcTarget.Others, 0);
             }
         }
+
+        /// <summary>
+        /// Calls the `AnimatorActionState` RPC which will have the network player 
+        /// follow the action stat of the owner player.
+        /// </summary>
         public override void ResetTriggerSettings()
         {
             base.ResetTriggerSettings();
             GetComponent<PhotonView>().RPC("AnimatorActionState", RpcTarget.Others, 0);
         }
+
+        /// <summary>
+        /// Calls `GenericAction_EndAction` RPC which will have the network player
+        /// end its action when the owner player does.
+        /// </summary>
         protected override void EndAction()
         {
             if (GetComponent<PhotonView>().IsMine == true)

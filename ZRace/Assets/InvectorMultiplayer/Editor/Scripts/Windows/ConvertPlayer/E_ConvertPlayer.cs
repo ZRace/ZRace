@@ -66,12 +66,14 @@ namespace CBGames.Editors
 
         private void OnGUI()
         {
+            CBColorHolder _original = new CBColorHolder(EditorStyles.label);
+            CBColorHolder _originalFold = new CBColorHolder(EditorStyles.foldout);
+            CBColorHolder _skinHolder = new CBColorHolder(_skin.label);
             //Apply the gui skin
             GUI.skin = _skin;
 
             //Draw title bar
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_2);
-            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), _titleColor);
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_5);
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Convert Players For Multiplayer Support", _skin.GetStyle("Label"));
 
@@ -103,27 +105,32 @@ namespace CBGames.Editors
                 //Help text
                 EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
                 EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-                EditorGUILayout.LabelField("First select the player object you want to convert. You can either do this manually or choose automatically from the dropdown list.", _skin.GetStyle("TextField"));
+                EditorGUILayout.LabelField("First select the player object you want to convert. You can either do this " +
+                    "manually or choose automatically from the dropdown list.", _skin.textField);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
 
                 //Toggle for adding player name bar or not
-                CB_addNameBar = EditorGUI.ToggleLeft(new Rect(320, 273, 250, 20), "Add Player Name Bar", CB_addNameBar);
-                CB_addVoiceChat = EditorGUI.ToggleLeft(new Rect(320, 293, 250, 20), "Add Voice Chat Support", CB_addVoiceChat);
+                CB_addNameBar = EditorGUI.ToggleLeft(new Rect(320, 273, 250, 20), "Add Player Name Bar", CB_addNameBar, _skin.textField);
+                CB_addVoiceChat = EditorGUI.ToggleLeft(new Rect(320, 293, 250, 20), "Add Voice Chat Support", CB_addVoiceChat, _skin.textField);
 
                 //Player Object Selection / Player Preview Window
-                if (GUI.Button(new Rect(10, 275, 250, 20), "Switch Player Selection Method", _skin.GetStyle("Button")))
+                if (GUI.Button(new Rect(5, 275, 250, 30), "Switch Player Selection Method", _skin.button))
                 {
                     _manualPlayerSelect = !_manualPlayerSelect;
                 }
                 if (_manualPlayerSelect == false && options.Count > 0)
                 {
-                    _autoSelectNumber = EditorGUI.Popup(new Rect(10, 297, 290, 16), "Available Player Objects", _autoSelectNumber, options.ToArray());
+                    CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
+                    _autoSelectNumber = EditorGUI.Popup(new Rect(5, 310, 305, 16), "Available Player Objects:", _autoSelectNumber, options.ToArray());
+                    CBEditor.SetColorToEditorStyle(_original, _originalFold);
                     playerObj = _players[_autoSelectNumber];
                 }
                 else
                 {
-                    playerObj = EditorGUI.ObjectField(new Rect(10, 297, 290, 16), "Player Object:", playerObj, typeof(GameObject), true) as GameObject;
+                    CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
+                    playerObj = EditorGUI.ObjectField(new Rect(5, 310, 310, 16), "Player Object:", playerObj, typeof(GameObject), true) as GameObject;
+                    CBEditor.SetColorToEditorStyle(_original, _originalFold);
                 }
                 if (playerObj != null)
                 {
@@ -133,7 +140,7 @@ namespace CBGames.Editors
                         _previousplayerObj = playerObj;
                     }
                     Selection.activeObject = playerObj;
-                    EditorGUI.DrawRect(new Rect(315, 310, 160, 160), _titleColor);
+                    EditorGUI.DrawRect(new Rect(322, 312, 160, 160), E_Colors.e_c_blue_1);
                     if (_prefabPreview == null || _playerChanged == true)
                     {
                         _prefabPreview = null;
@@ -141,21 +148,21 @@ namespace CBGames.Editors
                     }
                     if (_prefabPreview != null)
                     {
-                        _prefabPreview.OnInteractivePreviewGUI(new Rect(320, 315, 150, 150), "window");
+                        _prefabPreview.OnInteractivePreviewGUI(new Rect(327, 317, 150, 150), "window");
                     }
                 }
                 else
                 {
                     _prefabPreview = null;
                 }
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < 9; i++)
                 {
                     EditorGUILayout.Space();
                 }
-                EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false), GUILayout.Height(155), GUILayout.Width(310));
+                EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false), GUILayout.Height(120), GUILayout.Width(305));
                 EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(false));
                 //Draw Toggles Based on Player Components
-                EditorGUILayout.LabelField("List of found components that will attempt to be converted:", _skin.GetStyle("TextField"));
+                EditorGUILayout.LabelField("List of found components that will attempt to be converted:", _skin.textField);
 
                 if (foundComps.Count == 0 && _prefabPreview != null || _playerChanged == true)
                 {
@@ -166,7 +173,7 @@ namespace CBGames.Editors
 
                 EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
                 EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-                _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos, GUILayout.Height(115));
+                _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos, GUILayout.Height(100));
                 foreach (KeyValuePair<string, Component> item in foundComps)
                 {
                     EditorGUILayout.LabelField(item.Key, _skin.textField);
@@ -213,31 +220,31 @@ namespace CBGames.Editors
                 //Apply Body Title/Description
                 if (_done == false)
                 {
-                    EditorGUI.LabelField(new Rect(10, 40, 480, 50), "Converting, please wait...", _skin.GetStyle("Label"));
+                    EditorGUI.LabelField(new Rect(10, 40, 480, 50), "Converting, please wait...", _skin.label);
                 }
                 else
                 {
-                    EditorGUI.LabelField(new Rect(10, 40, 480, 50), "Completed! You can close this window anytime.", _skin.GetStyle("Label"));
+                    EditorGUI.LabelField(new Rect(10, 40, 480, 50), "Completed! You can close this window anytime.", _skin.label);
                 }
 
-                EditorGUI.DrawRect(new Rect(10, 80, position.width - 20, position.height - 160), _titleBoxColor);
+                EditorGUI.DrawRect(new Rect(10, 80, position.width - 20, position.height - 160), E_Colors.e_c_blue_4);
                 _prefabPreview.OnInteractivePreviewGUI(new Rect(position.width - 170, 90, 150, 150), "window");
                 if (_done == false)
                 {
                     EditorGUI.DrawRect(new Rect(position.width - 170, 215, 150, 25), _convertColor);
-                    EditorGUI.LabelField(new Rect(position.width - 125, 215, 150, 25), "Converting...", _skin.GetStyle("TextField"));
+                    EditorGUI.LabelField(new Rect(position.width - 125, 215, 150, 25), "Converting...", _skin.textField);
                 }
                 else
                 {
                     if (_errorsOccured == false)
                     {
                         EditorGUI.DrawRect(new Rect(position.width - 170, 215, 150, 25), _convertSuccessColor);
-                        EditorGUI.LabelField(new Rect(position.width - 115, 215, 150, 25), "Success!", _skin.GetStyle("TextField"));
+                        EditorGUI.LabelField(new Rect(position.width - 115, 215, 150, 25), "Success!", _skin.textField);
                     }
                     else
                     {
                         EditorGUI.DrawRect(new Rect(position.width - 170, 215, 150, 25), _convertErrorColor);
-                        EditorGUI.LabelField(new Rect(position.width - 130, 215, 150, 25), "Error Occured!", _skin.GetStyle("TextField"));
+                        EditorGUI.LabelField(new Rect(position.width - 130, 215, 150, 25), "Error Occured!", _skin.textField);
                     }
                 }
 

@@ -442,7 +442,6 @@ namespace CBGames.Editors
             }
             catch
             {
-                Debug.Log("FAILED READING: " + path);
                 return false;
             }
         }

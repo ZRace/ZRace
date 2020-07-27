@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Objects/Sync Item Collection")]
     [RequireComponent(typeof(PhotonView))]
     [DisallowMultipleComponent]
     public class SyncItemCollection : MonoBehaviour
@@ -38,12 +39,18 @@ namespace CBGames.Objects
         [Tooltip("This should be copied exactly from vItemCollection.")]
         public float onPressActionDelay;
 
+        [Tooltip("UnityEvent, called when you press the action button.")]
         public UnityEvent OnPressActionInput;
+        [Tooltip("UnityEvent, called when you press the action button with a gameobject.")]
         public OnDoActionWithTarget onPressActionInputWithTarget;
+        [Tooltip("UnityEvent, call when you first enter a room and the `DoScenesReplay` " +
+            "from the NetworkManager indicates this object has had actions performed on it " +
+            "by another player previously.")]
         public UnityEvent OnSceneEnterUpdate;
 
         protected vItemCollection ic = null;
         protected bool collected = false;
+        [Tooltip("The list of items this object has.")]
         [SerializeField] List<ItemReference> references = new List<ItemReference>();
         #endregion
 
@@ -52,6 +59,13 @@ namespace CBGames.Objects
         {
             ic = (ic == null) ? GetComponent<vItemCollection>() : ic;
         }
+        /// <summary>
+        /// Wehn first started will check to see if this has been instantiated 
+        /// from the owning player with item data. If not it will destroy this 
+        /// object because it was instantiated from Invector and not photon. 
+        /// This is to prevent duplicates appearing for the player that 
+        /// originally dropped this.
+        /// </summary>
         protected virtual void Start()
         {
             if (skipStartCheck == false)
@@ -71,6 +85,11 @@ namespace CBGames.Objects
         #endregion
 
         #region SYNC Create/Destroys
+        /// <summary>
+        /// Takes a list of `ItemReference`'s and serializes that list and returns it.
+        /// </summary>
+        /// <param name="items">List<ItemReference> type, the list of items you want to serialize.</param>
+        /// <returns>A serialized version of the input list</returns>
         protected virtual string[] SerializeItems(List<ItemReference> items)
         {
             string[] data = new string[1];
@@ -78,15 +97,36 @@ namespace CBGames.Objects
             data[0] = JsonUtility.ToJson(wrapper);
             return data;
         }
+
+        /// <summary>
+        /// Takes a serialized List<ItemReference> and converts it back to a list
+        /// from a string.
+        /// </summary>
+        /// <param name="serializedItems"></param>
+        /// <returns>returns the original List<ItemReference></returns>
         public virtual List<ItemReference> ConvertBackToItemRefs(string[] serializedItems)
         {
             ItemWrapper wrapper = JsonUtility.FromJson<ItemWrapper>(serializedItems[0]);
             return wrapper.items;
         }
+
+        /// <summary>
+        /// Calls the `UpdateScenesDatabase` IEnumerator function. This will send the item
+        /// update information over the ChatBox data channel so others entering this 
+        /// scene will see the updates to this list of items.
+        /// </summary>
+        /// <param name="items">List<ItemReference> type, The list of items to set on this itemCollection</param>
         public virtual void UpdateDatabase(List<ItemReference> items)
         {
             StartCoroutine(UpdateScenesDatabase(items));
         }
+
+        /// <summary>
+        /// Send this item and its item list to all other players in the session so when
+        /// they join this scene they will have an up to date accurate item in the
+        /// scene. Done via sending this information over the data channel on the chatbox.
+        /// </summary>
+        /// <param name="items">List<ItemReference> type, the list of items to add to this object</param>
         protected virtual IEnumerator UpdateScenesDatabase(List<ItemReference> items)
         {
             yield return new WaitUntil(() => NetworkManager.networkManager.GetChabox() && NetworkManager.networkManager.GetChabox().IsConnectedToDataChannel() == true);
@@ -107,10 +147,19 @@ namespace CBGames.Objects
         #endregion
 
         #region SYNC Updates
+        /// <summary>
+        /// Calls the `NetworkSceneCollected` RPC for everyone. This calls the `E_OnPressAction` 
+        /// function for everyone.
+        /// </summary>
         public virtual void SceneCollected()
         {
             GetComponent<PhotonView>().RPC("NetworkSceneCollected", RpcTarget.AllBuffered);
         }
+
+        /// <summary>
+        /// Enables/Disables the `vItemCollection` component on this object.
+        /// </summary>
+        /// <param name="isEnabled"></param>
         public virtual void EnableVItemCollection(bool isEnabled)
         {
             GetComponent<vItemCollection>().enabled = isEnabled;
@@ -118,6 +167,11 @@ namespace CBGames.Objects
         #endregion
 
         #region SYNC Update/Create/Delete
+        /// <summary>
+        /// This is designed to be called from the vItemCollection OnPress* UnityEvent.
+        /// This calls `NetworkCollect` RPC and broadcasts the collect command via the
+        /// Chatbox to all those in the session (via `ChatBoxBroadCastCollect` function).
+        /// </summary>
         public virtual void Collect()
         {
             if (collected == false)
@@ -128,6 +182,12 @@ namespace CBGames.Objects
                 StartCoroutine(E_OnPressAction(null, true));
             }
         }
+
+        /// <summary>
+        /// This is designed to be called from the vItemCollection OnPress* UnityEvent.
+        /// This calls `NetworkCollect` RPC and broadcasts the collect command via the
+        /// Chatbox to all those in the session (via `ChatBoxBroadCastCollect` function).
+        /// </summary>
         public virtual void Collect(GameObject target = null)
         {
             if (collected == false)
@@ -144,7 +204,12 @@ namespace CBGames.Objects
                 ChatBoxBroadCastCollect();
                 StartCoroutine(E_OnPressAction(target, true));
             }
-        }       
+        }    
+        
+        /// <summary>
+        /// Sends data via the data channel in the chatbox to everyone in the session to
+        /// tell them that this item has been collected when they entire this unity scene.
+        /// </summary>
         public virtual void ChatBoxBroadCastCollect()
         {
             if (syncCrossScenes == true && NetworkManager.networkManager.GetChabox() && 
@@ -183,6 +248,14 @@ namespace CBGames.Objects
                 }
             }
         }
+
+        /// <summary>
+        /// Used to call the `NetworkDestroySelf` RPC, which destroys this object for 
+        /// everyone currently in the scene and everyone going to enter this scene.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="sendNetwork"></param>
+        /// <returns></returns>
         protected virtual IEnumerator E_OnPressAction(GameObject target = null, bool sendNetwork = true)
         {
             if (onPressActionDelay > 0) yield return new WaitForSeconds(onPressActionDelay);

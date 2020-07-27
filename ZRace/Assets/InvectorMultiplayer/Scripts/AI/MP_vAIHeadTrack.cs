@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Invector
 {
+    [AddComponentMenu("CB GAMES/AI/MP Components/MP vAIHeadTrack")]
     [RequireComponent(typeof(PhotonView))]
     public class MP_vAIHeadTrack : vAIHeadtrack, IPunObservable
     {
@@ -18,18 +19,22 @@ namespace Invector
         #region Network Serialization
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (stream.IsWriting)
+            try
             {
-                stream.SendNext(_currentHeadWeight);
-                stream.SendNext(_currentbodyWeight);
-                stream.SendNext(_lookAtPoint);
+                if (stream.IsWriting)
+                {
+                    stream.SendNext(_currentHeadWeight);
+                    stream.SendNext(_currentbodyWeight);
+                    stream.SendNext(_lookAtPoint);
+                }
+                else if (stream.IsReading)
+                {
+                    _currentHeadWeight = (float)stream.ReceiveNext();
+                    _currentbodyWeight = (float)stream.ReceiveNext();
+                    _lookAtPoint = (Vector3)stream.ReceiveNext();
+                }
             }
-            else if (stream.IsReading)
-            {
-                _currentHeadWeight = (float)stream.ReceiveNext();
-                _currentbodyWeight = (float)stream.ReceiveNext();
-                _lookAtPoint = (Vector3)stream.ReceiveNext();
-            }
+            catch { }
         }
         #endregion
 

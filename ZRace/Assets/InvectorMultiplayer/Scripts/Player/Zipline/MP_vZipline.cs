@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace CBGames.Player
 {
+    [AddComponentMenu("CB GAMES/Player/MP Components/MP vZipline")]
     public class MP_vZipline : vZipLine
     {
         private bool mp_isUsingZipline = false;
@@ -13,6 +14,10 @@ namespace CBGames.Player
         private Transform mp_nearestPoint;
         private vThirdPersonInput mp_tpInput;
 
+        /// <summary>
+        /// Only called by the owner player. Calls the `MP_InitiateZipline` function.
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
             if (GetComponent<PhotonView>().IsMine == true && other.gameObject.CompareTag(ziplineTag) && !mp_isUsingZipline)
@@ -25,6 +30,11 @@ namespace CBGames.Player
             }
         }
 
+
+        /// <summary>
+        /// Only called by the owner player. Calls the `MP_ExitZipline` function.
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerExit(Collider other)
         {
             if (GetComponent<PhotonView>().IsMine == true && other.gameObject.CompareTag(ziplineTag) && mp_isUsingZipline)
@@ -38,6 +48,11 @@ namespace CBGames.Player
             }
         }
 
+        /// <summary>
+        /// Only called by the owner player. Calls `MP_InitiateZipline`, `MP_ExitZipline`, or `MP_UsingZipline`
+        /// based on the current stat of the owner player.
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerStay(Collider other)
         {
             if (GetComponent<PhotonView>().IsMine == true && other.gameObject.CompareTag(ziplineTag))
@@ -55,6 +70,11 @@ namespace CBGames.Player
             }
         }
 
+        /// <summary>
+        /// Sets the animation clip, rigidbody settings, and calls the `NetworkOnZiplineEnter`
+        /// RPC for all networked players.
+        /// </summary>
+        /// <param name="other"></param>
         void MP_InitiateZipline(Collider other)
         {
             if (mp_tpInput && mp_nearestPoint)
@@ -67,6 +87,10 @@ namespace CBGames.Player
             }
         }
 
+        /// <summary>
+        /// Sets the animation, rigidbody settings, and calls the `NetworkOnZiplineExit` RPC for all
+        /// networked players.
+        /// </summary>
         void MP_ExitZipline()
         {
             if (!useExitTrigger) return;
@@ -81,6 +105,10 @@ namespace CBGames.Player
             }
         }
 
+        /// <summary>
+        /// Calls the `NetworkOnZiplineUsing` RPC for all networked players.
+        /// </summary>
+        /// <param name="other"></param>
         void MP_UsingZipline(Collider other)
         {
             if (!mp_isUsingZipline) return;

@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Invector.vCharacterController.AI
 {
+    [AddComponentMenu("CB GAMES/AI/MP Components/MP vAIShooterManager")]
     public class MP_vAIShooterManager : vAIShooterManager
     {
         [HideInInspector] public Vector3 lastAimPos; //Variable is referenced by weapons to know where to fire its projectile
@@ -88,7 +89,7 @@ namespace Invector.vCharacterController.AI
         public override void ReloadWeapon()
         {
             if (GetComponent<PhotonView>().IsMine == false) return;
-            var weapon = currentWeapon;
+            var weapon = CurrentWeapon;
 
             if (!weapon || !weapon.gameObject.activeSelf) return;
 
@@ -155,55 +156,55 @@ namespace Invector.vCharacterController.AI
         void vAIShooterManager_Shoot(int[] treeToWeapon, Vector3 aimPos)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkShot(aimPos);
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkShot(aimPos);
         }
         [PunRPC]
         void vAIShooterManager_ShooterWeaponEmptyClip(int[] treeToWeapon)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkEmptyClip();
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkEmptyClip();
         }
         [PunRPC]
         void vAIShooterManager_ShooterWeaponOnFinishReload(int[] treeToWeapon)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkOnFinishReload();
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkOnFinishReload();
         }
         [PunRPC]
         void vAIShooterManager_ShooterWeaponOnFullPower(int[] treeToWeapon)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkOnFullPower();
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkOnFullPower();
         }
         [PunRPC]
         void vAIShooterManager_ShooterWeaponOnFinishAmmo(int[] treeToWeapon)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkOnFinishAmmo();
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkOnFinishAmmo();
         }
         [PunRPC]
         void vAIShooterManager_ShooterWeaponReload(int[] treeToWeapon)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkReload();
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkReload();
         }
         [PunRPC]
         void vAIShooterManager_ShooterWeaponOnEnableAim(int[] treeToWeapon)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkOnEnableAim();
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkOnEnableAim();
         }
         [PunRPC]
         void vAIShooterManager_ShooterWeaponOnDisableAim(int[] treeToWeapon)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkOnDisableAim();
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkOnDisableAim();
         }
         [PunRPC]
         void vAIShooterManager_ShooterWeaponOnChangerPowerCharger(int[] treeToWeapon, float amount)
         {
             Transform weaponTransform = StaticMethods.FindTargetChild(treeToWeapon, transform);
-            weaponTransform.gameObject.GetComponent<MP_ShooterWeapon>().RecieveNetworkOnChangerPowerCharger(amount);
+            weaponTransform.gameObject.GetComponent<MP_BaseShooterWeapon>().RecieveNetworkOnChangerPowerCharger(amount);
         }
         #endregion
         #endregion

@@ -7,9 +7,13 @@ using System.Collections.Generic;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(NetworkManager), true)]
-    public class NetworkManagerInspector : Editor
+    public class NetworkManagerInspector : BaseEditor
     {
         #region Properties
+        SerializedProperty voiceRecorder;
+        SerializedProperty spawnAtSaved;
+        SerializedProperty connect_attempts;
+        SerializedProperty reconnect;
         SerializedProperty replayScenes;
         SerializedProperty gameVersion;
         SerializedProperty maxPlayerPerRoom;
@@ -36,6 +40,7 @@ namespace CBGames.Inspector
         SerializedProperty onCreatedRoom;
         SerializedProperty onCreateRoomFailed;
         SerializedProperty onJoinRoomFailed;
+        SerializedProperty onReconnecting;
 
         SerializedProperty _playerEvents;
         SerializedProperty onPlayerEnteredRoom;
@@ -55,10 +60,6 @@ namespace CBGames.Inspector
         #endregion
 
         #region CustomEditorVariables
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
-        GUIContent eventContent;
         bool _displayLobbyEvents = true;
         bool _displayRoomEvents = false;
         bool _displayPlayerEvents = false;
@@ -69,9 +70,13 @@ namespace CBGames.Inspector
         string _newTeamSpawn = "";
         #endregion
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             #region Properties
+            voiceRecorder = serializedObject.FindProperty("voiceRecorder");
+            spawnAtSaved = serializedObject.FindProperty("spawnAtSaved");
+            connect_attempts = serializedObject.FindProperty("connect_attempts");
+            reconnect = serializedObject.FindProperty("reconnect");
             replayScenes = serializedObject.FindProperty("replayScenes");
             gameVersion = serializedObject.FindProperty("gameVersion");
             maxPlayerPerRoom = serializedObject.FindProperty("maxPlayerPerRoom");
@@ -101,6 +106,7 @@ namespace CBGames.Inspector
             onCreatedRoom = _roomEvents.FindPropertyRelative("_OnCreatedRoom");
             onCreateRoomFailed = _roomEvents.FindPropertyRelative("_onCreateRoomFailed");
             onJoinRoomFailed = _roomEvents.FindPropertyRelative("_onJoinRoomFailed");
+            onReconnecting = _roomEvents.FindPropertyRelative("_onReconnect");
 
             // // Player Events
             _playerEvents = serializedObject.FindProperty("playerEvents");
@@ -122,318 +128,328 @@ namespace CBGames.Inspector
             cameraCloseEnough = serializedObject.FindProperty("cameraCloseEnough");
             #endregion
 
-            #region Core
-            // Load Skin for reverence
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-            
-            //Load all images
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-            #endregion
-
-            //Unity Event GUIContent
-            eventContent = new GUIContent("Unspecified");
+            base.OnEnable();
         }
 
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             NetworkManager nm = (NetworkManager)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
-
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
-
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_networkIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Network Manager", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("Persistant component that is used to control network events like players joining, disconnects, lobby management, etc.", MessageType.Info);
+            DrawTitleBar(
+                "Network Manager",
+                "Persistant component that is used to control network events like players joining, disconnects, lobby management, etc.",
+                E_Core.h_networkIcon
+            );
             #endregion
 
             #region Universal Settings
-            // Universal Settings
             GUILayout.BeginHorizontal(_skin.customStyles[1]);
             GUILayout.Label(EditorGUIUtility.FindTexture("BuildSettings.Web.Small"), GUILayout.ExpandWidth(false));
             GUILayout.BeginVertical();
             GUILayout.Space(9);
             GUILayout.Label("Universal Settings", _skin.textField);
             GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal(_skin.customStyles[1]);
-            GUILayout.BeginVertical();
-            EditorGUILayout.PropertyField(gameVersion, new GUIContent("Game Version"));
-            GUILayout.BeginHorizontal();
-            if (maxPlayerPerRoom.intValue < 2)
+            if (GUILayout.Button(EditorGUIUtility.FindTexture("d_AnimationWrapModeMenu"), _skin.label, GUILayout.Width(50)))
             {
-                GUILayout.Label(EditorGUIUtility.FindTexture("CollabError"), GUILayout.ExpandWidth(false), GUILayout.Height(15));
+                nm.e_show_unv = !nm.e_show_unv;
             }
-            EditorGUILayout.IntSlider(maxPlayerPerRoom, 0, 255, new GUIContent("Players Per Room"));
             GUILayout.EndHorizontal();
-            EditorGUILayout.PropertyField(syncScenes);
-            EditorGUILayout.PropertyField(replayScenes);
-            EditorGUILayout.PropertyField(database);
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(5);
+            if (nm.e_show_unv)
+            {
+                GUILayout.BeginHorizontal(_skin.customStyles[1]);
+                GUILayout.BeginVertical();
+                EditorGUILayout.PropertyField(gameVersion, new GUIContent("Game Version"));
+                GUILayout.BeginHorizontal();
+                if (maxPlayerPerRoom.intValue < 2)
+                {
+                    GUILayout.Label(EditorGUIUtility.FindTexture("CollabError"), GUILayout.ExpandWidth(false), GUILayout.Height(15));
+                }
+                EditorGUILayout.IntSlider(maxPlayerPerRoom, 0, 255, new GUIContent("Players Per Room"));
+                GUILayout.EndHorizontal();
+                EditorGUILayout.PropertyField(syncScenes);
+                EditorGUILayout.PropertyField(replayScenes);
+                EditorGUILayout.PropertyField(database);
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+            }
+            EditorGUILayout.Space();
             #endregion
 
             #region Player Settings
-            // Player Settings
-            GUILayout.BeginHorizontal(_skin.customStyles[1]);
-            GUILayout.BeginVertical();
-            GUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal(_skin.customStyles[1]);
             GUILayout.Label(EditorGUIUtility.FindTexture("SoftlockInline"), GUILayout.ExpandWidth(false));
             GUILayout.BeginVertical();
             GUILayout.Space(10);
             GUILayout.Label("Player Settings", _skin.GetStyle("TextField"));
             GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal(_skin.customStyles[1]);
-            if (nm.playerPrefab == null)
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(EditorGUIUtility.FindTexture("d_AnimationWrapModeMenu"), _skin.label, GUILayout.Width(50)))
             {
-                GUILayout.Label(EditorGUIUtility.FindTexture("CollabError"), GUILayout.ExpandWidth(false), GUILayout.Height(15));
+                nm.e_show_player = !nm.e_show_player;
             }
-            EditorGUILayout.PropertyField(playerPrefab, new GUIContent("Player Prefab"));
-            GUILayout.EndHorizontal();
-            EditorGUILayout.PropertyField(allowTeamDamaging);
-            EditorGUILayout.HelpBox("Read the tooltip before setting the team name.", MessageType.Info);
-            EditorGUILayout.PropertyField(teamName);
+            EditorGUILayout.EndHorizontal();
 
-            GUI.skin = _original;
-            _displayTeams = EditorGUILayout.Foldout(_displayTeams, "Initial Team Spawn Point Names");
-            GUI.skin = _skin;
-            if (_displayTeams == true)
+            if (nm.e_show_player)
             {
-                EditorGUILayout.BeginHorizontal(_skin.box);
-                EditorGUILayout.BeginVertical();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.Space();
-                EditorGUILayout.Space();
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Team Name", GUILayout.Width(73));
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.LabelField("Starting Spawn Name", GUILayout.Width(130));
-                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal(_skin.customStyles[1]);
+                GUILayout.BeginVertical();
+                EditorGUILayout.PropertyField(playerPrefab);
+                EditorGUILayout.PropertyField(voiceRecorder);
+                EditorGUILayout.PropertyField(allowTeamDamaging);
+                EditorGUILayout.HelpBox("Read the tooltip before setting the team name.", MessageType.Info);
+                EditorGUILayout.PropertyField(teamName);
 
-                EditorGUILayout.BeginHorizontal();
                 GUI.skin = _original;
-                if (GUILayout.Button(new GUIContent("+")))
-                {
-                    _addNewTeam = true;
-                }
+                GUIStyle foldoutStyle = CBEditor.GetEditorStyle(_skin.textArea, EditorStyles.foldout);
+                _displayTeams = EditorGUILayout.Foldout(_displayTeams, "Initial Team Spawn Point Names", foldoutStyle);
                 GUI.skin = _skin;
-                _newTeamName = EditorGUILayout.TextField(_newTeamName);
-                _newTeamSpawn = EditorGUILayout.TextField(_newTeamSpawn);
-                EditorGUILayout.EndHorizontal();
-
-                if (_addNewTeam == true)
+                if (_displayTeams == true)
                 {
-                    _addNewTeam = false;
-                    
-                    nm.initalTeamSpawnPointNames.Add(_newTeamName, _newTeamSpawn);
-                    _newTeamName = "";
-                    _newTeamSpawn = "";
-                } 
+                    EditorGUILayout.BeginHorizontal(_skin.box);
+                    EditorGUILayout.BeginVertical();
 
-                EditorGUILayout.BeginHorizontal(_skin.box);
-                EditorGUILayout.BeginVertical();
-                EditorGUILayout.LabelField("Initial Team Spawn Names", _skin.textField);
-                GUI.skin = _original;
-                Color org = EditorStyles.label.normal.textColor;
-                EditorStyles.label.normal.textColor = Color.white;
-                foreach (KeyValuePair<string, string> item in nm.initalTeamSpawnPointNames)
-                {
                     EditorGUILayout.BeginHorizontal();
-                    if (GUILayout.Button(new GUIContent("-"), GUILayout.Width(20)))
+                    //EditorGUILayout.Space();
+                    //EditorGUILayout.Space();
+                    //EditorGUILayout.Space();
+                    GUI.skin = _original;
+                    GUI.skin.label.normal.textColor = _skin.textArea.normal.textColor;
+                    EditorGUILayout.LabelField("Team Name", GUI.skin.label, GUILayout.Width(73));
+                    GUILayout.FlexibleSpace();
+                    EditorGUILayout.LabelField("Starting Spawn Name", GUI.skin.label, GUILayout.Width(130));
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    if (GUILayout.Button(new GUIContent("+")))
                     {
-                        nm.initalTeamSpawnPointNames.Remove(item.Key);
-                        break;
+                        _addNewTeam = true;
                     }
-                    EditorGUILayout.LabelField(item.Key, GUILayout.MinWidth(73));
-                    EditorGUILayout.LabelField(item.Value, GUILayout.MinWidth(110));
+                    GUI.skin = _skin;
+                    _newTeamName = EditorGUILayout.TextField(_newTeamName);
+                    _newTeamSpawn = EditorGUILayout.TextField(_newTeamSpawn);
+                    EditorGUILayout.EndHorizontal();
+
+                    if (_addNewTeam == true)
+                    {
+                        _addNewTeam = false;
+
+                        nm.initalTeamSpawnPointNames.Add(_newTeamName, _newTeamSpawn);
+                        _newTeamName = "";
+                        _newTeamSpawn = "";
+                    }
+
+                    EditorGUILayout.BeginHorizontal(_skin.box);
+                    EditorGUILayout.BeginVertical();
+                    EditorGUILayout.LabelField("Initial Team Spawn Names", _skin.label);
+                    GUI.skin = _original;
+                    GUI.skin.label.normal.textColor = _skin.textArea.normal.textColor;
+                    foreach (KeyValuePair<string, string> item in nm.initalTeamSpawnPointNames)
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        if (GUILayout.Button(new GUIContent("-"), GUILayout.Width(20)))
+                        {
+                            nm.initalTeamSpawnPointNames.Remove(item.Key);
+                            break;
+                        }
+                        EditorGUILayout.LabelField(item.Key, GUI.skin.label, GUILayout.MinWidth(73));
+                        EditorGUILayout.LabelField(item.Value, GUI.skin.label, GUILayout.MinWidth(110));
+                        EditorGUILayout.EndHorizontal();
+                    }
+                    GUI.skin = _skin;
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.EndVertical();
                     EditorGUILayout.EndHorizontal();
                 }
-                EditorStyles.label.normal.textColor = org;
-                GUI.skin = _skin;
-                EditorGUILayout.EndVertical();
-                EditorGUILayout.EndHorizontal();
 
-                EditorGUILayout.EndVertical();
-                EditorGUILayout.EndHorizontal();
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
             }
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(5);
+            EditorGUILayout.Space();
             #endregion
 
             #region Spawn Settings
             GUILayout.BeginHorizontal(_skin.customStyles[1]);
-            GUILayout.BeginVertical();
-            // Spawn Settings
-            GUILayout.BeginHorizontal();
             GUILayout.Label(EditorGUIUtility.FindTexture("AvatarPivot"), GUILayout.ExpandWidth(false));
             GUILayout.BeginVertical();
             GUILayout.Space(10);
             GUILayout.Label("Spawning Settings", _skin.GetStyle("TextField"));
             GUILayout.EndVertical();
+            if (GUILayout.Button(EditorGUIUtility.FindTexture("d_AnimationWrapModeMenu"), _skin.label, GUILayout.Width(50)))
+            {
+                nm.e_show_spawn = !nm.e_show_spawn;
+            }
             GUILayout.EndHorizontal();
 
-            EditorGUILayout.PropertyField(autoSpawnPlayer);
-            GUILayout.BeginHorizontal();
-            if (nm.defaultSpawnPoint == null && nm.spawnPointsTag == "")
+            if (nm.e_show_spawn)
             {
-                GUILayout.Label(EditorGUIUtility.FindTexture("CollabError"), GUILayout.ExpandWidth(false), GUILayout.Height(15));
-            }
-            else if (nm.defaultSpawnPoint == null && nm.spawnPointsTag != "")
-            {
-                GUILayout.Label(EditorGUIUtility.FindTexture("d_console.warnicon.sml"), GUILayout.ExpandWidth(false), GUILayout.Height(19));
-            }
-            EditorGUILayout.PropertyField(defaultSpawnPoint, new GUIContent("Default Spawn Point"));
-            GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal(_skin.customStyles[1]);
+                GUILayout.BeginVertical();
+                EditorGUILayout.PropertyField(autoSpawnPlayer);
+                GUILayout.BeginHorizontal();
+                if (nm.defaultSpawnPoint == null && nm.spawnPointsTag == "")
+                {
+                    GUILayout.Label(EditorGUIUtility.FindTexture("CollabError"), GUILayout.ExpandWidth(false), GUILayout.Height(15));
+                }
+                else if (nm.defaultSpawnPoint == null && nm.spawnPointsTag != "")
+                {
+                    GUILayout.Label(EditorGUIUtility.FindTexture("d_console.warnicon.sml"), GUILayout.ExpandWidth(false), GUILayout.Height(19));
+                }
+                EditorGUILayout.PropertyField(defaultSpawnPoint, new GUIContent("Default Spawn Point"));
+                GUILayout.EndHorizontal();
 
-            GUILayout.BeginHorizontal();
-            if (nm.spawnPointsTag == "" && nm.defaultSpawnPoint != null)
-            {
-                GUILayout.Label(EditorGUIUtility.FindTexture("d_console.warnicon.sml"), GUILayout.ExpandWidth(false), GUILayout.Height(19));
+                GUILayout.BeginHorizontal();
+                if (nm.spawnPointsTag == "" && nm.defaultSpawnPoint != null)
+                {
+                    GUILayout.Label(EditorGUIUtility.FindTexture("d_console.warnicon.sml"), GUILayout.ExpandWidth(false), GUILayout.Height(19));
+                }
+                else if (nm.spawnPointsTag == "" && nm.defaultSpawnPoint == null)
+                {
+                    GUILayout.Label(EditorGUIUtility.FindTexture("CollabError"), GUILayout.ExpandWidth(false), GUILayout.Height(15));
+                }
+                EditorGUILayout.PropertyField(spawnPointsTag, new GUIContent("Available Spawn Tag"));
+                GUILayout.EndHorizontal();
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
             }
-            else if (nm.spawnPointsTag == "" && nm.defaultSpawnPoint == null)
-            {
-                GUILayout.Label(EditorGUIUtility.FindTexture("CollabError"), GUILayout.ExpandWidth(false), GUILayout.Height(15));
-            }
-            EditorGUILayout.PropertyField(spawnPointsTag, new GUIContent("Available Spawn Tag"));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(5);
+            EditorGUILayout.Space();
             #endregion
 
             #region Debug Settings
             GUILayout.BeginHorizontal(_skin.customStyles[1]);
-            GUILayout.BeginVertical();
-            // Debugging Setttings
-            GUILayout.BeginHorizontal();
             GUILayout.Label(EditorGUIUtility.FindTexture("d_Settings"), GUILayout.ExpandWidth(false));
             GUILayout.BeginVertical();
             GUILayout.Space(9);
             GUILayout.Label("Debug Settings", _skin.GetStyle("TextField"));
             GUILayout.EndVertical();
             GUILayout.FlexibleSpace();
+            if (GUILayout.Button(EditorGUIUtility.FindTexture("d_AnimationWrapModeMenu"), _skin.label, GUILayout.Width(50)))
+            {
+                nm.e_show_debug = !nm.e_show_debug;
+            }
             GUILayout.EndHorizontal();
-            EditorGUILayout.PropertyField(debugging, new GUIContent("Verbose Console Logging"));
-            EditorGUILayout.PropertyField(connectStatus, new GUIContent("Connection Status"));
-            EditorGUILayout.PropertyField(displayDebugWindow);
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(5);
+            if (nm.e_show_debug)
+            {
+                GUILayout.BeginHorizontal(_skin.customStyles[1]);
+                GUILayout.BeginVertical();
+                EditorGUILayout.PropertyField(debugging, new GUIContent("Verbose Console Logging"));
+                EditorGUILayout.PropertyField(connectStatus, new GUIContent("Connection Status"));
+                EditorGUILayout.PropertyField(displayDebugWindow);
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+                EditorGUILayout.Space();
+            }
+            EditorGUILayout.Space();
             #endregion
 
             #region Network Settings
             GUILayout.BeginHorizontal(_skin.customStyles[1]);
-            GUILayout.BeginVertical();
-            // Network Settings
-            GUILayout.BeginHorizontal();
             GUILayout.Label(EditorGUIUtility.FindTexture("vcs_branch"), GUILayout.ExpandWidth(false));
             GUILayout.BeginVertical();
             GUILayout.Space(9);
-            GUILayout.Label("Network Events", _skin.GetStyle("TextField"));
+            GUILayout.Label("Network Events", _skin.textField);
             GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Lobby", _skin.GetStyle("Button")))
+            if (GUILayout.Button(EditorGUIUtility.FindTexture("d_AnimationWrapModeMenu"), _skin.label, GUILayout.Width(50)))
             {
-                _displayLobbyEvents = true;
-                _displayMiscEvents = false;
-                _displayPlayerEvents = false;
-                _displayRoomEvents = false;
-            }
-            if (GUILayout.Button("Room", _skin.GetStyle("Button")))
-            {
-                _displayLobbyEvents = false;
-                _displayMiscEvents = false;
-                _displayPlayerEvents = false;
-                _displayRoomEvents = true;
-            }
-            if (GUILayout.Button("Player", _skin.GetStyle("Button")))
-            {
-                _displayLobbyEvents = false;
-                _displayMiscEvents = false;
-                _displayPlayerEvents = true;
-                _displayRoomEvents = false;
-            }
-            if (GUILayout.Button("Misc", _skin.GetStyle("Button")))
-            {
-                _displayLobbyEvents = false;
-                _displayMiscEvents = true;
-                _displayPlayerEvents = false;
-                _displayRoomEvents = false;
+                nm.e_show_network = !nm.e_show_network;
             }
             GUILayout.EndHorizontal();
-            if (_displayLobbyEvents == true)
+            if (nm.e_show_network)
             {
-                GUILayout.BeginVertical("window", GUILayout.ExpandHeight(false));
-                GUI.skin = _original;
-                EditorGUILayout.PropertyField(onJoinedLobby);
-                EditorGUILayout.PropertyField(onLeftLobby);
-                GUI.skin = _skin;
+                GUILayout.BeginHorizontal(_skin.customStyles[1]);
+                GUILayout.BeginVertical();
+                EditorGUILayout.PropertyField(reconnect);
+                EditorGUILayout.PropertyField(connect_attempts);
+                EditorGUILayout.PropertyField(spawnAtSaved);
+
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Lobby", _skin.button))
+                {
+                    _displayLobbyEvents = true;
+                    _displayMiscEvents = false;
+                    _displayPlayerEvents = false;
+                    _displayRoomEvents = false;
+                }
+                if (GUILayout.Button("Room", _skin.button))
+                {
+                    _displayLobbyEvents = false;
+                    _displayMiscEvents = false;
+                    _displayPlayerEvents = false;
+                    _displayRoomEvents = true;
+                }
+                if (GUILayout.Button("Player", _skin.button))
+                {
+                    _displayLobbyEvents = false;
+                    _displayMiscEvents = false;
+                    _displayPlayerEvents = true;
+                    _displayRoomEvents = false;
+                }
+                if (GUILayout.Button("Misc", _skin.button))
+                {
+                    _displayLobbyEvents = false;
+                    _displayMiscEvents = true;
+                    _displayPlayerEvents = false;
+                    _displayRoomEvents = false;
+                }
+                GUILayout.EndHorizontal();
+                if (_displayLobbyEvents == true)
+                {
+                    GUILayout.BeginVertical("window", GUILayout.ExpandHeight(false));
+                    GUI.skin = _original;
+                    GUI.skin.label.normal.textColor = Color.black;
+                    EditorGUILayout.PropertyField(onJoinedLobby);
+                    EditorGUILayout.PropertyField(onLeftLobby);
+                    GUI.skin = _skin;
+                    GUILayout.EndHorizontal();
+                }
+                if (_displayRoomEvents == true)
+                {
+                    GUILayout.BeginVertical("window");
+                    GUI.skin = _original;
+                    GUI.skin.label.normal.textColor = Color.black;
+                    EditorGUILayout.PropertyField(onJoinedRoom);
+                    EditorGUILayout.PropertyField(onLeftRoom);
+                    EditorGUILayout.PropertyField(onCreatedRoom);
+                    EditorGUILayout.PropertyField(onCreateRoomFailed);
+                    EditorGUILayout.PropertyField(onJoinRoomFailed);
+                    EditorGUILayout.PropertyField(onReconnecting);
+                    GUI.skin = _skin;
+                    GUILayout.EndVertical();
+                }
+                if (_displayPlayerEvents == true)
+                {
+                    GUILayout.BeginVertical("window");
+                    GUI.skin = _original;
+                    GUI.skin.label.normal.textColor = Color.black;
+                    EditorGUILayout.PropertyField(onPlayerEnteredRoom);
+                    EditorGUILayout.PropertyField(onPlayerLeftRoom);
+                    GUI.skin = _skin;
+                    GUILayout.EndVertical();
+                }
+                if (_displayMiscEvents == true)
+                {
+                    GUILayout.BeginVertical("window");
+                    GUI.skin = _original;
+                    GUI.skin.label.normal.textColor = Color.black;
+                    EditorGUILayout.PropertyField(onMasterClientSwitched);
+                    EditorGUILayout.PropertyField(onDisconnected);
+                    EditorGUILayout.PropertyField(onConnectedToMaster);
+                    EditorGUILayout.PropertyField(onFailedToConnectToPhoton);
+                    EditorGUILayout.PropertyField(onConnectionFail);
+                    GUI.skin = _skin;
+                    GUILayout.EndVertical();
+                }
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
+                GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             }
-            if (_displayRoomEvents == true)
-            {
-                GUILayout.BeginVertical("window");
-                GUI.skin = _original;
-                EditorGUILayout.PropertyField(onJoinedRoom);
-                EditorGUILayout.PropertyField(onLeftRoom);
-                EditorGUILayout.PropertyField(onCreatedRoom);
-                EditorGUILayout.PropertyField(onCreateRoomFailed);
-                EditorGUILayout.PropertyField(onJoinRoomFailed);
-                GUI.skin = _skin;
-                GUILayout.EndVertical();
-            }
-            if (_displayPlayerEvents == true)
-            {
-                GUILayout.BeginVertical("window");
-                GUI.skin = _original;
-                EditorGUILayout.PropertyField(onPlayerEnteredRoom);
-                EditorGUILayout.PropertyField(onPlayerLeftRoom);
-                GUI.skin = _skin;
-                GUILayout.EndVertical();
-            }
-            if (_displayMiscEvents == true)
-            {
-                GUILayout.BeginVertical("window");
-                GUI.skin = _original;
-                EditorGUILayout.PropertyField(onMasterClientSwitched);
-                EditorGUILayout.PropertyField(onDisconnected);
-                EditorGUILayout.PropertyField(onConnectedToMaster);
-                EditorGUILayout.PropertyField(onFailedToConnectToPhoton);
-                EditorGUILayout.PropertyField(onConnectionFail);
-                GUI.skin = _skin;
-                GUILayout.EndVertical();
-            }
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(5);
+            EditorGUILayout.Space();
             #endregion
 
-            #region Core
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(NetworkManager)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
-            //base.OnInspectorGUI();
-            #endregion
+            EndInspectorGUI(typeof(NetworkManager));
         }
     }
 }

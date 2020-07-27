@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/UI/Generics/Visualizers/Visualize Rooms")]
     public class VisualizeRooms : MonoBehaviour
     {
         [Tooltip("The gameobject that will act as the parent. Will replace all child objects according to results.")]
@@ -13,9 +14,16 @@ namespace CBGames.UI
         [SerializeField] protected GameObject roomButton = null;
         [Tooltip("Watch for any room changes and auto update this list.")]
         [SerializeField] protected bool autoUpate = false;
+        [Tooltip("If this is true it will display each sub photon room as part of the session. Basically each Unity" +
+            "scene that a connected player is in.")]
         public bool canDisplaySessionRooms = false;
+        [Tooltip("If this is true it will only display the master session room. As in any photom room with an '_' in" +
+            "the name will not be displayed.")]
         public string onlyDisplaySessionRooms = "";
+        [Tooltip("If this has any value in it that means if the photom room doesn't have this value int it will not be" +
+            "displayed.")]
         [SerializeField] protected string filterRooms = "";
+        [Tooltip("Enable this if you want to have verbose logging to the console. Meant for debugging purposes.")]
         [SerializeField] protected bool debugging = false;
 
         protected UICoreLogic logic;
@@ -25,6 +33,11 @@ namespace CBGames.UI
         {
             logic = FindObjectOfType<UICoreLogic>();
         }
+
+        /// <summary>
+        /// Calls the to set the list of rooms to be displayed manually.
+        /// </summary>
+        /// <param name="roomList">Dictionary<string, RoomInfo> type, a list of rooms to be displayed</param>
         public virtual void ManullayUpdateList(Dictionary<string, RoomInfo> roomList)
         {
             if (debugging == true) Debug.Log("Manually updating list...");
@@ -32,6 +45,10 @@ namespace CBGames.UI
             RefreshList();
         }
 
+        /// <summary>
+        /// Dynamically gets the room list that is saved in the `UICoreLogic` component and calls `RefreshList`
+        /// with this new list.
+        /// </summary>
         public virtual void GetRoomListFromUI()
         {
             _roomList = logic.GetRoomList();
@@ -39,10 +56,19 @@ namespace CBGames.UI
             RefreshList();
         }
 
+        /// <summary>
+        /// Calls the `WaitForChange` IEnumerator
+        /// </summary>
         public virtual void WaitForListChange()
         {
             StartCoroutine(WaitForChange());
         }
+
+        /// <summary>
+        /// Waits until the `UICoreLogic`'s room list is greater than zero. As soon as it is it calls the
+        /// `GetRoomListFromUI` function.
+        /// </summary>
+        /// <returns></returns>
         protected virtual IEnumerator WaitForChange()
         {
             if (debugging == true) Debug.Log("Waiting for a room list update");
@@ -50,6 +76,11 @@ namespace CBGames.UI
             yield return new WaitUntil(() => logic.GetRoomList().Count > 0);
             GetRoomListFromUI();
         }
+
+        /// <summary>
+        /// If the previous count of the number of rooms is different it will call the `GetRoomListFromUI`
+        /// function.
+        /// </summary>
         protected virtual void Update()
         {
             if (autoUpate == false) return;
@@ -59,6 +90,11 @@ namespace CBGames.UI
             }
         }
 
+        /// <summary>
+        /// Sets the `filterRooms` parameter value to be whatever you pass in. Then calls the `WaitForListChange`
+        /// function.
+        /// </summary>
+        /// <param name="filter">string type, the value that the room names must have</param>
         public virtual void SetFilter(string filter)
         {
             if (debugging == true) Debug.Log("Setting filter: " + filter);
@@ -66,6 +102,10 @@ namespace CBGames.UI
             WaitForListChange();
         }
 
+        /// <summary>
+        /// Destroys all child objects first then loops through all found rooms and spawns a new child object
+        /// for each found room that matches the set criteria.
+        /// </summary>
         protected virtual void RefreshList()
         {
             if (debugging == true) Debug.Log("Refreshing room list...");
@@ -105,6 +145,12 @@ namespace CBGames.UI
             }
         }
 
+        /// <summary>
+        /// Sets the room button values based on the room info. Also makes sure its set properly as 
+        /// a child object and its scale is correct.
+        /// </summary>
+        /// <param name="roomName">string type, the name of the room to display</param>
+        /// <param name="roomInfo">RoomInfo type, the information used to join the room if this is clicked</param>
         protected virtual void GenerateRoomButton(string roomName, RoomInfo roomInfo)
         {
             GameObject roomBtn = Instantiate(roomButton);

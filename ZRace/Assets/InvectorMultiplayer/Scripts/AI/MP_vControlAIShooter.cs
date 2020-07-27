@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Invector.vCharacterController.AI
 {
+    [AddComponentMenu("CB GAMES/AI/MP Components/MP vControlAIShooter")]
     public class MP_vControlAIShooter : vControlAIShooter, IPunObservable
     {
         protected Transform _leftUpperArm, _rightUpperArm, _leftHand, _rightHand;

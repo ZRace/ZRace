@@ -3,6 +3,7 @@ using Invector.vMelee;
 using Photon.Pun;
 using UnityEngine;
 
+[AddComponentMenu("CB GAMES/Player/MP Components/MP vMeleeManager")]
 public class MP_vMeleeManager : vMeleeManager
 {
     #region Weapon Placements

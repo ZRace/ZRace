@@ -69,14 +69,17 @@ namespace CBGames.Editors
             //Apply the gui skin
             GUI.skin = _skin;
 
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_2);
-            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), E_Colors.e_c_blue_1);
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_5);
+            EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
+            EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(false));
+
             EditorGUILayout.Space();
+            EditorGUI.DrawRect(new Rect(10, 10, position.width - 20, 40), E_Colors.e_c_blue_5);
             EditorGUILayout.LabelField("Add Core Multiplayer Objects To Scene", _skin.label);
             EditorGUILayout.Space();
 
             //Draw Helpful Text
-            EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
+            EditorGUILayout.BeginHorizontal(_skin.window, GUILayout.ExpandHeight(false));
             EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(false));
             EditorGUILayout.LabelField("This will add a new gameobject called \"Network Manager\". " +
                 "It will setup this object with the ability to control/keep track of" +
@@ -88,15 +91,15 @@ namespace CBGames.Editors
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
 
-            EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
+            EditorGUILayout.BeginHorizontal(_skin.window, GUILayout.ExpandHeight(false));
             EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(false));
             EditorGUILayout.LabelField("IMPORTANT NOTE: If you don't add the pre-build UI, you will need to make one yourself that" +
-                " makes use of the exposed functions in the \"NetworkManager.cs\" file.", _skin.GetStyle("TextField"));
+                " makes use of the exposed functions in the \"NetworkManager.cs\" file.", _skin.textField);
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
 
             //Add Buttons
-            if (GUI.Button(new Rect(20, position.height-50, 220, 30), "Add Network Manager", _skin.GetStyle("Button")))
+            if (GUI.Button(new Rect(20, position.height-50, 220, 30), "Add Network Manager", _skin.button))
             {
                 AddNetworkManagerToScene();
             }
@@ -104,6 +107,9 @@ namespace CBGames.Editors
             {
                 E_AddChatBox.CB_AddGlobalChatBox();
             }
+
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
         }
 
         private void AddNetworkManagerToScene()

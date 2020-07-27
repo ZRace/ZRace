@@ -7,14 +7,8 @@ using CBGames.Objects;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(SyncObject), true)]
-    public class SyncObjectInspector : Editor
+    public class SyncObjectInspector : BaseEditor
     {
-        #region CustomEditorVariables
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
-        #endregion
-
         #region Properties
         SerializedProperty view;
         SerializedProperty syncEnable;
@@ -26,15 +20,9 @@ namespace CBGames.Inspector
         SerializedProperty debugging;
         #endregion
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            // Load Skin for reverence
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-
-            //Load all images
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-
-            //Fields
+            #region Properties
             view = serializedObject.FindProperty("view");
             syncEnable = serializedObject.FindProperty("syncEnable");
             syncDisable = serializedObject.FindProperty("syncDisable");
@@ -43,33 +31,26 @@ namespace CBGames.Inspector
             isLeftHanded = serializedObject.FindProperty("isLeftHanded");
             isWeaponHolder = serializedObject.FindProperty("isWeaponHolder");
             debugging = serializedObject.FindProperty("debugging");
+            #endregion
+
+            base.OnEnable();
         }
         public override void OnInspectorGUI()
         {
             #region Core
             // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             SyncObject nm = (SyncObject)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
-
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_genericIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Network Sync Object", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("Component used to sync actions that happen to this object across the network. Objects must be instantiated with this component, cannot be added a runtime. This is generally used for player equipment.", MessageType.Info);
+            DrawTitleBar(
+                "Network Sync Object",
+                "Component used to sync actions that happen to this object across the network. " +
+                "Objects must be instantiated with this component, cannot be added a runtime. " +
+                "This is generally used for player equipment.", 
+                E_Core.h_genericIcon
+            );
             #endregion
 
-            //Properties
+            #region Properties
             GUILayout.BeginHorizontal(_skin.customStyles[1], GUILayout.ExpandHeight(false));
             GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
             GUILayout.Label("PhotonView For RPC Calls (Optional)", _skin.customStyles[0]);
@@ -106,11 +87,9 @@ namespace CBGames.Inspector
             EditorGUILayout.PropertyField(debugging);
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
+            #endregion
 
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(SyncObject)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
+            EndInspectorGUI(typeof(SyncObject));
         }
     }
 }

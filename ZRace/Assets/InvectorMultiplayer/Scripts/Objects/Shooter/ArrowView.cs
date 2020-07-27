@@ -11,6 +11,7 @@ using UnityEngine;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Weapons/Arrow View")]
     public class ArrowView : MonoBehaviour
     {
         [Tooltip("Reference value only, this will be set externally by different functions. " +

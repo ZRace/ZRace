@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/UI/Legacy/Player Prefab Check")]
     public class PlayerPrefabCheck : MonoBehaviour
     {
         [SerializeField] private ExampleUI exampleUI = null;

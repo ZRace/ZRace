@@ -1,4 +1,5 @@
 ﻿using CBGames.Core;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using System;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace CBGames.UI
     public enum CounterStartType { Immediately, OnCall };
     public enum NumberType { WholeNumber, FullTime, AbbreviatedTime, Raw }
 
+    [AddComponentMenu("CB GAMES/UI/Generics/Call Events/Generic Count Down")]
     public class GenericCountDown : MonoBehaviour
     {
         [Tooltip("Only perform the UnityEvents if you are the owner/not the owner.")]
@@ -40,10 +42,16 @@ namespace CBGames.UI
         [SerializeField] protected AudioSource soundSource = null;
         [Tooltip("(Optional) The audio clip to play every time a whole number goes down by 1.")]
         [SerializeField] protected AudioClip tickClip = null;
+        [Tooltip("UnityEvent. Called when the counting starts.")]
         public UnityEvent OnStartCounting = new UnityEvent();
+        [Tooltip("UnityEvent. Called when the countind stops.")]
         public UnityEvent OnStopCounting = new UnityEvent();
+        [Tooltip("UnityEvent. Called when the current number the counter is at changes.")]
         public FloatUnityEvent OnNumberChange = new FloatUnityEvent();
+        [Tooltip("UnityEvent. Called when the current number reaches zero.")]
         public UnityEvent OnZero = new UnityEvent();
+        [Tooltip("If you want verbose logging into the console as to what is happening in this script.")]
+        [SerializeField] protected bool debugging = false;
 
         protected bool _startCounting;
         protected bool _invoked = false;
@@ -58,6 +66,11 @@ namespace CBGames.UI
         #region EditorVars
         [HideInInspector] public bool showUnityEvents = false;
         #endregion
+
+        /// <summary>
+        /// If the `startType` is `Immediately` it will call the `StartCounting` function.
+        /// Also sets the `tickClip` if there is a `soundSource` and a `tickClip` specified.
+        /// </summary>
         protected virtual void Start()
         {
             if (startType == CounterStartType.Immediately)
@@ -69,47 +82,91 @@ namespace CBGames.UI
                 soundSource.clip = tickClip;
             }
         }
+
+        /// <summary>
+        /// Set the current time number the counter is at.
+        /// </summary>
+        /// <param name="incomingTime">float type, the current time number to set.</param>
         public virtual void SetTime(float incomingTime)
         {
+            if (debugging == true) Debug.Log("Setting time: " + incomingTime);
             _time = incomingTime;
         }
+
+        /// <summary>
+        /// The time that the timer should start at when first starting to count down.
+        /// </summary>
+        /// <param name="timeToStart">float type, the start counting from time.</param>
         public virtual void SetStartTime(float timeToStart)
         {
+            if (debugging == true) Debug.Log("Setting Start time: " + timeToStart);
             startTime = timeToStart;
         }
+
+        /// <summary>
+        /// Remove time from the current countdown time.
+        /// </summary>
+        /// <param name="subtractTime">float type, the amount of time to subtract.</param>
         public virtual void SubtractTime(float subtractTime)
         {
-            //This function is great for syncronizing the starting time between networked players.
-            //EX: send w/ PhotonNetwork.Time in rpc call.
-            //    Recieve that time make another PhotonNetwork.Time call and subtract the difference here.
-            //EX: SubtractTime(PhotonNetwork.Time - receivedRPCTime);
+            if (debugging == true) Debug.Log("Subtracting "+ subtractTime + " amount of time");
             _time -= subtractTime;
         }
-        public virtual void SetSyncTime(double startTime)
-        {
-            _syncedStartTime = startTime;
-        }
+
+        /// <summary>
+        /// Sets the `tickClip`.
+        /// </summary>
+        /// <param name="clip">AudioClip type, the tick clip to use.</param>
         public virtual void SetClip(AudioClip clip)
         {
+            if (debugging == true) Debug.Log("Setting tick clip: "+clip);
             tickClip = clip;
         }
+
+        /// <summary>
+        /// Sets the `soundSource`.
+        /// </summary>
+        /// <param name="source">AudioSource type, the audiosource to use.</param>
         public virtual void SetAudioSource(AudioSource source)
         {
+            if (debugging == true) Debug.Log("Setting Audio Source: " + source);
             soundSource = source;
         }
+
+        /// <summary>
+        /// Start the countdown. Calls `OnStartCounting` UnityEvent.
+        /// </summary>
         public virtual void StartCounting()
         {
             if (_startCounting == true || enabled == false) return;
             _time = startTime;
-            if (_syncedStartTime == 0 && syncWithPhotonServer == true)
+            if (syncWithPhotonServer == true && PhotonNetwork.IsMasterClient == true)
             {
-                _syncedStartTime = PhotonNetwork.Time;
+                Hashtable props = PhotonNetwork.CurrentRoom.CustomProperties;
+                if (props.ContainsKey("SYNC_TIME"))
+                {
+                    props["SYNC_TIME"] = PhotonNetwork.ServerTimestamp;
+                }
+                else
+                {
+                    props.Add("SYNC_TIME", PhotonNetwork.ServerTimestamp);
+                }
+                if (!props.ContainsKey("SYNC_TIMER_STARTED"))
+                {
+                    props.Add("SYNC_TIMER_STARTED", true);
+                }
             }
             _actualTime = _time;
             _prevTime = _time;
             _startCounting = true;
+            if (debugging == true) Debug.Log("Start counting! Sending OnStartCounting UnityEvent!");
             OnStartCounting.Invoke();
         }
+
+
+        /// <summary>
+        /// Stop the countdown. Calls `OnStopCounting` UntiyEvent.
+        /// </summary>
         public virtual void StopCounting()
         {
             if (_startCounting == false) return;
@@ -118,8 +175,52 @@ namespace CBGames.UI
             _actualTime = _time;
             _prevTime = _time;
             _startCounting = false;
+            if (debugging == true) Debug.Log("Stop Counting! Send OnStopCounting UnityEvent!");
+            RemoveRoomProperties();
             OnStopCounting.Invoke();
         }
+
+        /// <summary>
+        /// This is called when the timer reachs zero. It will call the `RemoveSyncTime`
+        /// function and the `OnZero` UnityEvent. It also resets this timer so it can 
+        /// be used again.
+        /// </summary>
+        protected virtual void TimerEnded()
+        {
+            _time = startTime;
+            _actualTime = _time;
+            _prevTime = _time;
+            _startCounting = false;
+            _invoked = false;
+            if (debugging == true) Debug.Log("Reached Zero, sending OnZero UnityEvent!");
+            RemoveRoomProperties();
+            OnZero.Invoke();
+        }
+
+        /// <summary>
+        /// Removes all the custom room properties that this component has added to sync the times.
+        /// </summary>
+        public virtual void RemoveRoomProperties()
+        {
+            if (PhotonNetwork.IsMasterClient == true && syncWithPhotonServer == true)
+            {
+                Hashtable props = PhotonNetwork.CurrentRoom.CustomProperties;
+                if (props.ContainsKey("SYNC_TIME"))
+                {
+                    props.Remove("SYNC_TIME");
+                }
+                if (props.ContainsKey("SYNC_TIMER_STARTED"))
+                {
+                    props.Remove("SYNC_TIMER_STARTED");
+                }
+                PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+            }
+        }
+        
+        /// <summary>
+        /// Set the `texts` values to be whatever the input string is.
+        /// </summary>
+        /// <param name="value">string type, the string to display</param>
         protected virtual void SetTexts(string value)
         {
             foreach(Text text in texts)
@@ -127,13 +228,27 @@ namespace CBGames.UI
                 text.text = value;
             }
         }
+
+        /// <summary>
+        /// Start playing the `soundSource`.
+        /// </summary>
         protected virtual void PlayAudioClip()
         {
             if (soundSource != null && soundSource.clip != null)
             {
+                if (debugging == true) Debug.Log("Play Audio Clip!");
                 soundSource.Play();
             }
         }
+
+        /// <summary>
+        /// Responsible for subtracting time from the current time in an settings the 
+        /// display value parameter based on the `numberType` parameter. Also calls the 
+        /// `PlayAudioClip` function when the time changes. It also calls the `SetTexts`
+        /// function to set the display counting values. Finally it calls the `OnZero` 
+        /// UnityEvent when reacing zero and the `StopCounting` function when it reaches
+        /// zero.
+        /// </summary>
         protected virtual void Update()
         {
             if (_startCounting == true)
@@ -183,17 +298,39 @@ namespace CBGames.UI
                 }
                 if (_time <= 0)
                 {
-                    if (_invoked == false && 
+                    if (_invoked == false &&
                         (useRoomOwnerShip == false || (
                             useRoomOwnerShip == true && PhotonNetwork.IsMasterClient == ifIsOwner
                             )
                          )
                     )
                     {
-                        OnZero.Invoke();
+                        TimerEnded();
                     }
-                    StopCounting();
+                    else
+                    {
+                        StopCounting();
+                    }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Callback method. This is called when the properties of the current room
+        /// have changed. Will start the timer and set the sync values based on what 
+        /// is received.
+        /// </summary>
+        /// <param name="propertiesThatChanged"></param>
+        protected virtual void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            Hashtable props = PhotonNetwork.CurrentRoom.CustomProperties;
+            if (props.ContainsKey("SYNC_TIME"))
+            {
+                _syncedStartTime = (double)props["SYNC_TIME"];
+            }
+            if (props.ContainsKey("SYNC_TIMER_STARTED"))
+            {
+                StartCounting();
             }
         }
     }

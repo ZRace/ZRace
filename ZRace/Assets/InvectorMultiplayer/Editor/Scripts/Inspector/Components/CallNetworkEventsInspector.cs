@@ -6,14 +6,8 @@ using CBGames.Objects;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(CallNetworkEvents), true)]
-    public class CallNetworkEventsInspector : Editor
+    public class CallNetworkEventsInspector : BaseEditor
     {
-        #region CustomEditorVariables
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
-        #endregion
-
         #region Properties
         SerializedProperty syncCrossScenes;
         SerializedProperty holder;
@@ -41,10 +35,9 @@ namespace CBGames.Inspector
         SerializedProperty showSingleInvoke1;
         #endregion
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
+            #region Properties
             syncCrossScenes = serializedObject.FindProperty("syncCrossScenes");
             holder = serializedObject.FindProperty("holder");
             NetworkInvoke1 = serializedObject.FindProperty("NetworkInvoke1");
@@ -69,35 +62,26 @@ namespace CBGames.Inspector
 
             NetworkSingleInvoke1 = serializedObject.FindProperty("NetworkSingleInvoke1");
             showSingleInvoke1 = serializedObject.FindProperty("showSingleInvoke1");
+            #endregion
+
+            base.OnEnable();
         }
 
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             CallNetworkEvents nevents = (CallNetworkEvents)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
-
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(GUI.skin.box, GUILayout.ExpandHeight(false));
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_genericIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Call Network Events", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("Anything inside the NetworkInvoke events will be invoked across the network. " +
+            DrawTitleBar(
+                "Call Network Events",
+                "Anything inside the NetworkInvoke events will be invoked across the network. " +
                 "From another component call the \"CallNetworkInvoke(#)\" function to " +
-                "trigger that set of events across the network.", MessageType.Info);
+                "trigger that set of events across the network.", 
+                E_Core.h_genericIcon
+            );
             #endregion
 
+            #region Properties
             GUILayout.BeginHorizontal(GUILayout.ExpandHeight(false));
             GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
             EditorGUILayout.PropertyField(syncCrossScenes);
@@ -117,35 +101,45 @@ namespace CBGames.Inspector
             if (showNetworkInvoke1.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkInvoke1);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             showNetworkInvoke2.boolValue = EditorGUILayout.Foldout(showNetworkInvoke2.boolValue, "Network Invoke 2");
             if (showNetworkInvoke2.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkInvoke2);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             showNetworkInvoke3.boolValue = EditorGUILayout.Foldout(showNetworkInvoke3.boolValue, "Network Invoke 3");
             if (showNetworkInvoke3.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkInvoke3);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             showNetworkInvoke4.boolValue = EditorGUILayout.Foldout(showNetworkInvoke4.boolValue, "Network Invoke 4");
             if (showNetworkInvoke4.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkInvoke4);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             showNetworkInvoke5.boolValue = EditorGUILayout.Foldout(showNetworkInvoke5.boolValue, "Network Invoke 5");
             if (showNetworkInvoke5.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkInvoke5);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             #endregion
@@ -158,28 +152,36 @@ namespace CBGames.Inspector
             if (showGameObjectInvoke1.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkGameObjectInvoke1);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             showGameObjectInvoke2.boolValue = EditorGUILayout.Foldout(showGameObjectInvoke2.boolValue, "Network GameObject Invoke 2");
             if (showGameObjectInvoke2.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkGameObjectInvoke2);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             showGameObjectInvoke3.boolValue = EditorGUILayout.Foldout(showGameObjectInvoke3.boolValue, "Network GameObject Invoke 3");
             if (showGameObjectInvoke3.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkGameObjectInvoke3);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             showGameObjectInvoke4.boolValue = EditorGUILayout.Foldout(showGameObjectInvoke4.boolValue, "Network GameObject Invoke 4");
             if (showGameObjectInvoke4.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkGameObjectInvoke4);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             #endregion
@@ -192,19 +194,19 @@ namespace CBGames.Inspector
             if (showSingleInvoke1.boolValue == true)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(NetworkSingleInvoke1);
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 GUI.skin = _skin;
             }
             #endregion
 
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
+            #endregion
 
             #region End Core
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(CallNetworkEvents)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
+            EndInspectorGUI(typeof(CallNetworkEvents));
             #endregion
         }
     }

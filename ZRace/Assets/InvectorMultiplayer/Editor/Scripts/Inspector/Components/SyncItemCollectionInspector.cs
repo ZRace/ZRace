@@ -6,14 +6,8 @@ using CBGames.Objects;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(SyncItemCollection), true)]
-    public class SyncItemCollectionInspector : Editor
+    public class SyncItemCollectionInspector : BaseEditor
     {
-        #region CustomEditorVariables
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
-        #endregion
-
         #region Properties
         SerializedProperty syncCrossScenes;
         SerializedProperty syncCreateDestroy;
@@ -26,12 +20,9 @@ namespace CBGames.Inspector
         SerializedProperty OnSceneEnterUpdate;
         #endregion
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-
-            //Fields
+            #region Properties
             syncCrossScenes = serializedObject.FindProperty("syncCrossScenes");
             syncCreateDestroy = serializedObject.FindProperty("syncCreateDestroy");
             holder = serializedObject.FindProperty("holder");
@@ -41,42 +32,32 @@ namespace CBGames.Inspector
             OnPressActionInput = serializedObject.FindProperty("OnPressActionInput");
             onPressActionInputWithTarget = serializedObject.FindProperty("onPressActionInputWithTarget");
             OnSceneEnterUpdate = serializedObject.FindProperty("OnSceneEnterUpdate");
+            #endregion
+
+            base.OnEnable();
         }
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             SyncItemCollection sic = (SyncItemCollection)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
-
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(GUI.skin.box, GUILayout.ExpandHeight(false));
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_genericIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Sync Item Collection", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("Used to sync events from collecting this item across the network. \n\n"+
-                "Required Setup Actions:\n"+
-                "1. Copy the settings on the following fields from \"vItemCollection\" to this component:\n"+
-                " * \"OnPressActionDelay\"\n"+
-                " * \"OnPressActionInput\"\n"+
-                " * \"OnPressActionInputWithTarget\"\n\n"+
+            DrawTitleBar(
+                "Sync Item Collection",
+                "Used to sync events from collecting this item across the network. \n\n" +
+                "Required Setup Actions:\n" +
+                "1. Copy the settings on the following fields from \"vItemCollection\" to this component:\n" +
+                " * \"OnPressActionDelay\"\n" +
+                " * \"OnPressActionInput\"\n" +
+                " * \"OnPressActionInputWithTarget\"\n\n" +
                 "2. On \"vItemCollection\" do the following:\n" +
-                " * Set \"OnPressActionDelay\" to zero\n"+
-                " * Remove all events from \"OnPressActionInput\"\n"+
-                " * Remove all events from \"OnPressActionInputWithTarget\"\n", MessageType.Info);
+                " * Set \"OnPressActionDelay\" to zero\n" +
+                " * Remove all events from \"OnPressActionInput\"\n" +
+                " * Remove all events from \"OnPressActionInputWithTarget\"\n",
+                E_Core.h_genericIcon
+            );
             #endregion
 
-            //Properties
+            #region Properties
             GUILayout.BeginHorizontal(GUI.skin.box, GUILayout.ExpandHeight(false));
             GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
             EditorGUILayout.PropertyField(syncCrossScenes);
@@ -102,6 +83,7 @@ namespace CBGames.Inspector
             GUILayout.BeginHorizontal(GUI.skin.box, GUILayout.ExpandHeight(false));
             GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
             GUI.skin = _original;
+            CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
             EditorGUILayout.HelpBox("These should be copied exactly from the vItemColletion component.", MessageType.None);
             EditorGUILayout.PropertyField(OnPressActionInput);
             EditorGUILayout.PropertyField(onPressActionInputWithTarget);
@@ -111,13 +93,12 @@ namespace CBGames.Inspector
             EditorGUILayout.PropertyField(OnSceneEnterUpdate);
 
             GUI.skin = _skin;
+            CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
+            #endregion
 
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(SyncItemCollection)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
+            EndInspectorGUI(typeof(SyncItemCollection));
         }
     }
 }

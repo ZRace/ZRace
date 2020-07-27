@@ -7,7 +7,6 @@ namespace CBGames.Editors
     {
         #region Editor Variables
         GUISkin _skin = null;
-        Color _titleColor;
         #endregion
 
         [MenuItem("CB Games/Check File Status'", false, 200)]
@@ -21,9 +20,6 @@ namespace CBGames.Editors
         {
             if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
 
-            //Set title bar colors
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-
             //Make window title
             this.titleContent = new GUIContent("Check File Status'", null, "What files have been modified and what add-ons are enabled.");
         }
@@ -33,7 +29,7 @@ namespace CBGames.Editors
             GUI.skin = _skin;
             Color norm = _skin.textField.normal.textColor;
             EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_5); 
-            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), E_Colors.e_c_blue_1);
+            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), E_Colors.e_c_blue_4);
             EditorGUILayout.Space();
             _skin.label.normal.textColor = norm;
             EditorGUILayout.LabelField("Check File Status'", _skin.label);

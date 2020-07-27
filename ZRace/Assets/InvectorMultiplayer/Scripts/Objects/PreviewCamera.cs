@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Camera/Preview Camera")]
     public class PreviewCamera : MonoBehaviour
     {
         #region Modifiables
@@ -32,6 +33,9 @@ namespace CBGames.Objects
         protected bool _playCamera = false;
         #endregion
 
+        /// <summary>
+        /// Sets the needed variables for later use inside of this class
+        /// </summary>
         protected virtual void Start()
         {
             networkManager = (networkManager == null) ? FindObjectOfType<NetworkManager>() : networkManager;
@@ -39,6 +43,10 @@ namespace CBGames.Objects
             _playCamera = (moveImmediatly == true) ? true : false;
         }
         
+        /// <summary>
+        /// Used to smoothly transition the cameras rotations and position based 
+        /// on the current target point it's headed towards.
+        /// </summary>
         public virtual void Update()
         {
             if (networkManager.IsInRoom() == true && stopOnJoinRoom == true && _playCamera == true)
@@ -68,11 +76,22 @@ namespace CBGames.Objects
             }
         }
 
+        /// <summary>
+        /// Will remove the current target point and make the target index to 
+        /// be zero.
+        /// </summary>
         public virtual void ResetPreviewCameraValues()
         {
             camMoveToTransform = null;
             _cameraPointIndex = 0;
         }
+
+        /// <summary>
+        /// Get the target transform point to move towards, set the target index,
+        /// the start time, and the length from this to that point for smooth
+        /// transitioning.
+        /// </summary>
+        /// <returns>The target transform point</returns>
         public virtual Transform GetCameraPoint()
         {
             Transform target = cameraPoints[_cameraPointIndex];
@@ -81,10 +100,18 @@ namespace CBGames.Objects
             _journeyLength = Vector3.Distance(targetCam.position, target.position);
             return target;
         }
+
+        /// <summary>
+        /// Make the camera start moving.
+        /// </summary>
         public virtual void StartPreviewCamera()
         {
             _playCamera = true;
         }
+
+        /// <summary>
+        /// Make the camera stop moving and call `ResetPreviewCameraValues` function.
+        /// </summary>
         public virtual void StopPreviewCamera()
         {
             _playCamera = false;

@@ -6,14 +6,8 @@ using CBGames.UI;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(GenericCountDown), true)]
-    public class GenericCountDownInspector : Editor
+    public class GenericCountDownInspector : BaseEditor
     {
-        #region Core
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
-        #endregion
-
         #region Properties
         SerializedProperty useRoomOwnerShip;
         SerializedProperty ifIsOwner;
@@ -30,17 +24,13 @@ namespace CBGames.Inspector
         SerializedProperty OnZero;
         SerializedProperty _time;
         SerializedProperty syncWithPhotonServer;
+        SerializedProperty debugging;
         #endregion
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            // Load Skin for reverence
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-
-            //Load all images
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-
             #region Properties
+            debugging = serializedObject.FindProperty("debugging");
             useRoomOwnerShip = serializedObject.FindProperty("useRoomOwnerShip");
             ifIsOwner = serializedObject.FindProperty("ifIsOwner");
             startTime = serializedObject.FindProperty("startTime");
@@ -57,30 +47,20 @@ namespace CBGames.Inspector
             _time = serializedObject.FindProperty("_time");
             syncWithPhotonServer = serializedObject.FindProperty("syncWithPhotonServer");
             #endregion
+
+            base.OnEnable();
         }
 
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
-            var rect = GUILayoutUtility.GetRect(1, 1);
+            base.OnInspectorGUI();
             GenericCountDown countdown = (GenericCountDown)target;
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_uiIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Generic Count Down", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("This component will execute a series of UnityEvents based on the countdown time.", MessageType.Info);
+            DrawTitleBar(
+                "Generic Count Down",
+                "This component will execute a series of UnityEvents based on the countdown time.", 
+                E_Core.h_uiIcon
+            );
             #endregion
 
             #region Properties
@@ -106,24 +86,24 @@ namespace CBGames.Inspector
             GUI.enabled = false;
             EditorGUILayout.PropertyField(_time);
             GUI.enabled = true;
+            EditorGUILayout.PropertyField(debugging);
             EditorGUILayout.Space();
             countdown.showUnityEvents = EditorGUILayout.Foldout(countdown.showUnityEvents, "Unity Events");
             if (countdown.showUnityEvents)
             {
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.PropertyField(OnStartCounting);
                 EditorGUILayout.PropertyField(OnStopCounting);
                 EditorGUILayout.PropertyField(OnNumberChange);
                 EditorGUILayout.PropertyField(OnZero);
                 GUI.skin = _skin;
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
             }
             #endregion
 
             #region Core
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(GenericCountDown)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
+            EndInspectorGUI(typeof(GenericCountDown));
             #endregion
         }
     }

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/UI/Menus/Player List/Player List")]
     [RequireComponent(typeof(ChatBox))]
     [RequireComponent(typeof(NetworkManager))]
     public class PlayerList : MonoBehaviour
@@ -58,6 +59,9 @@ namespace CBGames.UI
         #endregion
 
         #region Initializations
+        /// <summary>
+        /// Makes sure the `rootObj` is inactive
+        /// </summary>
         protected virtual void Awake()
         {
             rootObj.SetActive(false);
@@ -69,6 +73,11 @@ namespace CBGames.UI
         #endregion
 
         #region Management
+        /// <summary>
+        /// Find the child object that matches the input `info` and calls the `SetContents` function 
+        /// with the input `info` on it.
+        /// </summary>
+        /// <param name="info">PlayerListInfo type, the information for a given player</param>
         public virtual void UpdatePlayer(PlayerListInfo info)
         {
             if (debugging == true) Debug.Log("PLAYER LIST- Updating player list with: " + info.userId);
@@ -83,6 +92,10 @@ namespace CBGames.UI
             }
         }
 
+        /// <summary>
+        /// Calls the `AddPlayer` with a new `PlayerListInfo` object based on the input `chatUserId`.
+        /// </summary>
+        /// <param name="chatUserId"></param>
         public virtual void AddPlayer(string chatUserId)
         {
             AddPlayer(new PlayerListInfo(
@@ -90,6 +103,11 @@ namespace CBGames.UI
                 true
             ));
         }
+
+        /// <summary>
+        /// Calls `AddPlayer` function for each player.
+        /// </summary>
+        /// <param name="players"></param>
         public virtual void AddPlayers(List<PlayerListInfo> players)
         {
             foreach (PlayerListInfo player in players)
@@ -97,6 +115,12 @@ namespace CBGames.UI
                 AddPlayer(player);
             }
         }
+
+        /// <summary>
+        /// Creates a child gameobject with all the settings found in the input `PlayerListInfo` object.
+        /// Also makes sure the scale and positioning is correct.
+        /// </summary>
+        /// <param name="player">PlayerListInfo type, the information for this player to display</param>
         public virtual void AddPlayer(PlayerListInfo player)
         {
             if (debugging == true) Debug.Log("PLAYERLIST - Adding player: " + player.userId);
@@ -107,6 +131,10 @@ namespace CBGames.UI
             obj.GetComponent<PlayerListObject>().SetContents(player);
         }
 
+        /// <summary>
+        /// Calls the `RemovePlayer` function with a new `PlayerListInfo` based on the input `chatUserId`
+        /// </summary>
+        /// <param name="chatUserId">strign type, the chat user id</param>
         public virtual void RemovePlayer(string chatUserId)
         {
             RemovePlayer(new PlayerListInfo(
@@ -114,6 +142,11 @@ namespace CBGames.UI
                 false
             ));
         }
+
+        /// <summary>
+        /// Find the child object that matches the User Id of the input player and destroys it.
+        /// </summary>
+        /// <param name="player">PlayerListInfo type, extracts user id from this</param>
         public virtual void RemovePlayer(PlayerListInfo player)
         {
             if (debugging == true) Debug.Log("PLAYERLIST - Attempting To Remove Player: " + player.userId);
@@ -128,10 +161,18 @@ namespace CBGames.UI
             }
         }
 
+        /// <summary>
+        /// Calls `ClearPlayerList` function.
+        /// </summary>
+        /// <param name="temp"></param>
         public virtual void ClearPlayerList(string temp)
         {
             ClearPlayerList();
         }
+
+        /// <summary>
+        /// Destroys every child gameobject.
+        /// </summary>
         public virtual void ClearPlayerList()
         {
             if (debugging == true) Debug.Log("PLAYERLIST - Clearing player list");
@@ -143,6 +184,10 @@ namespace CBGames.UI
         #endregion
 
         #region ChatBox
+        /// <summary>
+        /// Broadcasts data via the data channel on the chatbox to set this UserId to be in a
+        /// transition state.
+        /// </summary>
         public virtual void UpdateLocationToGoingToScene()
         {
             NetworkManager.networkManager.GetChabox().BroadcastData(
@@ -154,6 +199,11 @@ namespace CBGames.UI
                 )
             );
         }
+
+        /// <summary>
+        /// Broadcasts data via the data channel on the chatbox to set the UserId to be in a 
+        /// new Unity scene.
+        /// </summary>
         public virtual void UpdateLocationToCurrentScene()
         {
             NetworkManager.networkManager.GetChabox().BroadcastData(
@@ -165,6 +215,11 @@ namespace CBGames.UI
                 )
             );
         }
+
+        /// <summary>
+        /// Returns a list of all subscribers in the chatbox's data channel.
+        /// </summary>
+        /// <returns>List<string> of data channel subscribers</returns>
         public virtual List<string> GetDataSubScribers()
         {
             if (debugging == true) Debug.Log("PLAYERLIST - Getting data channel subscribers.");
@@ -173,6 +228,10 @@ namespace CBGames.UI
             if (debugging == true) Debug.Log("PLAYERLIST - Subscribers count: "+subscribers.Count);
             return subscribers;
         }
+
+        /// <summary>
+        /// Calls `GetDataSubScribers` function and loops through those calling the `AddPlayer` function.
+        /// </summary>
         public virtual void SetPlayerList()
         {
             if (debugging == true) Debug.Log("PLAYERLIST - Setting player list ...");
@@ -188,11 +247,21 @@ namespace CBGames.UI
         #endregion
 
         #region Enable/Disable
+        /// <summary>
+        /// Calls the `DoEnable` IEnumerator.
+        /// </summary>
+        /// <param name="isEnabled"></param>
         public virtual void EnablePlayerListWindow(bool isEnabled)
         {
             if (isRunning == true) return;
             StartCoroutine(DoEnable(isEnabled));
         }
+
+        /// <summary>
+        /// Enables the `rootObject`, plays the animation, and plays the open or close sound
+        /// via the `PlaySound` function.
+        /// </summary>
+        /// <param name="isEnabled">bool type, show or hide the player list window</param>
         protected virtual IEnumerator DoEnable(bool isEnabled)
         {
             isRunning = true;
@@ -212,6 +281,11 @@ namespace CBGames.UI
         #endregion
 
         #region Sounds
+        /// <summary>
+        /// Play the input `soundClip` at the specified `volumeLevel` on the `soundSource` AudioSource.
+        /// </summary>
+        /// <param name="soundClip">AudioClip type, the AudioClip to play.</param>
+        /// <param name="volumeLevel">float type, the volume to set the `soundSource` to.</param>
         protected virtual void PlaySound(AudioClip soundClip = null, float volumeLevel = 0.5f)
         {
             if (soundClip == null || soundSource == null) return;
@@ -221,6 +295,10 @@ namespace CBGames.UI
         }
         #endregion
 
+        /// <summary>
+        /// Will watch for when the users presses the `keyToPress` doing it like the specified `openWindow` type.
+        /// If those criteria match it will open or close this window.
+        /// </summary>
         protected virtual void Update()
         {
             if (openWindow == PressType.Invoke || isRunning == true || PhotonNetwork.InRoom == false) return;

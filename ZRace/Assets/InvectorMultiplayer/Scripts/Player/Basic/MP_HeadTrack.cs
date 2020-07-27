@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Invector.vCharacterController
 {
+    [AddComponentMenu("CB GAMES/Player/MP Components/MP vHeadTrack")]
     public class MP_HeadTrack : vHeadTrack, IPunObservable
     {
         private bool _updated = false;
@@ -23,26 +24,35 @@ namespace Invector.vCharacterController
         }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) //this function called by Photon View component
         {
-            if (_initialized == false) return;
-            if (stream.IsWriting && GetComponent<PhotonView>().IsMine == true)
+            try
             {
-                if (sendPosition == true)
+                if (_initialized == false) return;
+                if (stream.IsWriting && GetComponent<PhotonView>().IsMine == true)
                 {
-                    stream.SendNext(currentLookPosition);
+                    if (sendPosition == true)
+                    {
+                        stream.SendNext(currentLookPosition);
+                    }
+                    stream.SendNext(_currentHeadWeight);
+                    stream.SendNext(_currentbodyWeight);
                 }
-                stream.SendNext(_currentHeadWeight);
-                stream.SendNext(_currentbodyWeight);
-            }
-            else if (stream.IsReading)
-            {
-                if (sendPosition == true)
+                else if (stream.IsReading)
                 {
-                    currentLookPosition = (Vector3)stream.ReceiveNext();
+                    if (sendPosition == true)
+                    {
+                        currentLookPosition = (Vector3)stream.ReceiveNext();
+                    }
+                    _currentHeadWeight = (float)stream.ReceiveNext();
+                    _currentbodyWeight = (float)stream.ReceiveNext();
                 }
-                _currentHeadWeight = (float)stream.ReceiveNext();
-                _currentbodyWeight = (float)stream.ReceiveNext();
             }
+            catch { }
         }
+
+        /// <summary>
+        /// Used to have the network player update its head rotation based on the 
+        /// rotations and weights that are received by the owner player.
+        /// </summary>
         void LateUpdate()
         {
             if (sendPosition == false)
@@ -60,6 +70,7 @@ namespace Invector.vCharacterController
                 updateIK = false;
             }
         }
+
         void FixedUpdate()
         {
             updateIK = true;

@@ -9,6 +9,7 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 
+[AddComponentMenu("CB GAMES/Player/MP Components/MP vShooterMeleeInput")]
 public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
 {
 
@@ -60,16 +61,31 @@ public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
     #endregion
 
     #region Attacks
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player.
+    /// </summary>
     public override void OnEnableAttack()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
         base.OnEnableAttack();
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player.
+    /// </summary>
     public override void OnDisableAttack()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
         base.OnDisableAttack();
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player. Als will reset the 
+    /// triggers for the networked players when called via the `ResetTriggers` RPC.
+    /// </summary>
     public override void ResetAttackTriggers()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
@@ -78,11 +94,23 @@ public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
 
         base.ResetAttackTriggers();
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player.
+    /// </summary>
     public override void BreakAttack(int breakAtkID)
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
         base.BreakAttack(breakAtkID);
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player. Will also set the triggers
+    /// for recoil and strong attack and reset the triggers for weak attack and strong attack
+    /// for the networked players.
+    /// </summary>
     public override void OnRecoil(int recoilID)
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
@@ -94,6 +122,12 @@ public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
 
         base.OnRecoil(recoilID);
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player. Triggers the weak attack
+    /// animation for networked players to mimic the owner player via the `SetTriggers` RPC.
+    /// </summary>
     public override void TriggerWeakAttack()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
@@ -102,6 +136,12 @@ public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
 
         base.TriggerWeakAttack();
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player. Triggers the strong attack
+    /// animation for networked players to mimic the owner player via the `SetTriggers` RPC.
+    /// </summary>
     public override void TriggerStrongAttack()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
@@ -121,12 +161,25 @@ public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
     #endregion
 
     #region Animator Weights
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player. Sets the animator layer
+    /// weights for the networked players to mimic the owner player via the `SetAnimatorLayerWeights`
+    /// RPC.
+    /// </summary>
     public override void ResetShooterAnimations()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
         base.ResetShooterAnimations();
         GetComponent<PhotonView>().RPC("SetAnimatorLayerWeights", RpcTarget.Others, onlyArmsLayer, onlyArmsLayerWeight);
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player. Sets the animator layer
+    /// weights for the networked players to mimic the owner player via the `SetAnimatorLayerWeights`
+    /// RPC.
+    /// </summary>
     protected override void UpdateShooterAnimations()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
@@ -134,6 +187,14 @@ public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
         onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, (CurrentActiveWeapon) ? 1f : 0f, 6f * Time.deltaTime);
         GetComponent<PhotonView>().RPC("SetAnimatorLayerWeights", RpcTarget.Others, onlyArmsLayer, onlyArmsLayerWeight);
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player. Otherwise the functionality is 
+    /// the same but it also sets the animator layer weights for the networked players to mimic 
+    /// the owner player via the `SetAnimatorLayerWeights`
+    /// RPC.
+    /// </summary>
     protected override void UpdateMeleeAnimations()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
@@ -167,16 +228,30 @@ public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
     #endregion
 
     #region Heartbeat
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player.
+    /// </summary>
     public override void OnAnimatorMove()
     {
         if (cc == null || GetComponent<PhotonView>().IsMine == false) return;
         base.OnAnimatorMove();
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player.
+    /// </summary>
     protected override void Update()
     {
         if (GetComponent<PhotonView>().IsMine == false) return;
         base.Update();
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to only work if you're the owner player
+    /// and will not work if this is called by a networked player.
+    /// </summary>
     protected override void FixedUpdate()
     {
         if (GetComponent<PhotonView>().IsMine == true)
@@ -188,6 +263,12 @@ public class MP_vShooterMeleeInput : vShooterMeleeInput, IPunObservable
             updateIK = true;
         }
     }
+
+    /// <summary>
+    /// Overrides default functionality of invector to perform the same if you're the 
+    /// owner player. Otherwise will only update its aiming location based on what
+    /// is received over the network.
+    /// </summary>
     protected override void LateUpdate()
     {
         if (GetComponent<PhotonView>().IsMine == true)

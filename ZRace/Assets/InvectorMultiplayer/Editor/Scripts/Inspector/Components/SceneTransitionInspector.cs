@@ -8,12 +8,9 @@ using System.Collections.Generic;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(SceneTransition), true)]
-    public class SceneTransitionInspector : Editor
+    public class SceneTransitionInspector : BaseEditor
     {
         #region CustomEditorVariables
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
         SceneDatabase database;
         int selectedDatabaseIndex = 0;
         int selectedEntrancePointIndex = 0;
@@ -39,10 +36,8 @@ namespace CBGames.Inspector
         SerializedProperty BeforeTravel;
         #endregion
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
 
             #region Properties
             autoTravel = serializedObject.FindProperty("autoTravel");
@@ -76,13 +71,21 @@ namespace CBGames.Inspector
                     }
                     sceneNames.Add(database.storedScenesData[i].sceneName);
                 }
-                for (int i = 0; i < database.storedScenesData[selectedDatabaseIndex].entrancePoints.Count; i++)
+                if (selectedDatabaseIndex != -1)
                 {
-                    if (database.storedScenesData[selectedDatabaseIndex].entrancePoints[i] == SpawnAtPoint.stringValue)
+                    for (int i = 0; i < database.storedScenesData[selectedDatabaseIndex].entrancePoints.Count; i++)
                     {
-                        selectedEntrancePointIndex = i;
-                        break;
+                        if (database.storedScenesData[selectedDatabaseIndex].entrancePoints[i] == SpawnAtPoint.stringValue)
+                        {
+                            selectedEntrancePointIndex = i;
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    selectedEntrancePointIndex = 0;
+                    selectedEntrancePointIndex = -1;
                 }
             }
             error = new GUIStyle();
@@ -91,34 +94,23 @@ namespace CBGames.Inspector
             //Get Available Buttons
             availableInputs.Clear();
             availableInputs = E_Helpers.GetAllInputAxis();
+
+            base.OnEnable();
         }
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             SceneTransition sic = (SceneTransition)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
-
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(GUI.skin.box, GUILayout.ExpandHeight(false));
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_sceneExitIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Scene Exit", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("This is used to travel to another scene. It will load the " +
+            DrawTitleBar(
+                "Scene Exit", 
+                "This is used to travel to another scene. It will load the " +
                 "\"LoadSceneName\" and drop your player at the \"SpawnAtPoint\" within that scene." +
                 "This data is all stored within the SceneDatabase. Run \"Scene Transition Manager " +
                 "> Update Scene Database\" to build this, then place that built database into the " +
-                "\"Database\" variable slot.", MessageType.Info);
+                "\"Database\" variable slot.", 
+                E_Core.h_sceneExitIcon
+            );
             #endregion
 
             #region Properties
@@ -126,6 +118,11 @@ namespace CBGames.Inspector
             if (!(SceneDatabase)inspectorDatabase.objectReferenceValue)
             {
                 EditorGUILayout.HelpBox("No \"Database\" is present. Please add a \"Database\" before continuing.", MessageType.Error);
+                serializedObject.ApplyModifiedProperties();
+                if ((SceneDatabase)inspectorDatabase.objectReferenceValue)
+                {
+                    OnEnable();
+                }
             }
             else if (!database)
             {
@@ -142,8 +139,12 @@ namespace CBGames.Inspector
                     EditorGUILayout.PropertyField(activeOnEnter, true);
                 }
                 selectedDatabaseIndex = EditorGUILayout.Popup("Load Scene Name", selectedDatabaseIndex, sceneNames.ToArray());
+                if (selectedDatabaseIndex == -1)
+                {
+                    selectedDatabaseIndex = 0;
+                    OnEnable();
+                }
                 LoadSceneName.stringValue = sceneNames[selectedDatabaseIndex];
-                
                 if (previous_selectedDatabaseIndex != selectedDatabaseIndex)
                 {
                     previous_selectedDatabaseIndex = selectedDatabaseIndex;
@@ -154,7 +155,15 @@ namespace CBGames.Inspector
                 if (database.storedScenesData[selectedDatabaseIndex].entrancePoints.Count > 0)
                 {
                     selectedEntrancePointIndex = EditorGUILayout.Popup("Spawn At Point", selectedEntrancePointIndex, database.storedScenesData[selectedDatabaseIndex].entrancePoints.ToArray());
-                    SpawnAtPoint.stringValue = database.storedScenesData[selectedDatabaseIndex].entrancePoints[selectedEntrancePointIndex];
+                    if (selectedEntrancePointIndex == -1)
+                    {
+                        SpawnAtPoint.stringValue = null;
+                        EditorGUILayout.LabelField("** Select A Spawn Point");
+                    }
+                    else
+                    {
+                        SpawnAtPoint.stringValue = database.storedScenesData[selectedDatabaseIndex].entrancePoints[selectedEntrancePointIndex];
+                    }
                 }
                 else
                 {
@@ -169,6 +178,7 @@ namespace CBGames.Inspector
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.PropertyField(sendAllTogether);
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.HelpBox("This event is called right before traveling to the new scene. It will be invoked on each client if the 'Send All Together' is true.", MessageType.None);
                 EditorGUILayout.PropertyField(BeforeTravel, true);
                 EditorGUILayout.HelpBox("These events are called for ANY player that enters this trigger.", MessageType.None);
@@ -178,14 +188,12 @@ namespace CBGames.Inspector
                 EditorGUILayout.PropertyField(OnOwnerEnterTrigger, true);
                 EditorGUILayout.PropertyField(OnOwnerExitTrigger, true);
                 GUI.skin = _skin;
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
             }
             #endregion
 
             #region End Core
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(SceneTransition)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
+            EndInspectorGUI(typeof(SceneTransition));
             #endregion
         }
     }

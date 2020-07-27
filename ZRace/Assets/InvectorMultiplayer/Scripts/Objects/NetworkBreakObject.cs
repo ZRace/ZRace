@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Objects/Network Break Object")]
     [RequireComponent(typeof(PhotonView))]
     [DisallowMultipleComponent]
     public class NetworkBreakObject : MonoBehaviour
@@ -22,6 +23,11 @@ namespace CBGames.Objects
         [SerializeField] protected Transform dropPoint = null;
         protected bool isBroken = false;
 
+        /// <summary>
+        /// Will sent the `SceneBreak` function and `BroadcastData` fucntion to 
+        /// everyone that enters this photon room that joins the photon session. 
+        /// This makes it a persistant action that spans across all Unity scenes.
+        /// </summary>
         public virtual void BreakObject()
         {
             if (isBroken == true) return;
@@ -43,12 +49,22 @@ namespace CBGames.Objects
             SceneBreak();
         }
 
+
+        /// <summary>
+        /// Sends the `SendNetworkBreakObject` RPC as buffered to everyone,
+        /// including yourself. (Breaks the object)
+        /// </summary>
         public virtual void SceneBreak()
         {
             if (isBroken == true) return;
             GetComponent<PhotonView>().RPC("SendNetworkBreakObject", RpcTarget.AllBuffered);
         }
 
+        /// <summary>
+        /// Calls the `NetworkInstantiatePersistantPrefab` from the NetworkManager
+        /// to instantiate a prefab from the `Resources` folder for everyone
+        /// in the Photon room.
+        /// </summary>
         protected virtual void DropObject()
         {
             if (PhotonNetwork.IsMasterClient == true)

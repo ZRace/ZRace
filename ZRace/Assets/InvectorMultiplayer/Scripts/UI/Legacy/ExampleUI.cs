@@ -16,6 +16,7 @@ using UnityEngine.Events;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/UI/Legacy/Example UI")]
     public class ExampleUI : MonoBehaviour
     {
         #region Modifiable Variables

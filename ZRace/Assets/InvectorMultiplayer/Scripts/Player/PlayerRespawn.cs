@@ -24,6 +24,7 @@ namespace CBGames.Player
     }
     #endregion
 
+    [AddComponentMenu("CB GAMES/UI/Player/Player Respawn")]
     public class PlayerRespawn : MonoBehaviour
     {
         [Tooltip("How long to wait before your player will respawn")]
@@ -61,6 +62,13 @@ namespace CBGames.Player
 
         protected bool isRespawning = false;
 
+        /// <summary>
+        /// Calls the base `Respawn` function. This is used to get the photon
+        /// view component from the owning player before calling `Respawn`.
+        /// </summary>
+        /// <param name="keepItems">bool type, keep the items of the player that is respawning</param>
+        /// <param name="lastDamager">Gameobject type, the gameobject of the thing that dealt the last bit of damage</param>
+        /// <param name="lastDamageType">string type, the type of damage that was received.</param>
         public virtual void Respawn(bool keepItems, GameObject lastDamager=null, string lastDamageType=null)
         {
             Respawn(
@@ -70,12 +78,33 @@ namespace CBGames.Player
                 lastDamageType
             );
         }
+
+        /// <summary>
+        /// Calls the `RespawnAction` IEnumerator to start the respawning process.
+        /// </summary>
+        /// <param name="playerView">PhotonView type, the photonview of the player respawning</param>
+        /// <param name="keepItems">bool type, keep the items of the player that is respawning</param>
+        /// <param name="lastDamager">Gameobject type, the gameobject of the thing that dealt the last bit of damage</param>
+        /// <param name="lastDamageType">string type, the type of damage that was received.</param>
         public virtual void Respawn(PhotonView playerView, bool keepItems, GameObject lastDamager = null, string lastDamageType = "")
         {
             if (isRespawning == true) return;
             isRespawning = true;
             StartCoroutine(RespawnAction(playerView, keepItems, lastDamager, lastDamageType));
         }
+
+        /// <summary>
+        /// Will set the death message based on the inputs and broadcasts that message via the 
+        /// Chatbox's data channel to everyone in the session, but only if you allow this. Enables
+        /// the respawn visual component and starts the countdown. After waiting for the `respawnDelay`
+        /// time it calls `NetworkInstantiatePrefab` from the NetworkManager to instantiate your
+        /// new player and sets all of its needed values at a target respawn point. It will then 
+        /// destroy the old player based on the photonView.
+        /// </summary>
+        /// <param name="playerView">PhotonView type, the photonview of the player respawning</param>
+        /// <param name="keepItems">bool type, keep the items of the player that is respawning</param>
+        /// <param name="lastDamager">Gameobject type, the gameobject of the thing that dealt the last bit of damage</param>
+        /// <param name="lastDamageType">string type, the type of damage that was received.</param>
         protected virtual IEnumerator RespawnAction(PhotonView playerView, bool keepItems, GameObject lastDamager = null, string lastDamageType = "")
         {
             GameObject respawnVisual = null;
@@ -172,6 +201,12 @@ namespace CBGames.Player
                 );
             }
         }
+        
+        /// <summary>
+        /// Will return a target respawn point based on the settings in this component.
+        /// </summary>
+        /// <param name="targetView">The player's PhotonView that needs to select a respwn point</param>
+        /// <returns>Transform of the target respawn point.</returns>
         protected virtual Transform SelectRespawnPoint(PhotonView targetView)
         {
             Transform retVal = null;
@@ -203,10 +238,21 @@ namespace CBGames.Player
             return retVal;
         }
 
+        /// <summary>
+        /// Enable or disable this `isRespawning` variable.
+        /// </summary>
+        /// <param name="isEnabled">bool type, is respawning?</param>
         public void SetRespawnState(bool isEnabled)
         {
             isRespawning = isEnabled;
         }
+
+        /// <summary>
+        /// Selects and random "Team" spawn point. These spawn point names are defined
+        /// in the `NetworkManager` component.
+        /// </summary>
+        /// <param name="teamName">string type, the team spawn point name to randomly pick</param>
+        /// <returns>Transform of the target respawn point</returns>
         public virtual Transform SelectStaticTeamSpawn(string teamName)
         {
             if (debugging == true) Debug.Log("Selecting static team spawn point...");
@@ -230,6 +276,12 @@ namespace CBGames.Player
             if (debugging == true) Debug.Log("Selected " + selectedSpawn.name + " spawn point.");
             return selectedSpawn;
         }
+
+        /// <summary>
+        /// Returns a random point that one of your team mates is at.
+        /// </summary>
+        /// <param name="teamName">string type, the name of the team to try and find a point for</param>
+        /// <returns>Transform point of a found team member</returns>
         public virtual Transform SelectDynamicTeamSpawn(string teamName)
         {
             if (debugging == true) Debug.Log("Selecting a Dynamic Team Spawn point...");

@@ -8,6 +8,7 @@ using Invector.vMelee;
 using Photon.Pun;
 using Photon.Voice.PUN;
 using Photon.Voice.Unity;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -339,7 +340,20 @@ namespace CBGames.Editors
             target.GetComponent<PhotonVoiceView>().AutoCreateRecorderIfNotFound = false;
             target.GetComponent<PhotonVoiceView>().UsePrimaryRecorder = true;
             target.GetComponent<PhotonVoiceView>().SetupDebugSpeaker = true;
-            target.GetComponent<PhotonVoiceView>().SpeakerInUse = target.GetComponent<Speaker>();
+            try
+            {
+                target.GetComponent<PhotonVoiceView>().SpeakerInUse = target.GetComponent<Speaker>();
+            }
+            catch(Exception ex)
+            {
+                log.Add("");
+                log.Add("---------------------------------");
+                log.Add(ex.Message);
+                log.Add("Failed to add the `SpeakerInUse` value. You will need to do this manually.");
+                log.Add("Assign the `Speaker` component into the `PhotonVoiceView`'s `SpeakerInUse` value.");
+                log.Add("---------------------------------");
+                log.Add("");
+            }
         }
         public static void CB_COMP_GenericSync(GameObject target, ref List<string> log)
         {

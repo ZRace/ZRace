@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Weapons/MP Projectile")]
     public class MP_Projectile : MonoBehaviour
     {
         /// <summary>

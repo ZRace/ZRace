@@ -161,19 +161,19 @@ namespace CBGames.Editors
                 #endregion
 
                 #region MP_ShooterWeapon
+                results = E_Helpers.CommentOutFile("InvectorMultiplayer/Scripts/Objects/Shooter/MP_ShooterWeapon.cs", e_disable_shooter);
+                Debug.Log(results);
+                #endregion
+
+                #region MP_BaseShooterWeapon
                 if (AIEnabled == true && e_disable_shooter == true)
                 {
-                    Debug.Log("Skipping disabling MP_ShooterWeapon.cs because FSM AI depends on it.");
+                    Debug.Log("Skipping disabling MP_BaseShooterWeapon.cs because FSM AI depends on it.");
                 }
                 else
                 {
-                    results = E_Helpers.CommentOutFile("InvectorMultiplayer/Scripts/Objects/Shooter/MP_ShooterWeapon.cs", e_disable_shooter);
+                    results = E_Helpers.CommentOutFile("InvectorMultiplayer/Scripts/Objects/Shooter/MP_BaseShooterWeapon.cs", e_disable_shooter);
                     Debug.Log(results);
-                    failure = !results.Contains("Success");
-                    if (failure == true)
-                    {
-                        failures.Add(results);
-                    }
                 }
                 #endregion
 
@@ -518,20 +518,16 @@ namespace CBGames.Editors
                 Debug.Log(results);
                 #endregion
 
-                #region MP_ShooterWeapon
-                if (ShooterEnabled == false && e_disable_fsm_ai == true || e_disable_fsm_ai == false)
+                #region MP_BaseShooterWeapon
+                if (ShooterEnabled == false)
                 {
-                    results = E_Helpers.CommentOutFile("InvectorMultiplayer/Scripts/Objects/Shooter/MP_ShooterWeapon.cs", e_disable_fsm_ai);
+                    results = E_Helpers.CommentOutFile("InvectorMultiplayer/Scripts/Objects/Shooter/MP_BaseShooterWeapon.cs", e_disable_fsm_ai);
                     Debug.Log(results);
-                }
-                else
-                {
-                    Debug.Log("MP_ShooterWeapon.cs is needed for shooter template, skipping.");
                 }
                 #endregion
 
                 #region MP_vShooterManager
-                if (ShooterEnabled == false && e_disable_fsm_ai == true || e_disable_fsm_ai == false)
+                if (ShooterEnabled == false && e_disable_fsm_ai == true || ShooterEnabled == true && e_disable_fsm_ai == false)
                 {
                     results = E_Helpers.CommentOutFile("InvectorMultiplayer/Scripts/Player/Shooter/MP_vShooterManager.cs", e_disable_fsm_ai);
                     Debug.Log(results);

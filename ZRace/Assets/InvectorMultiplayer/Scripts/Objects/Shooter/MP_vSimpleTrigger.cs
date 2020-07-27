@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Objects/MP Simple Trigger")]
     [RequireComponent(typeof(PhotonView))]
     [RequireComponent(typeof(vSimpleTrigger))]
     public class MP_vSimpleTrigger : MonoBehaviour

@@ -5,26 +5,42 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class AutoConnect : MonoBehaviour
+namespace CBGames.Player
 {
-    public string roomToAutoConnectTo = "Testing_room";
+    [AddComponentMenu("CB GAMES/Testing/Auto Connect To Room")]
+    public class AutoConnect : MonoBehaviour
+    {
+        [Tooltip("The photon room to auto connect to")]
+        public string roomToAutoConnectTo = "MyTestingRoom";
 
-    void Start()
-    {
-        StartCoroutine(AutoStart());
-    }
-    IEnumerator AutoStart()
-    {
-        GetComponent<NetworkManager>().JoinLobby();
-        yield return new WaitUntil(() => PhotonNetwork.InLobby);
-        RoomOptions options = new RoomOptions()
+        /// <summary>
+        /// Calls the `AutoStart` IEnumerator
+        /// </summary>
+        void Start()
         {
-            MaxPlayers = 10,
-            PublishUserId = true,
-            IsVisible = true,
-            IsOpen = true,
-            CleanupCacheOnLeave = true
-        };
-        PhotonNetwork.JoinOrCreateRoom(roomToAutoConnectTo, options, TypedLobby.Default);
+            StartCoroutine(AutoStart());
+        }
+
+        /// <summary>
+        /// Will automatically join the photon server, lobby, and finally the photon
+        /// room name that you specify in the `roomToAutoConnectTo` parameter.
+        /// 
+        /// This is used exclusively for testing builds quickly without having to 
+        /// go through a UI interface.
+        /// </summary>
+        IEnumerator AutoStart()
+        {
+            NetworkManager.networkManager.JoinLobby();
+            yield return new WaitUntil(() => PhotonNetwork.InLobby);
+            RoomOptions options = new RoomOptions()
+            {
+                MaxPlayers = 10,
+                PublishUserId = true,
+                IsVisible = true,
+                IsOpen = true,
+                CleanupCacheOnLeave = true
+            };
+            NetworkManager.networkManager.JoinOrCreateRoom(roomToAutoConnectTo, options);
+        }
     }
 }

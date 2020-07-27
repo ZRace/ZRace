@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace CBGames.AI
 {
+    [AddComponentMenu("CB GAMES/AI/MP AI Component Enabler")]
     [RequireComponent(typeof(PhotonView))]
     public class MP_AI : MonoBehaviourPun
     {

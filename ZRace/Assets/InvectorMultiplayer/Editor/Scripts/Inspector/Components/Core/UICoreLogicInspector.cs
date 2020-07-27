@@ -6,14 +6,8 @@ using CBGames.UI;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(UICoreLogic), true)]
-    public class UICoreLogicInspector : Editor
+    public class UICoreLogicInspector : BaseEditor
     {
-        #region Core
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
-        #endregion
-
         #region Properties
         #region Session
         SerializedProperty defaultLevelIndex;
@@ -51,6 +45,7 @@ namespace CBGames.Inspector
         SerializedProperty OnWaitToJoinPhotonRoomsLobby;
         SerializedProperty OnStartSession;
         SerializedProperty OnReceiveRoundTime;
+        SerializedProperty OnReconnecting;
         #endregion
 
         #region Generic Network
@@ -82,14 +77,8 @@ namespace CBGames.Inspector
         #endregion
         #endregion
 
-        private void OnEnable()
-        {
-            // Load Skin for reverence
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-
-            //Load all images
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-            
+        protected override void OnEnable()
+        {   
             #region Properties
             #region Session
             defaultLevelIndex = serializedObject.FindProperty("defaultLevelIndex");
@@ -127,6 +116,7 @@ namespace CBGames.Inspector
             OnStartSession = serializedObject.FindProperty("OnStartSession");
             sceneList = serializedObject.FindProperty("sceneList");
             OnReceiveRoundTime = serializedObject.FindProperty("OnReceiveRoundTime");
+            OnReconnecting = serializedObject.FindProperty("OnReconnecting");
             #endregion
 
             #region Generic Network
@@ -153,34 +143,23 @@ namespace CBGames.Inspector
             OnResetEverything = serializedObject.FindProperty("OnResetEverything");
             #endregion
             #endregion
+
+            base.OnEnable();
         }
 
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             UICoreLogic cl = (UICoreLogic)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
-
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_uiIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("UI Core Logic", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("This component is what almost everything in the UI calls. This is " +
+            DrawTitleBar(
+                "UI Core Logic", 
+                "This component is what almost everything in the UI calls. This is " +
                 "also open enough that it exposes enough functions for you to use in your own UIs (hopefully).\n" +
                 "Only one of these components should ever be in the scene at a time. If more than one \"UICoreLogic\" component " +
-                "is found it could cause errors.", MessageType.Info);
+                "is found it could cause errors.",
+                E_Core.h_uiIcon
+            );
             #endregion
 
             #region Session/Core Settings
@@ -273,6 +252,7 @@ namespace CBGames.Inspector
             #endregion
 
             #region UnityEvents
+            CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
             GUILayout.BeginHorizontal(_skin.customStyles[1]);
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
@@ -386,6 +366,9 @@ namespace CBGames.Inspector
                 }
                 else if (cl.e_events_errors == true)
                 {
+                    EditorGUILayout.HelpBox("Works only if you have enabled 'reconnect' in the NetworkManager. Called" +
+                        "whenever you're attempting to reconnect to your last room after having been disconnected.", MessageType.Info);
+                    EditorGUILayout.PropertyField(OnReconnecting);
                     EditorGUILayout.HelpBox("When any sort of network error happens this is called.", MessageType.Info);
                     EditorGUILayout.PropertyField(OnNetworkError);
                 }
@@ -416,17 +399,13 @@ namespace CBGames.Inspector
                 }
                 GUI.skin = _skin;
             }
+            CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
             #endregion
 
-            #region Core
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(UICoreLogic)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
-            #endregion
+            EndInspectorGUI(typeof(UICoreLogic));
         }
     }
 }

@@ -5,6 +5,7 @@ using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
+[AddComponentMenu("CB GAMES/Player/MP Components/MP vShooterManager")]
 public class MP_vShooterManager : vShooterManager, IPunObservable
 {
     private bool mp_cancelReload = false;
@@ -27,6 +28,11 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
     }
 
     #region Network Sync Animations
+    /// <summary>
+    /// When the owner player cancels the reload animations it calls
+    /// `ResetTriggers` RPC which has the network players mimic the 
+    /// owner player by canceling their reload animations.
+    /// </summary>
     IEnumerator NetworkCancelReloadRoutine()
     {
         if (CurrentWeapon != null)
@@ -41,6 +47,7 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
             }
         }
     }
+
     protected override IEnumerator CancelReloadRoutine()
     {
         StartCoroutine(NetworkCancelReloadRoutine());
@@ -48,6 +55,11 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
         yield return null;
     }
 
+    /// <summary>
+    /// When the owner player triggers the reload animation it calls
+    /// `SetTriggers` RPC which makes the network players play the 
+    /// reload animation to mimic the owner player.
+    /// </summary>
     IEnumerator NetworkReloadWeapon()
     {
         var weapon = rWeapon ? rWeapon : lWeapon;
@@ -74,18 +86,38 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
         }
         yield return null;
     }
+
+    /// <summary>
+    /// Calls the `NetworkReloadWeapon` IEnumerator
+    /// </summary>
     public override void ReloadWeapon()
     {
         StartCoroutine(NetworkReloadWeapon());
         base.ReloadWeapon();
     }
 
+    /// <summary>
+    /// Calls the `NetworkAddAmmoToWeapon` IEnumerator on top of all its normal functions.
+    /// </summary>
+    /// <param name="weapon">Read the invector docs.</param>
+    /// <param name="delayTime">Read the invector docs.</param>
+    /// <param name="ignoreEffects">Read the invector docs.</param>
+    /// <returns></returns>
     protected override IEnumerator AddAmmoToWeapon(vShooterWeapon weapon, float delayTime, bool ignoreEffects = false)
     {
         StartCoroutine(NetworkAddAmmoToWeapon(weapon, delayTime, ignoreEffects));
         StartCoroutine(base.AddAmmoToWeapon(weapon, delayTime, ignoreEffects));
         yield return null;
     }
+
+    /// <summary>
+    /// When the owner player adds ammo to the weapon it triggers the network players
+    /// to play the Reload animations via the `SetTriggers` RPC.
+    /// </summary>
+    /// <param name="weapon">Takes same inputs as `AddAmmoToWeapon` function</param>
+    /// <param name="delayTime">Takes same inputs as `AddAmmoToWeapon` function</param>
+    /// <param name="ignoreEffects">Takes same inputs as `AddAmmoToWeapon` function</param>
+    /// <returns></returns>
     IEnumerator NetworkAddAmmoToWeapon(vShooterWeapon weapon, float delayTime, bool ignoreEffects = false)
     {
         mp_isReloading = true;
@@ -127,12 +159,24 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
         mp_isReloading = false;
     }
 
+    /// <summary>
+    /// Calls the `NetworkRecoil` function on top of all it's normal functionality.
+    /// </summary>
+    /// <param name="horizontal">Read the invector docs.</param>
+    /// <param name="up">Read the invector docs.</param>
     protected override IEnumerator Recoil(float horizontal, float up)
     {
         StartCoroutine(NetworkRecoil(horizontal, up));
         StartCoroutine(base.Recoil(horizontal, up));
         yield return null;
     }
+
+    /// <summary>
+    /// The owner sends the `SetTriggers` RPC for the network players to play the Shooting 
+    /// recoil animation.
+    /// </summary>
+    /// <param name="horizontal">Read the invector docs.</param>
+    /// <param name="up">Read the invector docs.</param>
     IEnumerator NetworkRecoil(float horizontal, float up)
     {
         if (GetComponent<Animator>())
@@ -145,6 +189,14 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
     #endregion
 
     #region Shot Position
+    /// <summary>
+    /// Sets the `lastAimPos` parameter. This parameter is referenced by the `MP_ShooterWeapon`
+    /// class. So when the Shot function on that component is called it knows where to fire
+    /// based on the Vector3 position stored in the `lastAimPos` parameter in this class.
+    /// </summary>
+    /// <param name="aimPosition">Read the invector docs.</param>
+    /// <param name="applyHipfirePrecision">Read the invector docs.</param>
+    /// <param name="useSecundaryWeapon">Read the invector docs.</param>
     public override void Shoot(Vector3 aimPosition, bool applyHipfirePrecision = false, bool useSecundaryWeapon = false)
     {
         lastAimPos = applyHipfirePrecision ? aimPosition + HipFirePrecision(aimPosition) : aimPosition;
@@ -153,6 +205,11 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
     #endregion
 
     #region IK
+    /// <summary>
+    /// When the owner changes its IK adjust catagory it will call the `LoadIKAdjustCatagory`
+    /// RPC which has the networked players set their catagory to the same thing as the owner.
+    /// </summary>
+    /// <param name="category"></param>
     public override void LoadIKAdjust(string category)
     {
         if (GetComponent<PhotonView>().IsMine == true)
@@ -161,6 +218,13 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
         }
         base.LoadIKAdjust(category);
     }
+
+    /// <summary>
+    /// When the owner changes their left weapon it calls the `vShooterManager_ReceiveSetLeftWeapon`
+    /// RPC which has the network players set their left weapon to the same thing that the owner
+    /// player has.
+    /// </summary>
+    /// <param name="weapon">GameObject type, the weapon to set as the left weapon</param>
     public override void SetLeftWeapon(GameObject weapon)
     {
         base.SetLeftWeapon(weapon);
@@ -173,6 +237,13 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
             );
         }
     }
+
+    /// <summary>
+    /// When the owner changes their right weapon it calls the `vShooterManager_ReceiveSetRightWeapon`
+    /// RPC which has the network players set their right weapon to the same thing that the owner
+    /// player has.
+    /// </summary>
+    /// <param name="weapon">GameObject type, the weapon to set as the right weapon</param>
     public override void SetRightWeapon(GameObject weapon)
     {
         base.SetRightWeapon(weapon);
@@ -185,6 +256,11 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
             );
         }
     }
+
+    /// <summary>
+    /// This overrideds the default functionality of the invector logic to only work if
+    /// you're the owner player and will not work if you're a networked player
+    /// </summary>
     public override bool IsLeftWeapon
     {
         get
@@ -192,6 +268,11 @@ public class MP_vShooterManager : vShooterManager, IPunObservable
             return (GetComponent<PhotonView>().IsMine == true) ? base.IsLeftWeapon : _isLeftWeapon;
         }
     }
+
+    /// <summary>
+    /// This overrideds the default functionality of the invector logic to only work if
+    /// you're the owner player and will not work if you're a networked player
+    /// </summary>
     public override bool isShooting
     {
         get

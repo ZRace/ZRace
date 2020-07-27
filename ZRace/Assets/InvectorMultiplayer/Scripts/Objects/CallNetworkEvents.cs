@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Objects/Call Network Events")]
     [RequireComponent(typeof(PhotonView))]
     public class CallNetworkEvents : MonoBehaviour
     {
@@ -171,10 +172,20 @@ namespace CBGames.Objects
         #endregion
 
         #region Float UnityEvents
+        /// <summary>
+        /// Calls `InvokeSingleEvent` function with a value value and number 1
+        /// </summary>
+        /// <param name="value">float type, the value to pass to the UnityEvents</param>
         public virtual void CallFloatInvoke1(float value)
         {
             InvokeSingleEvent(value, 1);
         }
+
+        /// <summary>
+        /// Invokes The float unity events across the network with the specified number and value.
+        /// </summary>
+        /// <param name="value">float type, the float value to pass to these UnityEvents</param>
+        /// <param name="number">The unityevent number to invoke</param>
         protected virtual void InvokeSingleEvent(float value, int number = 0)
         {
             if (number == 0) return;
@@ -190,6 +201,10 @@ namespace CBGames.Objects
         #endregion
 
         #region Scene Update Requests
+        /// <summary>
+        /// Designed to invoke the RPC call based on the input number
+        /// </summary>
+        /// <param name="input"></param>
         public virtual void SceneUpdateNoInputInvokeEvent(string[] input)
         {
             string number = input[0];
@@ -212,6 +227,12 @@ namespace CBGames.Objects
                     break;
             }
         }
+
+        /// <summary>
+        /// Designed to invoke the RPC call for the GameObject input type 
+        /// based on your input number
+        /// </summary>
+        /// <param name="input"></param>
         public virtual void SceneUpdateGameObjectInvokeEvent(string[] input)
         {
             string viewId = input[0];
@@ -236,6 +257,12 @@ namespace CBGames.Objects
                 }
             }
         }
+        
+        /// <summary>
+        /// Designed to invoke the RPC call for the float input type
+        /// based on your input number
+        /// </summary>
+        /// <param name="input"></param>
         public virtual void SceneUpdateFloatInvokeEvent(string[] input)
         {
             string floatValue = input[0];

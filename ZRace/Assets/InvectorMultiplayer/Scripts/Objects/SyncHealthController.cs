@@ -4,6 +4,7 @@ using Invector;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Objects/Sync Health Controller")]
     [RequireComponent(typeof(PhotonView))]
     [DisallowMultipleComponent]
     public class SyncHealthController : MonoBehaviour
@@ -15,6 +16,12 @@ namespace CBGames.Objects
         {
             hc = GetComponent<vHealthController>();
         }
+
+        /// <summary>
+        /// Used to send the `NetworkOnReceiveDamage` RPC. This has this damage
+        /// be received by all networked versions across the network.
+        /// </summary>
+        /// <param name="damage"></param>
         public virtual void SendDamageOverNetwork(vDamage damage)
         {
             if (waitingResponse)

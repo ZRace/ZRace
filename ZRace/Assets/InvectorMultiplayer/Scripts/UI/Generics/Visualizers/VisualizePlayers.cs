@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/UI/Generics/Visualizers/Visualize Players")]
     public class VisualizePlayers : MonoBehaviour
     {
         [Tooltip("The parent object of these newly spawned UI elements")]
@@ -33,7 +34,9 @@ namespace CBGames.UI
             "IMPORTANT NOTE: You should only ever have this boolean enabled on one of these components at a time. " +
             "Otherwise the enabled components will fight with each other.")]
         [SerializeField] protected bool autoSetTeamIfNotSet = false;
+        [Tooltip("Enable this if you want to have verbose logging into the console to help you debug things.")]
         [SerializeField] protected bool debugging = false;
+
         protected int _prevPlayerCount = 0;
         protected UICoreLogic logic;
         protected bool _playJoinedSound = false;
@@ -43,6 +46,10 @@ namespace CBGames.UI
         {
             parentObj = (parentObj == null) ? transform : parentObj;
         }
+
+        /// <summary>
+        /// Will add the `WaitRefresh` to be called with the `teamsUpdated` and `voiceViewUpdated` delegates.
+        /// </summary>
         protected virtual void OnEnable()
         {
             _prevPlayerCount = 0;
@@ -50,12 +57,23 @@ namespace CBGames.UI
             logic.teamsUpdated += WaitRefresh;
             logic.voiceViewUpdated += WaitRefresh;
         }
+
+        /// <summary>
+        /// Will remove the `WaitRefresh` from being called with the `teamsUpdated` and `voiceViewUpdated` delegates.
+        /// </summary>
         protected virtual void OnDisable()
         {
             logic.teamsUpdated -= WaitRefresh;
             logic.voiceViewUpdated -= WaitRefresh;
         }
 
+        /// <summary>
+        /// Will dynamically instantiate the `ownerPlayer` if you or the `otherPlayer` gameobjects when a player
+        /// joins the photon room, based on if they're the master client or not. Also plays a sound (if one is set) 
+        /// when a player joins and leave the room. If the `autoSetTeamIfNotSet` is true and the player joining 
+        /// doesn't already have a team set (from joining previously) then this will be called to automatically 
+        /// select a team for them.
+        /// </summary>
         protected virtual void Update()
         {
             if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom && _prevPlayerCount != PhotonNetwork.CurrentRoom.PlayerCount)
@@ -88,6 +106,9 @@ namespace CBGames.UI
         }
 
         #region Sound Settings
+        /// <summary>
+        /// Plays a random `joinedSound` at the `soundSource`.
+        /// </summary>
         protected virtual void PlayJoinedSound()
         {
             if (joinedSound.Length > 0 && soundSource)
@@ -96,6 +117,10 @@ namespace CBGames.UI
                 soundSource.Play();
             }
         }
+
+        /// <summary>
+        /// Plays a random `leftSound` at the `soundSource`.
+        /// </summary>
         protected virtual void PlayLeftSound()
         {
             if (leftSound.Length > 0 && soundSource)
@@ -107,6 +132,11 @@ namespace CBGames.UI
         #endregion
 
         #region Team Selection
+        /// <summary>
+        /// Will automatically try to evenly add playersto a select team. Loops over all players, skipping ones
+        /// that already have a team set and captures all the players that don't. Then it will set each captured
+        /// player into a team one by one, evenly distributing them.
+        /// </summary>
         protected virtual void AutoSelectTeam()
         {
             if (debugging == true) Debug.Log("Auto selecting team...");
@@ -150,10 +180,18 @@ namespace CBGames.UI
         #endregion
 
         #region Refresh View
+        /// <summary>
+        /// Calls the `WaitToRefresh` IEnumerator
+        /// </summary>
         public virtual void WaitRefresh()
         {
             StartCoroutine(WaitToRefresh());
         }
+
+        /// <summary>
+        /// Calls `DestroyChildObjects` and `SpawnChildObjects` functions.
+        /// </summary>
+        /// <returns></returns>
         protected virtual System.Collections.IEnumerator WaitToRefresh()
         {
             yield return new WaitForEndOfFrame();
@@ -162,6 +200,9 @@ namespace CBGames.UI
             SpawnChildObjects();
         }
 
+        /// <summary>
+        /// Destroys all child gameobjects of this gameobject that this component is attached to.
+        /// </summary>
         protected virtual void DestroyChildObjects()
         {
             if (debugging == true) Debug.Log("Destroy child objects...");
@@ -178,6 +219,10 @@ namespace CBGames.UI
             }
         }
 
+        /// <summary>
+        /// Spawns a new child gameobject for the passed in player.
+        /// </summary>
+        /// <param name="target_player">KeyValuePair<int, Photon.Realtime.Player> type, the connected player dictionary</param>
         protected virtual void SpawnChild(KeyValuePair<int, Photon.Realtime.Player> target_player)
         {
             if (string.IsNullOrEmpty(teamName) || teamName == logic.GetUserTeamName(target_player.Value.UserId))
@@ -219,6 +264,10 @@ namespace CBGames.UI
                 }
             }
         }
+
+        /// <summary>
+        /// Loops over all the players in the current room and calls `SpawnChild` on each one.
+        /// </summary>
         protected virtual void SpawnChildObjects()
         {
             if (debugging == true) Debug.Log("Current Player Count: " + PhotonNetwork.CurrentRoom.Players.Count);
@@ -228,10 +277,19 @@ namespace CBGames.UI
             }
         }
 
+        /// <summary>
+        /// Can be used by other classes to set the `otherPlayer` gameobject to be spawned.
+        /// </summary>
+        /// <param name="newOtherPlayer">GameObject type, the gameobject to spawn when the player connecting is not the master client</param>
         public virtual void SetOtherPlayerGO(GameObject newOtherPlayer)
         {
             otherPlayer = newOtherPlayer;
         }
+
+        /// <summary>
+        /// Can be used by other classes to set the `newOwnerPlayer` gameobject to be spawned.
+        /// </summary>
+        /// <param name="newOtherPlayer">GameObject type, the gameobject to spawn when the player connecting is the master client</param>
         public virtual void SetOwnerPlayerGO(GameObject newOwnerPlayer)
         {
             ownerPlayer = newOwnerPlayer;

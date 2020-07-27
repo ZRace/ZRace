@@ -114,20 +114,24 @@ namespace CBGames.Editors
         }
         private void OnGUI()
         {
+            CBColorHolder _orglabel = new CBColorHolder(EditorStyles.label);
+            CBColorHolder _orgfoldout = new CBColorHolder(EditorStyles.foldout);
+            CBColorHolder _skinHolder = new CBColorHolder(_skin.label);
             //Apply the gui skin
             GUI.skin = _skin;
 
             //Draw title bar
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_2);
-            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), E_Colors.e_c_blue_1);
-            EditorGUILayout.LabelField("Convert Scene Objects For Multiplayer Support", _skin.GetStyle("Label"));
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_5);
+            EditorGUILayout.Space();
+            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), E_Colors.e_c_blue_4);
+            EditorGUILayout.LabelField("Convert Scene Objects For Multiplayer Support", _skin.label);
             EditorGUILayout.Space();
 
             EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
             EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(false));
 
             //Draw Helpful Text
-            EditorGUILayout.LabelField(_help, _skin.GetStyle("TextField"));
+            EditorGUILayout.LabelField(_help, _skin.textField);
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
@@ -135,6 +139,7 @@ namespace CBGames.Editors
             //Draw Selection Booleans
             EditorGUILayout.BeginVertical(_skin.box, GUILayout.Width(100));
             EditorGUILayout.BeginHorizontal(GUILayout.Width(100));
+            CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
             _cRigidbodies = EditorGUILayout.ToggleLeft("Rigidbodies", _cRigidbodies, GUILayout.Width(150));
             _cvBreakableObjects = EditorGUILayout.ToggleLeft("vBreakableObjects", _cvBreakableObjects, GUILayout.Width(163));
             EditorGUILayout.EndHorizontal();
@@ -148,6 +153,7 @@ namespace CBGames.Editors
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal(GUILayout.Width(100));
             _cUseItemTrigger = EditorGUILayout.ToggleLeft("UseItemEventTriggers", _cUseItemTrigger, GUILayout.Width(150));
+            CBEditor.SetColorToEditorStyle(_orglabel, _orgfoldout);
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
 
@@ -173,16 +179,16 @@ namespace CBGames.Editors
             //Draw Selectable List
             _count = 0;
             EditorGUILayout.BeginHorizontal(_skin.box, GUILayout.Width(325));
-            EditorGUILayout.BeginVertical(GUILayout.Height(308));
+            EditorGUILayout.BeginVertical(GUILayout.Height(300));
             _scrollPos = GUI.BeginScrollView(new Rect(10, 260, 300, position.height - 290), _scrollPos, new Rect(0, 0, 230, _scrollHeight), false, true);
             for (int i = 0; i < convertables.Count; i++)
             {
                 EditorGUILayout.BeginHorizontal();
-                if (GUI.Button(new Rect(5, _count, 29, 30), "X", _skin.GetStyle("Button")) && _converting == false)
+                if (GUI.Button(new Rect(5, _count, 29, 30), "X", _skin.button) && _converting == false)
                 {
                     convertables.RemoveAt(i);
                 }
-                if (GUI.Button(new Rect(40, _count, 230, 30), convertables[i].name, _skin.GetStyle("Button")) && _converting == false)
+                if (GUI.Button(new Rect(40, _count, 230, 30), convertables[i].name, _skin.button) && _converting == false)
                 {
                     PreviewObject(convertables[i]);
                 }
@@ -197,18 +203,18 @@ namespace CBGames.Editors
             //Draw Target Preview
             if (_target)
             {
-                _objectPreview.OnInteractivePreviewGUI(new Rect(position.width - 170, 160, 150, 150), "window");
-                EditorGUI.DrawRect(new Rect(position.width - 170, 315, 150, 144), _titleBoxColor);
-                _previewScrollPos = GUI.BeginScrollView(new Rect(position.width - 168, 312, 167, 150), _previewScrollPos, new Rect(0, 0, 150, _previewScrollHeight), false, true);
+                _objectPreview.OnInteractivePreviewGUI(new Rect(position.width - 170, 162, 150, 150), "window");
+                EditorGUI.DrawRect(new Rect(position.width - 170, 315, 150, 214), E_Colors.e_c_blue_3);
+                _previewScrollPos = GUI.BeginScrollView(new Rect(position.width - 168, 312, 167, 210), _previewScrollPos, new Rect(0, 0, 150, _previewScrollHeight), false, true);
                 for (int i = 0; i < _previewConverts.Count; i++)
                 {
-                    EditorGUI.LabelField(new Rect(0, (i * 30), 150, 40), _previewConverts[i], _skin.GetStyle("TextField"));
+                    EditorGUI.LabelField(new Rect(0, (i * 30), 150, 40), _previewConverts[i], _skin.textField);
                 }
                 GUI.EndScrollView();
             }
 
             //Draw Convert button
-            if (GUI.Button(new Rect(position.width - 170, position.height - 40, 167, 30), "CONVERT ALL", _skin.GetStyle("Button")) && _converting == false)
+            if (GUI.Button(new Rect(position.width - 170, position.height - 38, 167, 30), "CONVERT ALL", _skin.button) && _converting == false)
             {
                 if (EditorUtility.DisplayDialog("Start Converting Scene Objects?",
                     "It's important to note that this does not make a copy of these " +

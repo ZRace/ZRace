@@ -6,6 +6,7 @@ using static Photon.Pun.UtilityScripts.PlayerNumbering;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Player/Generic Sync")]
     [RequireComponent(typeof(PhotonView))]
     public class GenericSync : MonoBehaviourPun, IPunObservable
     {

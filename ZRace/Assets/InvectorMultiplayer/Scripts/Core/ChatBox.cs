@@ -17,6 +17,7 @@ using static CBGames.Core.CoreDelegates;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/Core/ChatBox")]
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Animator))]
     public partial class ChatBox : MonoBehaviour, IChatClientListener

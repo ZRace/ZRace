@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/UI/Legacy/Counter")]
     public class Counter : MonoBehaviour
     {
         public enum CounterType { CountDown, CountUp }
@@ -17,6 +18,10 @@ namespace CBGames.UI
         float currentNumber = 0.0f;
         float targetNumber = 0.0f;
 
+        /// <summary>
+        /// Start counting down from the specified input amount.
+        /// </summary>
+        /// <param name="amount">float type, the amount of time to start counting down from.</param>
         public void StartCounting(float amount)
         {
             targetNumber = amount;
@@ -34,6 +39,9 @@ namespace CBGames.UI
             counting = true;
         }
 
+        /// <summary>
+        /// Is responsible for counting down and setting the `counter` value.
+        /// </summary>
         private void Update()
         {
             if (counting == true)

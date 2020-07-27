@@ -7,12 +7,9 @@ using System.Collections.Generic;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(VoiceChat), true)]
-    public class VoiceChatInspector : Editor
+    public class VoiceChatInspector : BaseEditor
     {
         #region CustomEditorVariables
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
         List<string> availableInputs = new List<string>();
         int selectedButton = 0;
         #endregion
@@ -33,14 +30,8 @@ namespace CBGames.Inspector
 
         SerializedProperty debugging;
         #endregion
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            // Load Skin for reverence
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-
-            //Load all images
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-
             #region Fields
             isPlayer = serializedObject.FindProperty("isPlayer");
             ifOnTeam = serializedObject.FindProperty("ifOnTeam");
@@ -57,30 +48,16 @@ namespace CBGames.Inspector
             #endregion
 
             availableInputs = E_Helpers.GetAllInputAxis();
+            base.OnEnable();
         }
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             VoiceChat vc = (VoiceChat)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
-
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(GUI.skin.box, GUILayout.ExpandHeight(false));
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_voiceIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Voice Chat", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("If this component is... " +
+            DrawTitleBar(
+                "Voice Chat", 
+                "If this component is... " +
                 "\n" +
                 "...not for a player...\n" +
                 "This is for a peristant object. This should be made a child object of the \"NetworkManager\" gameobject." +
@@ -92,7 +69,9 @@ namespace CBGames.Inspector
                 "This requires a \"Speaker\" & \"PhotonVoiceView\" components attached. This will display an icon when " +
                 "voice from another player is playing through the \"Speaker\" component. Adjust the generated \"AudioSource\" " +
                 "component to 2D if you want global room chat or 3D for proximity based chat. The \"Recorder In Use\" field " +
-                "on the \"PhotonVoiceView\" will be auto populate by finding the \"Recorder\" component in the scene.", MessageType.Info);
+                "on the \"PhotonVoiceView\" will be auto populate by finding the \"Recorder\" component in the scene.", 
+                E_Core.h_voiceIcon
+            );
             #endregion
 
             EditorGUILayout.BeginHorizontal(_skin.box);
@@ -122,6 +101,7 @@ namespace CBGames.Inspector
                 }
 
                 GUI.skin = _original;
+                CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
                 EditorGUILayout.HelpBox("Called when successfully connected/disconnected from the master voice server.", MessageType.None);
                 EditorGUILayout.PropertyField(OnConnectedToServer, true);
                 EditorGUILayout.PropertyField(OnDisconnect, true);
@@ -130,15 +110,11 @@ namespace CBGames.Inspector
                 EditorGUILayout.HelpBox("Called once when this component is first loaded in a scene.", MessageType.None);
                 EditorGUILayout.PropertyField(OnStart, true);
                 GUI.skin = _skin;
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 EditorGUILayout.Space();
             }
 
-            #region End Core
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(VoiceChat)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
-            #endregion
+            EndInspectorGUI(typeof(VoiceChat));
         }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/UI/Generics/Trackers/Track Player Count")]
     public class TrackPlayerCount : MonoBehaviour
     {
         [Tooltip("The series of text objects to modify with the number of players in the room.")]
@@ -23,8 +24,11 @@ namespace CBGames.UI
         [SerializeField] protected int reachPlayerCount = 4;
         [Tooltip("The number of players to fall to to excute the ReachedFallPlayerCount UnityEvent.")]
         [SerializeField] protected int fallBelowCount = 2;
+        [Tooltip("UnityEvent. Called when you reach the specified `reachPlayerCount`.")]
         public UnityEvent ReachedPlayerCount = new UnityEvent();
+        [Tooltip("UnityEvent. Called when you hit the `fallBelowCount` when you were originally at a higher value.")]
         public UnityEvent ReachedFallPlayerCount = new UnityEvent();
+        [Tooltip("UnityEvent. Called when the player count changes")]
         public IntUnityEvent OnCountChanged = new IntUnityEvent();
 
         protected UICoreLogic logic;
@@ -36,6 +40,12 @@ namespace CBGames.UI
             logic = FindObjectOfType<UICoreLogic>();    
         }
 
+        /// <summary>
+        /// Dynamically sets the `texts` values to be what the currented connected
+        /// player count is. Will only update these values if you're currently 
+        /// connected to a photon room. Will call the `ReachedFallPlayerCount` and
+        /// `ReachedPlayerCount` UnityEvents.
+        /// </summary>
         protected virtual void Update()
         {
             if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
@@ -66,6 +76,14 @@ namespace CBGames.UI
                 SetText("0");
             }
         }
+
+        /// <summary>
+        /// Calls the `SetText` function to set the values of the `texts` to be 
+        /// what the current input count is. If the input count was different from
+        /// the last time you called this function it will execute the `OnCountChanged`
+        /// UnityEvent.
+        /// </summary>
+        /// <param name="count">int type, the count to display on all the texts.</param>
         protected virtual void DisplayCount(int count)
         {
             if (string.IsNullOrEmpty(teamName))
@@ -90,6 +108,11 @@ namespace CBGames.UI
                 }
             }
         }
+
+        /// <summary>
+        /// Sets the value of the `texts` to be whatever the input value is. 
+        /// </summary>
+        /// <param name="inputText">string type, the string to display on all the `texts`</param>
         protected virtual void SetText(string inputText)
         {
             foreach (Text text in texts)
@@ -97,6 +120,12 @@ namespace CBGames.UI
                 text.text = inputText;
             }
         }
+
+        /// <summary>
+        /// Used to make sure that the fall and reached unity events are fired
+        /// only once. This is calls as part of the `Update` function.
+        /// </summary>
+        /// <param name="isEnabled"></param>
         public virtual void EnableReachPlayerCountEvent(bool isEnabled)
         {
             executeEventAtPlayerCount = isEnabled;

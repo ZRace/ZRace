@@ -5,6 +5,7 @@ using CBGames.Core;
 using Invector.vItemManager;
 
 namespace CBGames.Objects {
+    [AddComponentMenu("CB GAMES/Player/Sync Equipped Items")]
     public class SyncObject : MonoBehaviour
     {
         public class ChildrenStates
@@ -45,6 +46,12 @@ namespace CBGames.Objects {
         protected int[] toParentTree = null;
         protected int[] treeToThis = null;
 
+        /// <summary>
+        /// Checks to see if the passed in GameObject is is currently in this components
+        /// known list of gameObjects.
+        /// </summary>
+        /// <param name="go">The gameobject to check if its in the list</param>
+        /// <returns>True or False, is already in the known list.</returns>
         protected virtual bool IsInChildrenStatsList(GameObject go)
         {
             foreach (ChildrenStates child in children)
@@ -56,10 +63,23 @@ namespace CBGames.Objects {
             }
             return false;
         }
+
+        /// <summary>
+        /// Checks to see if the passed in GameObject is is currently in this components
+        /// known list of gameObjects.
+        /// </summary>
+        /// <param name="go">The gameobject to check if its in the list</param>
+        /// <returns>True or False, is already in the known list.</returns>
         protected virtual bool GOInList(GameObject go, List<ChildrenStates> children)
         {
             return children.Exists(x => x.gameObject == go);
         }
+
+        /// <summary>
+        /// Calls to add the `SyncObject` component to the passed in gameobject.
+        /// Also sets the settings as though this is a child of this component.
+        /// </summary>
+        /// <param name="child">The GameObject to add the `SyncObject` component to</param>
         protected virtual void AddThisComponent(GameObject child)
         {
             if (!child.gameObject.GetComponent<SyncObject>())
@@ -75,6 +95,9 @@ namespace CBGames.Objects {
             }
         }
 
+        /// <summary>
+        /// Builds the index tree to the root of this tree and finds the parent `PhotonView` component.
+        /// </summary>
         protected virtual void Awake()
         {
             if (!view)
@@ -94,6 +117,11 @@ namespace CBGames.Objects {
                 treeToThis = StaticMethods.BuildChildTree(transform.root, this.transform, debugging);
             }
         }
+
+        /// <summary>
+        /// Will call the `NetworkSetActive` RPC which will enable this object for everyone on
+        /// the network, not including yourself.
+        /// </summary>
         protected virtual void OnEnable()
         {
             if (view.IsMine == true && syncEnable == true && toParentTree.Length > 0)
@@ -102,6 +130,11 @@ namespace CBGames.Objects {
                 view.RPC("NetworkSetActive", RpcTarget.OthersBuffered, toParentTree, new int[1] { transform.GetSiblingIndex() }, true);
             }
         }
+
+        /// <summary>
+        /// Will call the `NetworkSetActive` RPC which will disable this object for everyone on
+        /// the network, not including yourself.
+        /// </summary>
         protected virtual void OnDisable()
         {
             if (view.IsMine == true && syncDisable == true)
@@ -113,6 +146,11 @@ namespace CBGames.Objects {
                 }
             }
         }
+
+        /// <summary>
+        /// Calls the `Item_NetworkDestroy` RPC which destroys this object for everyone on the network, 
+        /// not including yourself.
+        /// </summary>
         protected virtual void OnDestroy()
         {
             if (view.IsMine == true && syncDestroy == true)
@@ -124,6 +162,14 @@ namespace CBGames.Objects {
                 }
             }
         }
+
+        /// <summary>
+        /// Called when a child object is added or removed from this object. Will detect
+        /// if the object is added or removed and call the `Item_NetworkDestroy` or 
+        /// `NetworkSetActive` RPC to enable/disable or destroy this object over the 
+        /// network. This makes the networked players mimic what the owner's state 
+        /// currently is.
+        /// </summary>
         protected virtual void OnTransformChildrenChanged()
         {
             if (view.IsMine == true && syncImmediateChildren == true)

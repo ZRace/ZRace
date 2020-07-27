@@ -13,10 +13,6 @@ namespace CBGames.Editors
         List<string> foundPaths = new List<string>();
         Vector2 _scrollPos = Vector2.zero;
         GUISkin _skin = null;
-        Color _titleColor;
-        Color _titleBoxColor;
-        Color _lockColor;
-        Color _convertBar;
         GameObject _target;
         Editor _objectPreview;
         float _scrollHeight = 0.0f;
@@ -36,7 +32,7 @@ namespace CBGames.Editors
         public static void CB_ConvertPrefabs()
         {
             EditorWindow window = GetWindow<E_ConvertPrefabs>(true);
-            window.maxSize = new Vector2(500, 500);
+            window.maxSize = new Vector2(500, 550);
             window.minSize = window.maxSize;
         }
 
@@ -44,26 +40,24 @@ namespace CBGames.Editors
         {
             if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
 
-            //Set title bar colors
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-            _titleBoxColor = new Color32(1, 16, 51, 255);
-            _lockColor = new Color32(158, 158, 158, 200);
-            _convertBar = new Color32(95, 165, 245, 255);
-
             //Make window title
-            this.titleContent = new GUIContent("Invector Scripts", null, "One way convert invector scripts.");
+            this.titleContent = new GUIContent("Convert Project Prefabs", null, "Converts all the prefabs in your project to support multiplayer.");
         }
 
         private void OnGUI()
         {
+            CBColorHolder _org = new CBColorHolder(EditorStyles.label);
+            CBColorHolder _orgFoldout = new CBColorHolder(EditorStyles.foldout);
+            CBColorHolder _skinHolder = new CBColorHolder(_skin.label);
+
             //Apply the gui skin
             GUI.skin = _skin;
 
             //Draw title bar
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_2);
-            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), _titleColor);
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_5);
+            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), E_Colors.e_c_blue_4);
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Convert Prefabs To Multiplayer", _skin.GetStyle("Label"));
+            EditorGUILayout.LabelField("Convert Prefabs To Multiplayer", _skin.label);
             EditorGUILayout.Space();
 
             //Draw Body
@@ -71,12 +65,15 @@ namespace CBGames.Editors
             EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(false));
 
             //Apply Body Title/Description
-            EditorGUILayout.LabelField("This will find all CB_prefabs in your project. " +
-                "Then it will scan each one and give you a list of CB_prefabs that could be converted " +
+            EditorGUILayout.LabelField("This will find all prefabs in your project. " +
+                "Then it will scan each one and give you a list of prefabs that could be converted " +
                 "to support multiplayer. You can click the 'X' button to the left and it will remove the prefab " +
                 "from the convert list. You can also click on the name of each prefab and get a preview of " +
                 "the object and what will be converted on it. Converted items are saved in \"Assets/Resources\"." +
-                "So they can be PhotonInstantiated across the network when needed.", _skin.GetStyle("TextField"));
+                "So they can be PhotonInstantiated across the network when needed.\n\n" +
+                "WARNING NOTE: If your project is large this could take considerable time. It is suggested to right " +
+                "click on each prefab you want to convert and selecting the appropriate action from the CB Games menu " +
+                "item.", _skin.textField);
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
 
@@ -89,37 +86,43 @@ namespace CBGames.Editors
             {
                 EditorGUILayout.BeginVertical(_skin.box, GUILayout.Width(100));
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(100));
+                CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
                 _cvBreakableObjects = EditorGUILayout.ToggleLeft("Show vBreakableObjects", _cvBreakableObjects, GUILayout.Width(150));
                 _cvShooterWeapons = EditorGUILayout.ToggleLeft("Show vShooterWeapons", _cvShooterWeapons, GUILayout.Width(150));
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(100));
                 _cItemCollection = EditorGUILayout.ToggleLeft("Show vItemCollections", _cItemCollection, GUILayout.Width(150));
                 _cvHealthController = EditorGUILayout.ToggleLeft("Show vHealthControllers", _cvHealthController, GUILayout.Width(163));
+                CBEditor.SetColorToEditorStyle(_org, _orgFoldout);
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
 
-                if (GUI.Button(new Rect(100, 200, 300, 30), "Scan Project", _skin.GetStyle("Button")) && _scanning == false)
+                EditorGUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button("Scan Project", _skin.button, GUILayout.Height(40), GUILayout.Width(300)) && _scanning == false)
                 {
                     this.StartCoroutine(ScanProject());
                 }
+                GUILayout.FlexibleSpace();
+                EditorGUILayout.EndHorizontal();
             }
             if (_scanning == true)
             {
-                EditorGUI.DrawRect(new Rect(10, 160, position.width - 20, 40), _titleColor);
-                EditorGUI.LabelField(new Rect(100, 160, 300, 50), "Scanning, please wait...\nImportant Note: You can click into this window to refresh it.", _skin.GetStyle("TextField"));
+                EditorGUI.DrawRect(new Rect(10, 160, position.width - 20, 40), E_Colors.e_c_blue_2);
+                EditorGUI.LabelField(new Rect(100, 160, 300, 50), "Scanning, please wait...\nImportant Note: You can click into this window to refresh it.", _skin.textField);
             }
             if (_scanned == true && CB_prefabs.Count > 0)
             {
-                _scrollPos = GUI.BeginScrollView(new Rect(15, 160, 300, position.height - 240), _scrollPos, new Rect(0, 0, 250, _scrollHeight), false, true);
+                _scrollPos = GUI.BeginScrollView(new Rect(15, 210, 300, position.height - 260), _scrollPos, new Rect(0, 0, 250, _scrollHeight), false, true);
                 _count = 0;
                 foreach (KeyValuePair<GameObject, string> prefab in CB_prefabs)
                 {
-                    if (GUI.Button(new Rect(5, _count * 39, 30, 35), "X", _skin.GetStyle("Button")))
+                    if (GUI.Button(new Rect(5, _count * 39, 30, 35), "X", _skin.button))
                     {
                         CB_prefabs.Remove(prefab.Key);
                         break;
                     }
-                    if (GUI.Button(new Rect(40, _count * 39, 220, 35), prefab.Key.name, _skin.GetStyle("Button")))
+                    if (GUI.Button(new Rect(40, _count * 39, 220, 35), prefab.Key.name, _skin.button))
                     {
                         ViewSelectedObject(prefab.Key);
                         SetConvertables(prefab.Key);
@@ -127,11 +130,11 @@ namespace CBGames.Editors
                     _count += 1;
                 }
                 GUI.EndScrollView();
-                if (GUI.Button(new Rect(10, position.height-40, 235, 30), "Convert Found Prefabs", _skin.GetStyle("Button")) && _scanning == false)
+                if (GUI.Button(new Rect(10, position.height-40, 235, 30), "Convert Found Prefabs", _skin.button) && _scanning == false)
                 {
                     ConvertPrefabsToMultiplayer();
                 }
-                if (GUI.Button(new Rect(255, position.height - 40, 235, 30), "Rescan Project", _skin.GetStyle("Button")) && _scanning == false)
+                if (GUI.Button(new Rect(255, position.height - 40, 235, 30), "Rescan Project", _skin.button) && _scanning == false)
                 {
                     _scanning = false;
                     _scanned = false;
@@ -142,18 +145,18 @@ namespace CBGames.Editors
 
             if (_target)
             {
-                _objectPreview.OnInteractivePreviewGUI(new Rect(position.width - 170, 147, 150, 150), "window");
-                EditorGUI.DrawRect(new Rect(position.width - 170, 300, 150, 150), _titleBoxColor);
+                _objectPreview.OnInteractivePreviewGUI(new Rect(position.width - 170, 207, 150, 150), "window");
+                EditorGUI.DrawRect(new Rect(position.width - 170, 350, 150, 150), E_Colors.e_c_blue_4);
                 for (int i = 0; i < CB_previewConverts.Count; i++)
                 {
-                    EditorGUI.LabelField(new Rect(position.width - 170, (300+(i * 30)), 150, 60), CB_previewConverts[i], _skin.GetStyle("TextField"));
+                    EditorGUI.LabelField(new Rect(position.width - 170, (350+(i * 30)), 150, 60), CB_previewConverts[i], _skin.textField);
                 }
             }
             if (_converting == true)
             {
-                EditorGUI.DrawRect(new Rect(0, 50, position.width, position.height - 30), _lockColor);
-                EditorGUI.DrawRect(new Rect(0, position.height / 2 - 50, position.width, 100), _convertBar);
-                EditorGUI.LabelField(new Rect(0, position.height / 2 - 50, position.width, 100), "Converting Prefabs, please wait...", _skin.GetStyle("Label"));
+                EditorGUI.DrawRect(new Rect(0, 50, position.width, position.height - 30), E_Colors.e_c_blue_1);
+                EditorGUI.DrawRect(new Rect(0, position.height / 2 - 50, position.width, 100), E_Colors.e_c_blue_3);
+                EditorGUI.LabelField(new Rect(0, position.height / 2 - 50, position.width, 100), "Converting Prefabs, please wait...", _skin.label);
                 EditorGUI.LabelField(new Rect(30, position.height / 2 + 10, position.width, 100), "If this window is just staying here longer than 2 seconds, then an internal error occured.", _skin.GetStyle("TextField"));
             }
         }

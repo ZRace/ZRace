@@ -7,7 +7,7 @@ using UnityEditorInternal;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(PreviewCamera), true, isFallback = true)]
-    public class PreviewCameraInspector : Editor
+    public class PreviewCameraInspector : BaseEditor
     {
         #region Properties
         SerializedProperty cameraPoints;
@@ -20,14 +20,11 @@ namespace CBGames.Inspector
         #endregion
 
         #region CustomEditorVariables
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
         PreviewCamera _target;
         private ReorderableList _cameraPointsList;
         #endregion
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             _target = (PreviewCamera)target;
             _cameraPointsList = new ReorderableList(serializedObject, serializedObject.FindProperty("cameraPoints"), true, true, true, true);
@@ -53,41 +50,23 @@ namespace CBGames.Inspector
             networkManager = serializedObject.FindProperty("networkManager");
             #endregion
 
-            #region Core
-            // Load Skin for reverence
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-
-            //Load all images
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-            #endregion
+            base.OnEnable();
         }
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             PreviewCamera pc = (PreviewCamera)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
-
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
-
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_cameraPath, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Preview Camera", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("Component thats used to make a target camera follow a series of points. This is designed specifically for a lobby preview camera however this does contain a start/stop function for outside components to call.", MessageType.Info);
+            DrawTitleBar(
+                "Preview Camera", 
+                "Component thats used to make a target camera follow a series of points. " +
+                "This is designed specifically for a lobby preview camera however this does " +
+                "contain a start/stop function for outside components to call.", 
+                E_Core.h_cameraPath
+            );
             #endregion
 
-            #region Camera
+            #region Properties
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
             GUILayout.EndVertical();
@@ -97,23 +76,22 @@ namespace CBGames.Inspector
             GUILayout.BeginHorizontal(_skin.customStyles[1], GUILayout.ExpandHeight(false));
             GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
             GUI.skin = _original;
+            CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
             _cameraPointsList.DoLayoutList();
             GUI.skin = _skin;
+            CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
             EditorGUILayout.PropertyField(cameraMoveSpeed);
             EditorGUILayout.PropertyField(cameraCloseEnough);
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Optional Fields", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Optional Fields", _skin.textArea);
             EditorGUILayout.PropertyField(targetCam);
             EditorGUILayout.PropertyField(networkManager);
             #endregion
 
             #region Core
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(PreviewCamera)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
+            EndInspectorGUI(typeof(PreviewCamera));
             #endregion
         }
     }

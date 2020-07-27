@@ -93,6 +93,7 @@ namespace CBGames.Player
         }
     }
 
+    [AddComponentMenu("CB GAMES/Player/Sync Player")]
     [RequireComponent(typeof(PhotonView))]
     [DisallowMultipleComponent]
     public class SyncPlayer : MonoBehaviourPunCallbacks, IPunObservable
@@ -137,6 +138,7 @@ namespace CBGames.Player
         protected bool _cursorLocked = false;
 
         protected vWeaponHolderManager whm;
+        [Tooltip("Hidden variable. The item dictionary of the player. This is used to save it to the `PlayerData`.")]
         [HideInInspector]
         public Dictionary<int, GameObject> itemDict = new Dictionary<int, GameObject>();
 
@@ -183,6 +185,10 @@ namespace CBGames.Player
         #endregion
 
         #region Initializations 
+        /// <summary>
+        /// Sets the `itemData` variable and disables the enable switching on the 
+        /// death camera by calling the `EnableSwitching` function.
+        /// </summary>
         protected virtual void Awake()
         {
             ladderAction = GetComponent<vLadderAction>();
@@ -206,6 +212,16 @@ namespace CBGames.Player
                 FindObjectOfType<DeathCamera>().EnableSwitching(false);
             }
         }
+
+        /// <summary>
+        /// Builds the item dictionary used to spawn weapons over the network based on 
+        /// the weaponds id. Also disables/enables a series of components on this player
+        /// if you're a networked player of the owner player. Disables the death camera
+        /// and builds the animator parameters to sync over the network. Also sets the
+        /// layers and tags of the player via the `SetLayer` and `SetTags` functions.
+        /// Finally enables/disables the triggers on the body parts via the `SetBodyParts`
+        /// function.
+        /// </summary>
         protected virtual void Start()
         {
             realPos = this.transform.position;
@@ -301,11 +317,21 @@ namespace CBGames.Player
                 GetComponentInChildren<vInventory>().gameObject.SetActive(false);
             }
         }
+
+        /// <summary>
+        /// Set the layers to the none owner layers.
+        /// </summary>
         protected virtual void SetLayer()
         {
             gameObject.layer = _nonAuthoritativeLayer;
             animator.GetBoneTransform(HumanBodyBones.Hips).transform.parent.gameObject.layer = _nonAuthoritativeLayer;
         }
+
+        /// <summary>
+        /// Sets the tags to be the none owner tags on all transforms of this
+        /// object.
+        /// </summary>
+        /// <param name="target"></param>
         protected virtual void SetTags(Transform target)
         {
             target.tag = noneLocalTag;
@@ -319,7 +345,11 @@ namespace CBGames.Player
                 SetTags(child);
             }
         }
-/*        #region Shooter Template
+/*      #region Shooter Template
+        /// <summary>
+        /// Turns the triggers on/off for the body parts of the player based on the input value.
+        /// </summary>
+        /// <param name="isTrigger">bool type, enable the triggers for all the body parts?</param>
         protected virtual void SetBodyParts(bool isTrigger)
         {
             SetBodyPart((animator.GetBoneTransform(HumanBodyBones.Hips)) ? animator.GetBoneTransform(HumanBodyBones.Hips).transform : null, isTrigger);
@@ -350,6 +380,13 @@ namespace CBGames.Player
             SetBodyPart((animator.GetBoneTransform(HumanBodyBones.Hips)) ? animator.GetBoneTransform(HumanBodyBones.Hips).transform : null, isTrigger);
             
         }
+
+        /// <summary>
+        /// Used by the `SetBodyParts` function. Will set the target transform to enable or 
+        /// disable it's trigger if it has one.
+        /// </summary>
+        /// <param name="target">Transform type, the transform to target</param>
+        /// <param name="isTrigger">bool type, enable or disable the trigger.</param>
         protected virtual void SetBodyPart(Transform target = null, bool isTrigger = true)
         {
             if (target == null) return;
@@ -362,6 +399,12 @@ namespace CBGames.Player
             //target.tag = "Untagged";
         }
         #endregion*/
+
+        /// <summary>
+        /// Make sure the network versions allowed to hit the `Player` Layer and tag and the 
+        /// owner player is NOT allowed to hit the `Player` Layer and tag. These settings are 
+        /// set in the `vMeleeManager` component. Called via `Start`.
+        /// </summary>
         protected virtual void ModifyHitTags()
         {
             if (GetComponent<vMeleeManager>())
@@ -379,6 +422,11 @@ namespace CBGames.Player
                 }
             }
         }
+
+        /// <summary>
+        /// Populates the `animParams` variable which is used to know what animator parameters 
+        /// to watch and send updates over the network for. Calls via `Start` function.
+        /// </summary>
         protected virtual void BuildAnimatorParamsDict()
         {
             if (GetComponent<Animator>())
@@ -392,6 +440,11 @@ namespace CBGames.Player
                 }
             }
         }
+
+        /// <summary>
+        /// Populates the `itemDict` parameter so when an item is equipped/unequipped it will
+        /// know the GameObject to spawn based on that items Id.
+        /// </summary>
         protected virtual void BuildItemDictionary()
         {
             if (itemData != null)
@@ -504,6 +557,12 @@ namespace CBGames.Player
         }
 
         #region Enable/Disable Network Sending
+        /// <summary>
+        /// Send the position and rotation of the owner player over the network so the 
+        /// network players will set their position and rotation based on what they
+        /// receive.
+        /// </summary>
+        /// <param name="isEnabled">bool type, allow sending the position and rotation over the network?</param>
         public virtual void EnableSendingPosRot(bool isEnabled)
         {
             if (photonView.IsMine == true)
@@ -511,6 +570,13 @@ namespace CBGames.Player
                 sendPosRot = isEnabled;
             }
         }
+
+        /// <summary>
+        /// Make it so the owner player can send his animation parameters over the network.
+        /// The network players will set their animation parameters based on what they 
+        /// recieve from the owner player.
+        /// </summary>
+        /// <param name="isEnabled">bool type, allow the owner player to send their animator parameters</param>
         public virtual void EnableSendingAnimations(bool isEnabled)
         {
             if (photonView.IsMine == true)
@@ -521,6 +587,10 @@ namespace CBGames.Player
         #endregion
 
         #region Bow
+        /// <summary>
+        /// Returns the id that the next arrow should use.
+        /// </summary>
+        /// <returns>The arrow id to use</returns>
         public virtual int GetArrowId()
         {
             arrowCount += 1;
@@ -529,7 +599,12 @@ namespace CBGames.Player
         #endregion
 
         #region Damage Sync
-        //Anytime the third person controller detects damage, update networked players
+        /// <summary>
+        /// Used to set the damage to zero if the sender is on the same team and you disallow team damaging.
+        /// This function is meant to be called by the OnReceiveDamage unityevent on the `vThirdPersonController`.
+        /// If damage is received then it is replicated to all networked players
+        /// </summary>
+        /// <param name="damage"></param>
         public virtual void OnReceiveDamage(vDamage damage)
         {
             if (damage.sender != null && damage.sender.GetComponentInParent<SyncPlayer>() && !string.IsNullOrEmpty(NetworkManager.networkManager.teamName))
@@ -549,10 +624,20 @@ namespace CBGames.Player
                 view.RPC("ReceiveDamage", RpcTarget.Others, JsonUtility.ToJson(new SerializedDamage(damage)), tpc.currentHealth);
             }
         }
+
+        /// <summary>
+        /// Calls the `Respawn` function with a null gameobject
+        /// </summary>
         public virtual void Respawn()
         {
             Respawn(null);
         }
+
+        /// <summary>
+        /// Calls the `SavePlayer` function in the network manager and also calls 
+        /// the `Respawn` function on the `PlayerRespawn` component.
+        /// </summary>
+        /// <param name="go">Placed here for calling with UnityEvents. Otherwise not used.</param>
         public virtual void Respawn(GameObject go)
         {
             if (GetComponent<PhotonView>().IsMine == true)
@@ -574,6 +659,10 @@ namespace CBGames.Player
         #endregion
 
         #region vThirdPersonController
+        /// <summary>
+        /// Makes the other networked players jump in response to this owners command.
+        /// Meant to be used with the OnJump UnityEvent in the `vThirdPersonController`.
+        /// </summary>
         public virtual void Jump()
         {
             if (tpc.input.sqrMagnitude < 0.1f)
@@ -595,12 +684,18 @@ namespace CBGames.Player
         #endregion
 
         #region vLadderAction
-        // Sync Ladders
+        /// <summary>
+        /// Makes the networked players play the enter ladder animation.
+        /// </summary>
         public virtual void EnterLadder()
         {
             vTriggerLadderAction tla = (vTriggerLadderAction)ladderAction.GetType().GetField("ladderAction", flags).GetValue(ladderAction);
             view.RPC("NetworkEnterLadder", RpcTarget.OthersBuffered, (tla) ? tla.playAnimation : null);
         }
+
+        /// <summary>
+        /// Makes the networked players play the exit ladder animation
+        /// </summary>
         public virtual void ExitLadder()
         {
             vTriggerLadderAction tla = (vTriggerLadderAction)ladderAction.GetType().GetField("ladderAction", flags).GetValue(ladderAction);
@@ -609,6 +704,14 @@ namespace CBGames.Player
         #endregion
 
         #region Dropped Items
+        /// <summary>
+        /// Makes all network players drop and item with the specified amount. Also
+        /// Send a drop command to the data channel on the `Chatbox` so when other 
+        /// players enter this unity scene that item is dropped for their version
+        /// of the game as well.
+        /// </summary>
+        /// <param name="item">vItem type, the item to drop</param>
+        /// <param name="value">int type, the amount of this item to drop</param>
         public virtual void OnDropItem(vItem item, int value)
         {
             List<ItemReference> irs = new List<ItemReference>();
@@ -633,6 +736,10 @@ namespace CBGames.Player
         #endregion
 
         #region Ragdoll
+        /// <summary>
+        /// Turns on ragdoll effects for the networked players.
+        /// </summary>
+        /// <param name="damage">Placed here to be used with UnityEvents, otherwise not used.</param>
         public virtual void NetworkActiveRagdoll(vDamage damage = null)
         {
             _ragdolled = true;
@@ -641,6 +748,9 @@ namespace CBGames.Player
             #endregion*/
             GetComponent<PhotonView>().RPC("SetActiveRagdoll", RpcTarget.Others, true);
         }
+        /// <summary>
+        /// Turns off ragdoll effects for the networked players.
+        /// </summary>
         protected virtual void NetworkDisableRagdoll()
         {
 /*           #region Shooter Template
@@ -651,6 +761,11 @@ namespace CBGames.Player
         #endregion
 
         #region DeathCam
+        /// <summary>
+        /// Allows/Disallows switching on the `DeathCamera` component by calling `EnableSwitching`
+        /// with the specified value.
+        /// </summary>
+        /// <param name="isEnabled">bool type, allow switching the camera or not.</param>
         public virtual void EnableDeathCamera(bool isEnabled)
         {
             if (GetComponent<PhotonView>().IsMine == true && FindObjectOfType<DeathCamera>())
@@ -658,6 +773,11 @@ namespace CBGames.Player
                 FindObjectOfType<DeathCamera>().EnableSwitching(isEnabled);
             }
         }
+
+        /// <summary>
+        /// Turn on the death camera by calling `EnableDeathCamera` with a true value.
+        /// </summary>
+        /// <param name="temp">Placed here for UnityEvent activation. Otherwise not used.</param>
         public virtual void DeadEnableDeathCam(GameObject temp = null)
         {
             EnableDeathCamera(true);
@@ -1152,6 +1272,16 @@ namespace CBGames.Player
         #endregion
 
         #region Heartbeat Actions
+        /// <summary>
+        /// Sets the networked players position/rotation based on the received values from
+        /// the owner player. Also is responsible for playing the "Roll" animation if the 
+        /// owner player enters the roll state. Finally checks if the owner has entered a
+        /// ragdoll stat, if so enables/disables ragdoll for the networked player based on
+        /// the setting the owner currently is in.
+        /// 
+        /// This is also responsible for showing or hiding the cursor if the inventory is
+        /// open or not.
+        /// </summary>
         protected virtual void Update()
         {
             if (photonView.IsMine == false && PhotonNetwork.OfflineMode == false)
@@ -1239,6 +1369,14 @@ namespace CBGames.Player
                     Cursor.lockState = CursorLockMode.Locked;
                 }
             }
+        }
+        #endregion
+
+        #region Location Saving
+        protected virtual void OnDestroy()
+        {
+            NetworkManager.networkManager.spawnAtLoc = transform.position;
+            NetworkManager.networkManager.spawnAtRot = transform.rotation;
         }
         #endregion
     }

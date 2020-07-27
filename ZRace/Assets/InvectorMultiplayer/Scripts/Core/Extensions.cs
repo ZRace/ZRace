@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public static class Extensions
@@ -34,4 +35,5 @@ public static class Extensions
         int inputLayer = LayerMask.NameToLayer(layerName);
         return layerMask == (layerMask | (1 << inputLayer));
     }
+
 }

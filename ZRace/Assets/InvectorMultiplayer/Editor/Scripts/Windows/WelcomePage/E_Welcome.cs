@@ -26,6 +26,12 @@ namespace CBGames.Editors
             GetWindow<E_Welcome>(true);
         }
 
+        [MenuItem("CB Games/Open Documentation Website", false, 300)]
+        public static void CB_OpenDocumentationWebsite()
+        {
+            Application.OpenURL("https://wesleywh.github.io/InvectorMultiplayerAddOnDocs/");
+        }
+
         private void OnEnable()
         {
             if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
@@ -90,7 +96,7 @@ namespace CBGames.Editors
                     "can go straight to my YouTube channel by clicking on CB Games > YouTube Tutorials.\n\n" +
                     "However there is a WIP documentation website that can be found here: \n\n" +
                     "https://wesleywh.github.io/InvectorMultiplayerAddOnDocs/" +
-                    "\n", GUI.skin.textArea);
+                    "\n or \nby clicking on the \"CB Games/Open Documentation Website\" menu item.", GUI.skin.textArea);
                 EditorGUILayout.LabelField("Where Can I Find Current Tasks?", GUI.skin.label);
                 EditorGUILayout.LabelField("All tasks for this project can be found on my private github page. " +
                     "Login to the Invector Multiplayer Add-On Discord team:\n\n" +

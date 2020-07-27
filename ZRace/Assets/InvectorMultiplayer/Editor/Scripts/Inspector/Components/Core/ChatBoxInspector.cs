@@ -7,12 +7,9 @@ using System.Collections.Generic;
 namespace CBGames.Inspector
 {
     [CustomEditor(typeof(ChatBox), true)]
-    public class ChatBoxInspector : Editor
+    public class ChatBoxInspector : BaseEditor
     {
         #region CustomEditorVariables
-        GUISkin _skin = null;
-        GUISkin _original = null;
-        Color _titleColor;
         List<string> availableInputs = new List<string>();
         #endregion
 
@@ -101,16 +98,9 @@ namespace CBGames.Inspector
         SerializedProperty enableEvents;
         #endregion
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            #region Core
-            // Load Skin for reverence
-            if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-
-            //Load all images
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-            #endregion
-
+            
             #region Properties
             #region Sounds Options
             source = serializedObject.FindProperty("source");
@@ -197,32 +187,20 @@ namespace CBGames.Inspector
             #endregion
 
             availableInputs = E_Helpers.GetAllInputAxis();
+            base.OnEnable();
         }
 
         public override void OnInspectorGUI()
         {
             #region Core
-            // Core Requirements
-            serializedObject.Update();
+            base.OnInspectorGUI();
             ChatBox sp = (ChatBox)target;
-            var rect = GUILayoutUtility.GetRect(1, 1);
 
-            //Apply the gui skin
-            _original = GUI.skin;
-            GUI.skin = _skin;
-
-            //Draw Background Box
-            GUILayout.Space(5);
-            GUILayout.BeginHorizontal(_skin.box, GUILayout.ExpandHeight(false));
-            GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
-
-            // Title
-            EditorGUI.DrawRect(new Rect(rect.x + 5, rect.y + 10, rect.width - 10, 40), _titleColor);
-            GUI.DrawTexture(new Rect(rect.x + 10, rect.y + 15, 30, 30), E_Helpers.LoadTexture(E_Core.h_textChatIcon, new Vector2(256, 256)));
-            GUILayout.Space(5);
-            GUILayout.Label("Text Chat Box", _skin.GetStyle("Label"));
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox("Component that is used for all text chat logic. Your chatbox should have all needed logic included in this component.", MessageType.Info);
+            DrawTitleBar(
+                "Text Chat Box", 
+                "Component that is used for all text chat logic. Your chatbox should have all needed logic included in this component.",
+                E_Core.h_textChatIcon
+            );
             #endregion
 
             #region Properties 
@@ -510,6 +488,7 @@ namespace CBGames.Inspector
             #endregion
 
             #region UnityEvents
+            CBEditor.SetColorToEditorStyle(_originalHolder, _originalFoldout);
             GUILayout.Space(5);
             GUILayout.BeginHorizontal(_skin.customStyles[1], GUILayout.ExpandHeight(false));
             GUILayout.BeginVertical(GUILayout.ExpandHeight(false));
@@ -593,17 +572,13 @@ namespace CBGames.Inspector
                 }
                 GUI.skin = _skin;
             }
+            CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
             #endregion
             #endregion
 
-            #region Core
-            DrawPropertiesExcluding(serializedObject, E_Helpers.EditorGetVariables(typeof(ChatBox)));
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            serializedObject.ApplyModifiedProperties();
-            #endregion
+            EndInspectorGUI(typeof(ChatBox));
         }
     }
 }

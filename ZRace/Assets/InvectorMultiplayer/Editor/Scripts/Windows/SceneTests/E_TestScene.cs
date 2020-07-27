@@ -36,7 +36,6 @@ namespace CBGames.Editors
         
         #region Editor Variables
         GUISkin _skin = null;
-        Color _titleColor;
         bool _runningTests = false;
         Color _lockColor;
         Color _convertBar;
@@ -79,10 +78,7 @@ namespace CBGames.Editors
         private void OnEnable()
         {
             if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-
-            //Set title bar colors
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-            
+                        
             //Make window title
             this.titleContent = new GUIContent("Perform Scene Tests", null, "Perform a series of automated tests on this scene to make sure its ready for multiplayer.");
         }
@@ -95,10 +91,10 @@ namespace CBGames.Editors
             GUI.skin = _skin;
 
             //Draw title bar
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_2);
-            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), _titleColor);
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), E_Colors.e_c_blue_5);
+            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 40), E_Colors.e_c_blue_4);
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Perform Scene Tests", _skin.GetStyle("Label"));
+            EditorGUILayout.LabelField("Perform Scene Tests", _skin.label);
             EditorGUILayout.Space();
 
             //Draw Body

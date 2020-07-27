@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace CBGames.UI
 {
+    [AddComponentMenu("CB GAMES/UI/Chatbox/Broadcast Receiver")]
     public class BroadcastReceiver : MonoBehaviour
     {
         [Tooltip("The ScrollView object in this UI.")]
@@ -22,12 +23,20 @@ namespace CBGames.UI
 
         private bool isEnabled = false;
 
-        void Awake()
+        /// <summary>
+        /// Disables the scrollview
+        /// </summary>
+        protected virtual void Awake()
         {
             scrollView.SetActive(false);
         }
 
-        public void ReceiveBroadCastMessage(BroadCastMessage message)
+        /// <summary>
+        /// Perform certain actions based on the type of `BroadCastMessage` that is 
+        /// received from the data channel on the ChatBox.
+        /// </summary>
+        /// <param name="message">BroadCastMessage type, the message and the type of message</param>
+        public virtual void ReceiveBroadCastMessage(BroadCastMessage message)
         {
             isEnabled = true;
             scrollView.SetActive(true);
@@ -36,7 +45,12 @@ namespace CBGames.UI
                 InstantiateDeathMessage(message.message);
             }
         }
-        void InstantiateDeathMessage(string message)
+
+        /// <summary>
+        /// Adds a death message object to the message view.
+        /// </summary>
+        /// <param name="message">string type, the message to display</param>
+        protected virtual void InstantiateDeathMessage(string message)
         {
             GameObject msgObject = (GameObject)Instantiate(deathMessage);
             if (msgObject.GetComponent<Text>())
@@ -51,7 +65,12 @@ namespace CBGames.UI
             msgObject.transform.localScale = new Vector3(1, 1, 1);
             Destroy(msgObject, messageDestroyTime);
         }
-        private void Update()
+
+        /// <summary>
+        /// Enables/Disables the scroll view based on how many messages there are 
+        /// in the view.
+        /// </summary>
+        protected virtual void Update()
         {
             if (isEnabled == true)
             {

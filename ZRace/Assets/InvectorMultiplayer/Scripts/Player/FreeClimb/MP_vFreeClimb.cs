@@ -6,10 +6,14 @@ using UnityEngine;
 
 namespace CBGames.Player
 {
+    [AddComponentMenu("CB GAMES/Player/MP Components/MP vFreeClimb")]
     [RequireComponent(typeof(SyncPlayer))]
 
     public class MP_vFreeClimb : vFreeClimb
     {
+        /// <summary>
+        /// Disables this component if you're a networked player and not the owner player.
+        /// </summary>
         protected override void Start()
         {
             if (GetComponent<PhotonView>().IsMine == false)
@@ -21,11 +25,21 @@ namespace CBGames.Player
                 base.Start();
             }
         }
+
+        /// <summary>
+        /// Calls `CrossFadeInFixedTime` RPC with the `ClimbJump` Animation. This makes 
+        /// all the networked players play the `ClimbJump` animation.
+        /// </summary>
         protected override void ClimbJump()
         {
             GetComponent<PhotonView>().RPC("CrossFadeInFixedTime", RpcTarget.OthersBuffered, "ClimbJump", 0.2f);
             base.ClimbJump();
         }
+
+        /// <summary>
+        /// Calls the `CrossFadeInFixedTime` RPC with `EnterClimbGrounded` or `EnterClimbAir`.
+        /// This is to have the network players mimic climbing animations of the owner.
+        /// </summary>
         protected override void EnterClimb()
         {
             var dragPosition = new Vector3(dragInfo.position.x, transform.position.y, dragInfo.position.z) + transform.forward * -TP_Input.cc._capsuleCollider.radius;
@@ -35,6 +49,11 @@ namespace CBGames.Player
             GetComponent<PhotonView>().RPC("CrossFadeInFixedTime", RpcTarget.OthersBuffered, climbUpConditions ? "EnterClimbGrounded" : "EnterClimbAir", 0.2f);
             base.EnterClimb();
         }
+
+        /// <summary>
+        /// Calls the `CrossFadeInFixedTime` RPC with `ExitGrounded` or `ExitAir`. 
+        /// This is to have the network players mimic the climbing animations of the owner.
+        /// </summary>
         protected override void ExitClimb()
         {
             if (!inClimbUp)
@@ -44,6 +63,11 @@ namespace CBGames.Player
             }
             base.ExitClimb();
         }
+
+        /// <summary>
+        /// Calls the `CrossFadeInFixedTime` RPC with `ClimbUpWall`. This is to have
+        /// the network players mimic the climbing animatiosn of the owner.
+        /// </summary>
         protected override void ClimbUp()
         {
             StartCoroutine(WaitForCrossFade());

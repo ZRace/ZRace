@@ -20,49 +20,34 @@ namespace CBGames.Editors
     {
         #region Convert Window
         #region Properties
-        GUISkin _skin = null;
-        Color _titleColor;
-        Texture2D titleImage;
         GameObject aiObject = null;
-
+        GUISkin _skin = null;
         #endregion
+
         [MenuItem("CB Games/Convert/(Beta) AI Characters", false, 0)]
         public static void CB_ConvertPlayerEditorWindow()
         {
-            EditorWindow window = GetWindow<E_ConvertAI>("Convert AI Characters");
+            EditorWindow window = GetWindow<E_ConvertAI>(true);
             window.maxSize = new Vector2(470, 120);
             window.minSize = window.maxSize;
         }
         private void OnEnable()
         {
-            this.StartCoroutine(LoadTextures());
-
             if (!_skin) _skin = E_Helpers.LoadSkin(E_Core.e_guiSkinPath);
-
-            //Set title bar colors
-            _titleColor = new Color32(1, 9, 28, 255); //dark blue
-
-            //Make window title
-            this.titleContent = new GUIContent("(Alpha) AI Character Conversion", null, "(Alpha) Convert an AI character to support multiplayer.");
+            this.titleContent = new GUIContent("(Beta) AI Character Conversion", null, "(Beta) Convert an AI character to support multiplayer.");
         }
-        IEnumerator LoadTextures()
-        {
-            using (UnityWebRequest loader = UnityWebRequestTexture.GetTexture("file://" + E_Core.e_invectorMPTitle))
-            {
-                yield return loader.SendWebRequest();
-                if (string.IsNullOrEmpty(loader.error))
-                {
-                    titleImage = DownloadHandlerTexture.GetContent(loader);
-                }
-            }
-        }
+
         private void OnGUI()
         {
+            CBColorHolder _org = new CBColorHolder(EditorStyles.label);
+            CBColorHolder _orgFoldout = new CBColorHolder(EditorStyles.foldout);
+            CBColorHolder _skinHolder = new CBColorHolder(_skin.label);
+
             //Apply the gui skin
             GUI.skin = _skin;
 
             //Draw title bar
-            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 90), _titleColor);
+            EditorGUI.DrawRect(new Rect(5, 5, position.width - 10, 90), E_Colors.e_c_blue_5);
             EditorGUILayout.Space();
             EditorGUILayout.Space();
             EditorGUILayout.Space();
@@ -72,7 +57,7 @@ namespace CBGames.Editors
             {
                 EditorGUILayout.Space();
             }
-            EditorGUILayout.LabelField("(Alpha) Convert AI Character", _skin.GetStyle("Label"));
+            EditorGUILayout.LabelField("(Beta) Convert AI Character", _skin.GetStyle("Label"));
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
 
@@ -100,7 +85,12 @@ namespace CBGames.Editors
                 }
                 else
                 {
-                    EditorGUILayout.LabelField("ERROR: Character Missing vFSMBehaviourController component");
+                    //CBEditor.SetColorToEditorStyle(_skinHolder, _skinHolder);
+                    GUIStyle redLabl = new GUIStyle();
+                    redLabl = EditorStyles.label;
+                    redLabl.normal.textColor = Color.red;
+                    EditorGUILayout.LabelField("ERROR: Character Missing vFSMBehaviourController component", redLabl);
+                    CBEditor.SetColorToEditorStyle(_org, _orgFoldout);
                 }
             }
             else
@@ -227,22 +217,22 @@ namespace CBGames.Editors
         [MenuItem("CONTEXT/MP_ShooterWeapon/Replace MP_ShooterWeapon -> AI_MP_ShooterWeapon")]
         public static void CB_CONTEXT_MPvShooterWeapon(MenuCommand command)
         {
-            MP_ShooterWeapon headTrack = (MP_ShooterWeapon)command.context;
-            CB_COMP_AIvShooterWeapon(headTrack.gameObject);
+            MP_BaseShooterWeapon shooterWeapon = (MP_BaseShooterWeapon)command.context;
+            CB_COMP_AIvShooterWeapon(shooterWeapon.gameObject);
         }
         [MenuItem("CONTEXT/vShooterWeapon/Add vShooterWeapon AI MP Component")]
         public static void CB_CONTEXT_AIvShooterWeapon(MenuCommand command)
         {
-            vShooterWeapon headTrack = (vShooterWeapon)command.context;
-            CB_COMP_AIvShooterWeapon(headTrack.gameObject);
+            vShooterWeapon shooterWeapon = (vShooterWeapon)command.context;
+            CB_COMP_AIvShooterWeapon(shooterWeapon.gameObject);
         }
         public static void CB_COMP_AIvShooterWeapon(GameObject target)
         {
             if (target.GetComponent<vShooterWeapon>())
             {
-                if (target.GetComponent<MP_ShooterWeapon>())
+                if (target.GetComponent<MP_BaseShooterWeapon>())
                 {
-                    DestroyImmediate(target.GetComponent<MP_ShooterWeapon>());
+                    DestroyImmediate(target.GetComponent<MP_BaseShooterWeapon>());
                 }
                 if (!target.GetComponent<AI_MP_ShooterWeapon>())
                 {

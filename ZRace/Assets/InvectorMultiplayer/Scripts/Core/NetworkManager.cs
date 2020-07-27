@@ -38,6 +38,7 @@ namespace CBGames.Core
         public UnityEvent _OnCreatedRoom;
         public StringUnityEvent _onCreateRoomFailed;
         public StringUnityEvent _onJoinRoomFailed;
+        public UnityEvent _onReconnect;
     }
     [System.Serializable]
     public class PlayerEvents
@@ -98,8 +99,17 @@ namespace CBGames.Core
     }
     #endregion
 
+    [AddComponentMenu("CB GAMES/Core/Network Manager")]
     public partial class NetworkManager : MonoBehaviourPunCallbacks
     {
+        #region Editor Variables
+        [HideInInspector] public bool e_show_unv = false;
+        [HideInInspector] public bool e_show_player = false;
+        [HideInInspector] public bool e_show_spawn = false;
+        [HideInInspector] public bool e_show_debug = false;
+        [HideInInspector] public bool e_show_network = false;
+        #endregion
+
         #region Modifiables
         [Tooltip("The version to connect with. Incompatible versions will not connect with each other.")]
         public string gameVersion = "1.0";
@@ -130,7 +140,7 @@ namespace CBGames.Core
             "_onJoinedLobby, _onLeftLobby")]
         public LobbyEvents lobbyEvents;
         [Tooltip("Actions to trigger on events that happen in the room. Contains the following UnityEvents: " +
-            " _onJoinedRoom, _onLeftRoom, _OnCreatedRoom, _onCreateRoomFailed, _onJoinRoomFailed")]
+            " _onJoinedRoom, _onLeftRoom, _OnCreatedRoom, _onCreateRoomFailed, _onJoinRoomFailed, _onReconnect")]
         public RoomEvents roomEvents;
         [Tooltip("Actions to trigger on events that happen with actions according to each player. This contains " +
             "the following UnityEvent parameters: _onPlayerEnteredRoom, _onPlayerLeftRoom")]
@@ -156,9 +166,21 @@ namespace CBGames.Core
         [Tooltip("If you want to immediately spawn the player into the scene when joining the lobby. " +
             "If not you need to have a UI that sets this to true before going to the next scene.")]
         public bool autoSpawnPlayer = true;
+        [Tooltip("Automatically attempt to reconnect to the last room you were in if you get disconnected.")]
+        public bool reconnect = false;
+        [Tooltip("How many attempts to reconnect to the room if 'reconnect' is true.")]
+        [SerializeField] protected int connect_attempts = 3;
+        [Tooltip("On a successfull reconnect, do you want to spawn the character back at the location " +
+            "you last were at or just at a random spawn in point?")]
+        [SerializeField] public bool spawnAtSaved = true;
         #endregion
 
         #region Public Delegates
+        /// <summary>
+        /// This delegate is called whenever you are trying to reconnect to a room after you disconnected from it.
+        /// </summary>
+        public BasicDelegate OnReconnectingToRoom;
+
         /// <summary>
         /// This delegate is called whenever another player joins the photon room. This isn't called 
         /// when you first join on yourself.
@@ -261,8 +283,11 @@ namespace CBGames.Core
         #endregion
 
         #region Internal Use Variables
+        public Vector3 spawnAtLoc = Vector3.zero;
+        public Quaternion spawnAtRot = Quaternion.identity;
         public static NetworkManager networkManager = null;
-
+        protected bool isReconnecting = false;
+        protected int _reconnectAttempt = 0;
         protected bool _inDataChannel = false;
         protected bool _playedSceneDatabase = false;
         protected bool _inventoryLoading = false;
@@ -545,11 +570,21 @@ namespace CBGames.Core
                 {
                     vGameController gc = FindObjectOfType<vGameController>();
                     BindingFlags allBindings = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
-                    if (_spawnAtPoint == null)
+                    if (isReconnecting && spawnAtSaved == true)
                     {
+                        GameObject player = NetworkInstantiatePrefab(playerPrefab.name, spawnAtLoc, spawnAtRot, 0);
+                        if (gc)
+                        {
+                            gc.GetType().GetField("currentController", allBindings).SetValue(gc, player.GetComponent<vThirdPersonController>());
+                        }
+                        LoadPlayerData(player.name.Replace("(Clone)", "").Replace("Instance", ""), player.GetComponent<vThirdPersonController>(), false, true);
+                    }
+                    else if (_spawnAtPoint == null)
+                    {
+                        GameObject player = null;
                         GameObject[] targets = GameObject.FindGameObjectsWithTag("SpawnPoint");
                         GameObject target = targets[Random.Range(0, targets.Length)];
-                        GameObject player = NetworkInstantiatePrefab(playerPrefab.name, target.transform.position, target.transform.rotation, 0);
+                        player = NetworkInstantiatePrefab(playerPrefab.name, target.transform.position, target.transform.rotation, 0);
                         if (gc)
                         {
                             gc.GetType().GetField("currentController", allBindings).SetValue(gc, player.GetComponent<vThirdPersonController>());
@@ -1187,16 +1222,31 @@ namespace CBGames.Core
             _joinLobby = false;
             _joinRoom = false;
             _createRoom = false;
-            _levelIndexToLoad = -1;
-            _useGlobalNaming = true;
             _connectStatus = "Disconnected: " + cause;
-            base.OnDisconnected(cause);
-            if (debugging == true)
+            if (_reconnectAttempt > connect_attempts && reconnect == true || reconnect == false)
             {
-                Debug.Log(_connectStatus);
+                _levelIndexToLoad = -1;
+                _useGlobalNaming = true;
+                reconnect = false;
+                isReconnecting = false;
+                _reconnectAttempt = 0;
+                base.OnDisconnected(cause);
+                if (debugging == true)
+                {
+                    Debug.Log(_connectStatus);
+                }
+                otherEvents._onDisconnected.Invoke("Disconnected: " + cause.ToString());
+                if (OnDisconnectedFromPhoton != null) OnDisconnectedFromPhoton.Invoke(cause);
             }
-            otherEvents._onDisconnected.Invoke("Disconnected: "+cause.ToString());
-            if (OnDisconnectedFromPhoton != null) OnDisconnectedFromPhoton.Invoke(cause);
+            else
+            {
+                _reconnectAttempt += 1;
+                isReconnecting = true;
+                _connectStatus = "Reconnecting...";
+                if (OnReconnectingToRoom != null) OnReconnectingToRoom.Invoke();
+                roomEvents._onReconnect.Invoke();
+                JoinOrCreateRoom(_roomName);
+            }
         }
 
         /// <summary>
@@ -1207,19 +1257,32 @@ namespace CBGames.Core
         /// <param name="cause">DisconnectCause with a basic error message.</param>
         public virtual void OnConnectionFail(DisconnectCause cause)
         {
-            _connecting = false;
-            _createRoom = false;
-            _joinRoom = false;
-            _levelIndexToLoad = -1;
-            _joinLobby = false;
-            _useGlobalNaming = true;
-            _connectStatus = "Failed to connect, reason: " + cause;
-            if (debugging == true)
+            if (reconnect == false || reconnect == true && _reconnectAttempt > connect_attempts)
             {
-                Debug.Log(_connectStatus);
+                isReconnecting = false;
+                _connecting = false;
+                _createRoom = false;
+                _joinRoom = false;
+                _levelIndexToLoad = -1;
+                _joinLobby = false;
+                _useGlobalNaming = true;
+                _connectStatus = "Failed to connect, reason: " + cause;
+                if (debugging == true)
+                {
+                    Debug.Log(_connectStatus);
+                }
+                otherEvents._onConnectionFail.Invoke("Connection Failed: " + cause.ToString());
+                if (OnConnectionFailed != null) OnConnectionFailed.Invoke(cause);
             }
-            otherEvents._onConnectionFail.Invoke("Connection Failed: "+cause.ToString());
-            if (OnConnectionFailed != null) OnConnectionFailed.Invoke(cause);
+            else
+            {
+                isReconnecting = true;
+                _reconnectAttempt += 1;
+                _connectStatus = "Reconnecting...";
+                if (OnReconnectingToRoom != null) OnReconnectingToRoom.Invoke();
+                roomEvents._onReconnect.Invoke();
+                JoinOrCreateRoom(_roomName);
+            }
         }
 
         /// <summary>
@@ -1230,6 +1293,7 @@ namespace CBGames.Core
         /// <param name="cause">DisconnectCause with a basic error message.</param>
         public virtual void OnFailedToConnectToPhoton(DisconnectCause cause)
         {
+            isReconnecting = false;
             _connecting = false;
             _createRoom = false;
             _joinRoom = false;
@@ -1241,7 +1305,7 @@ namespace CBGames.Core
             {
                 Debug.Log(_connectStatus);
             }
-            otherEvents._onFailedToConnectToPhoton.Invoke("Failed To Connect to Master Server: "+cause.ToString());
+            otherEvents._onFailedToConnectToPhoton.Invoke("Failed To Connect to Master Server: " + cause.ToString());
             if (OnFailToConnectToPhoton != null) OnFailToConnectToPhoton.Invoke(cause);
         }
 
@@ -1372,6 +1436,7 @@ namespace CBGames.Core
             _connecting = false;
             _joinRoom = false;
             _useGlobalNaming = false;
+            _reconnectAttempt = 0;
             _connectStatus = "Successfully joined a room: \""+_roomName+"\"";
             JoinChatDataChannel();
             if (_levelIndexToLoad != -1)
@@ -1389,7 +1454,15 @@ namespace CBGames.Core
                 {
                     spawnPoint = GetTeamSpawnPoint(teamName);
                 }
-                NetworkInstantiatePrefab(playerPrefab.name, spawnPoint.position, spawnPoint.rotation, 0);
+                if (isReconnecting && spawnAtSaved)
+                {
+                    isReconnecting = false;
+                    NetworkInstantiatePrefab(playerPrefab.name, spawnAtLoc, spawnAtRot, 0);
+                }
+                else
+                {
+                    NetworkInstantiatePrefab(playerPrefab.name, spawnPoint.position, spawnPoint.rotation, 0);
+                }
             }
             roomEvents._onJoinedRoom.Invoke();
             _inRoom = true;

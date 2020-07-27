@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 namespace CBGames.Objects
 {
+    [AddComponentMenu("CB GAMES/Objects/Scene Transition")]
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(PhotonView))]
     public class SceneTransition : MonoBehaviour
@@ -25,10 +26,15 @@ namespace CBGames.Objects
         [SerializeField] public bool sendAllTogether = true;
         [Tooltip("The scene database that holds a list of all scenes and LoadPoint objects in those scenes.")]
         [SerializeField] private SceneDatabase database;
+        [Tooltip("UnityEvent that is called when the owner enters this trigger, not a networked player.")]
         [SerializeField] private UnityEvent OnOwnerEnterTrigger = null;
+        [Tooltip("UnityEvent that is called when the owner exits this trigger, not the networked player.")]
         [SerializeField] private UnityEvent OnOwnerExitTrigger = null;
+        [Tooltip("UnityEvent, travel has been called, but this event fires right before.")]
         [SerializeField] private UnityEvent BeforeTravel = null;
+        [Tooltip("UnityEvent, called when ANY player enter the trigger, owner or networked player")]
         [SerializeField] private UnityEvent OnAnyPlayerEnterTrigger = null;
+        [Tooltip("UnityEvent, called when ANY player exits the trigger, owner or networked player")]
         [SerializeField] private UnityEvent OnAnyPlayerExitTrigger = null;
         #endregion
 
@@ -40,12 +46,19 @@ namespace CBGames.Objects
         protected GameObject targetPlayer;
         #endregion
         
-        //Used For Automation
+        /// <summary>
+        /// Used for automation. Sets the `database` variable with the input sceneDatabase.
+        /// </summary>
+        /// <param name="input">SceneDatabase type, the sceneDatabase to have this component reference</param>
         public virtual void SetDatabase(SceneDatabase input)
         {
             database = input;
         }
 
+        /// <summary>
+        /// Will do actions only when a vThirdPersonController enters the trigger and nothing else.
+        /// </summary>
+        /// <param name="other">Collider type, only vThirdPersonController players fire this</param>
         protected virtual void OnTriggerEnter(Collider other)
         {
             if (other.GetComponent<vThirdPersonController>())
@@ -71,6 +84,11 @@ namespace CBGames.Objects
                 }
             }
         }
+
+        /// <summary>
+        /// Will do actions only when a vThirdPersonController leaves the trigger and nothing else.
+        /// </summary>
+        /// <param name="other">Collider type, only vThirdPersonController players fire this</param>
         protected virtual void OnTriggerExit(Collider other)
         {
             if (other.GetComponent<vThirdPersonController>())
@@ -89,6 +107,11 @@ namespace CBGames.Objects
                 }
             }
         }
+
+        /// <summary>
+        /// If a owning vThirdPersonController is in the trigger and presses the `buttonToTravel`
+        /// it will call the `Travel` function.
+        /// </summary>
         protected virtual void Update()
         {
             if (acceptingInput && Input.GetButtonDown(buttonToTravel.ToString()))
@@ -97,6 +120,11 @@ namespace CBGames.Objects
             }
         }
 
+        /// <summary>
+        /// Calls `SendToScene` RPC for everyone or yourself based on the `sendAllTogether` 
+        /// variable. Finds the scene to load from the `database` and calls `NetworkLoadLevel`
+        /// from the NetworkManager component.
+        /// </summary>
         public virtual void Travel()
         {
             acceptingInput = false;

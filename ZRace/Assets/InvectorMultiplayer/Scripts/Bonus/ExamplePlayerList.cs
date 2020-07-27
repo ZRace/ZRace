@@ -13,36 +13,63 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ExamplePlayerList : MonoBehaviour
+namespace CBGames.UI
 {
-    #region Variables
-    public class PlayerListData
+    [AddComponentMenu("CB GAMES/Bonus/Player List")]
+    public class ExamplePlayerList : MonoBehaviour
     {
-        public string userId = "";
-        public string name = "";
-        public int kills = 0;
-        public int deaths = 0;
-
-        public PlayerListData(string input_id, string input_name)
+        #region Variables
+        public class PlayerListData
         {
-            this.userId = input_id;
-            this.name = input_name;
-            this.kills = 0;
-            this.deaths = 0;
-        }
-    }
-    protected List<PlayerListData> data = new List<PlayerListData>();
-    #endregion
+            public string userId = "";
+            public string name = "";
+            public int kills = 0;
+            public int deaths = 0;
 
-    #region Core Logic For List Manipulation
-    public virtual void UpdateList()
-    {
-        AutoAddNewPlayers();
-        AutoRemoveLeftPlayers();
-    }
-    public virtual void AutoAddNewPlayers()
-    {
-        foreach(Player player in PhotonNetwork.PlayerList)
+            public PlayerListData(string input_id, string input_name)
+            {
+                this.userId = input_id;
+                this.name = input_name;
+                this.kills = 0;
+                this.deaths = 0;
+            }
+        }
+        protected List<PlayerListData> data = new List<PlayerListData>();
+        #endregion
+
+        #region Core Logic For List Manipulation
+        public virtual void UpdateList()
+        {
+            AutoAddNewPlayers();
+            AutoRemoveLeftPlayers();
+        }
+        public virtual void AutoAddNewPlayers()
+        {
+            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+            {
+                if (data.Find(x => x.userId == player.UserId) == null)
+                {
+                    data.Add(new PlayerListData(
+                        player.UserId,
+                        player.NickName
+                    ));
+                }
+            }
+        }
+        public virtual void AutoRemoveLeftPlayers()
+        {
+            List<PlayerListData> temp = new List<PlayerListData>();
+            temp = data;
+            foreach (PlayerListData item in data)
+            {
+                if (!PhotonNetwork.PlayerList.Any(x => x.UserId == item.userId))
+                {
+                    temp.Remove(item);
+                }
+            }
+            data = temp;
+        }
+        public virtual void AddPlayer(Photon.Realtime.Player player)
         {
             if (data.Find(x => x.userId == player.UserId) == null)
             {
@@ -52,126 +79,103 @@ public class ExamplePlayerList : MonoBehaviour
                 ));
             }
         }
-    }
-    public virtual void AutoRemoveLeftPlayers()
-    {
-        List<PlayerListData> temp = new List<PlayerListData>();
-        temp = data;
-        foreach (PlayerListData item in data)
+        public virtual void RemovePlayer(Photon.Realtime.Player player)
         {
-            if (!PhotonNetwork.PlayerList.Any(x => x.UserId == item.userId))
+            if (data.Find(x => x.userId == player.UserId) != null)
             {
-                temp.Remove(item);
+                data.Remove(data.Find(x => x.userId == player.UserId));
             }
         }
-        data = temp;
-    }
-    public virtual void AddPlayer(Player player)
-    {
-        if (data.Find(x => x.userId == player.UserId) == null)
+        public virtual void AddKill(string userId)
         {
-            data.Add(new PlayerListData(
-                player.UserId,
-                player.NickName
-            ));
+            // You can override the SyncPlayer.cs file to include a function like "Dead"
+            // public void Dead()
+            //{
+            //  if (lastDamageSender != null && lastDamageSender.GetComponent<PhotonView>())
+            //  {
+            //      FindObjectOfType<ExamplePlayerList>().AddKill(lastDamageSender.GetComponent<PhotonView>().Owner.UserId);
+            //      FindObjectOfType<ExamplePlayerList>().AddDeath(PhotonNetwork.LocalPlayer.UserId);
+            //  }
+            //}
+            PlayerListData item = data.Find(x => x.userId == userId);
+            if (item != null)
+            {
+                item.kills += 1;
+            }
         }
-    }
-    public virtual void RemovePlayer(Player player)
-    {
-        if (data.Find(x => x.userId == player.UserId) != null)
+        public virtual void AddDeath(string userId)
         {
-            data.Remove(data.Find(x => x.userId == player.UserId));
+            // You can override the SyncPlayer.cs file to include a function like "Dead"
+            // public void Dead()
+            //{
+            //  if (lastDamageSender != null && lastDamageSender.GetComponent<PhotonView>())
+            //  {
+            //      FindObjectOfType<ExamplePlayerList>().AddKill(lastDamageSender.GetComponent<PhotonView>().Owner.UserId);
+            //      FindObjectOfType<ExamplePlayerList>().AddDeath(PhotonNetwork.LocalPlayer.UserId);
+            //  }
+            //}
+            PlayerListData item = data.Find(x => x.userId == userId);
+            if (item != null)
+            {
+                item.deaths += 1;
+            }
         }
-    }
-    public virtual void AddKill(string userId)
-    {
-        // You can override the SyncPlayer.cs file to include a function like "Dead"
-        // public void Dead()
-        //{
-        //  if (lastDamageSender != null && lastDamageSender.GetComponent<PhotonView>())
-        //  {
-        //      FindObjectOfType<ExamplePlayerList>().AddKill(lastDamageSender.GetComponent<PhotonView>().Owner.UserId);
-        //      FindObjectOfType<ExamplePlayerList>().AddDeath(PhotonNetwork.LocalPlayer.UserId);
-        //  }
-        //}
-        PlayerListData item = data.Find(x => x.userId == userId);
-        if (item != null)
+        public virtual List<PlayerListData> GetList()
         {
-            item.kills += 1;
+            return data;
         }
-    }
-    public virtual void AddDeath(string userId)
-    {
-        // You can override the SyncPlayer.cs file to include a function like "Dead"
-        // public void Dead()
-        //{
-        //  if (lastDamageSender != null && lastDamageSender.GetComponent<PhotonView>())
-        //  {
-        //      FindObjectOfType<ExamplePlayerList>().AddKill(lastDamageSender.GetComponent<PhotonView>().Owner.UserId);
-        //      FindObjectOfType<ExamplePlayerList>().AddDeath(PhotonNetwork.LocalPlayer.UserId);
-        //  }
-        //}
-        PlayerListData item = data.Find(x => x.userId == userId);
-        if (item != null)
+        public virtual PlayerListData GetPlayerData(Photon.Realtime.Player player)
         {
-            item.deaths += 1;
+            return data.Find(x => x.userId == player.UserId);
         }
-    }
-    public virtual List<PlayerListData> GetList()
-    {
-        return data;
-    }
-    public virtual PlayerListData GetPlayerData(Player player)
-    {
-        return data.Find(x => x.userId == player.UserId);
-    }
-    public virtual PlayerListData GetPlayerData(string userId)
-    {
-        return data.Find(x => x.userId == userId);
-    }
-    public virtual int GetPlayerDeaths(string userId)
-    {
-        return GetPlayerData(userId).deaths;
-    }
-    public virtual int GetPlayerKills(string userId)
-    {
-        return GetPlayerData(userId).kills;
-    }
-    public virtual int GetPlayerDeaths(Player player)
-    {
-        return GetPlayerData(player).deaths;
-    }
-    public virtual int GetPlayerKills(Player player)
-    {
-        return GetPlayerData(player).kills;
-    }
-    public virtual void ClearList()
-    {
-        data.Clear();
-    }
-    #endregion
+        public virtual PlayerListData GetPlayerData(string userId)
+        {
+            return data.Find(x => x.userId == userId);
+        }
+        public virtual int GetPlayerDeaths(string userId)
+        {
+            return GetPlayerData(userId).deaths;
+        }
+        public virtual int GetPlayerKills(string userId)
+        {
+            return GetPlayerData(userId).kills;
+        }
+        public virtual int GetPlayerDeaths(Photon.Realtime.Player player)
+        {
+            return GetPlayerData(player).deaths;
+        }
+        public virtual int GetPlayerKills(Photon.Realtime.Player player)
+        {
+            return GetPlayerData(player).kills;
+        }
+        public virtual void ClearList()
+        {
+            data.Clear();
+        }
+        #endregion
 
-    #region Auto Update Logic
-    protected virtual void Start()
-    {
-        NetworkManager.networkManager.OnPlayerJoinedCurrentRoom += AddPlayer;
-        NetworkManager.networkManager.OnPlayerLeftCurrentRoom += RemovePlayer;
-        NetworkManager.networkManager.OnJoinedPhotonRoom += UpdateList;
-        NetworkManager.networkManager.OnLeftPhotonRoom += ClearList;
+        #region Auto Update Logic
+        protected virtual void Start()
+        {
+            NetworkManager.networkManager.OnPlayerJoinedCurrentRoom += AddPlayer;
+            NetworkManager.networkManager.OnPlayerLeftCurrentRoom += RemovePlayer;
+            NetworkManager.networkManager.OnJoinedPhotonRoom += UpdateList;
+            NetworkManager.networkManager.OnLeftPhotonRoom += ClearList;
+        }
+        protected virtual void OnDisable()
+        {
+            NetworkManager.networkManager.OnPlayerJoinedCurrentRoom -= AddPlayer;
+            NetworkManager.networkManager.OnPlayerLeftCurrentRoom -= RemovePlayer;
+            NetworkManager.networkManager.OnJoinedPhotonRoom -= UpdateList;
+            NetworkManager.networkManager.OnLeftPhotonRoom -= ClearList;
+        }
+        protected virtual void OnDestroy()
+        {
+            NetworkManager.networkManager.OnPlayerJoinedCurrentRoom -= AddPlayer;
+            NetworkManager.networkManager.OnPlayerLeftCurrentRoom -= RemovePlayer;
+            NetworkManager.networkManager.OnJoinedPhotonRoom -= UpdateList;
+            NetworkManager.networkManager.OnLeftPhotonRoom -= ClearList;
+        }
+        #endregion
     }
-    protected virtual void OnDisable()
-    {
-        NetworkManager.networkManager.OnPlayerJoinedCurrentRoom -= AddPlayer;
-        NetworkManager.networkManager.OnPlayerLeftCurrentRoom -= RemovePlayer;
-        NetworkManager.networkManager.OnJoinedPhotonRoom -= UpdateList;
-        NetworkManager.networkManager.OnLeftPhotonRoom -= ClearList;
-    }
-    protected virtual void OnDestroy()
-    {
-        NetworkManager.networkManager.OnPlayerJoinedCurrentRoom -= AddPlayer;
-        NetworkManager.networkManager.OnPlayerLeftCurrentRoom -= RemovePlayer;
-        NetworkManager.networkManager.OnJoinedPhotonRoom -= UpdateList;
-        NetworkManager.networkManager.OnLeftPhotonRoom -= ClearList;
-    }
-    #endregion
 }

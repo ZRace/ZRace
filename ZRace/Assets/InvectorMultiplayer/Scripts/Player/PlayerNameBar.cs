@@ -13,6 +13,10 @@ namespace CBGames.Player
         [Tooltip("The holder object for the player name bar. Will disable this if not a network version of this player.")]
         public GameObject playerBar;
 
+        /// <summary>
+        /// Removes the namebar if you're the owner player. Also sets the
+        /// name on your networked versions via `SetPlayerName` function.
+        /// </summary>
         public virtual void Awake()
         {
             if (GetComponent<PhotonView>().IsMine == true)
@@ -21,6 +25,13 @@ namespace CBGames.Player
                 Destroy(playerBar);
             }
         }
+
+        /// <summary>
+        /// Sets the name shown on the name bar to whatever is passed
+        /// in via the input. Calls `NetworkSetPlayerName` RPC to set
+        /// the name over the network.
+        /// </summary>
+        /// <param name="nameText">string type, the input name</param>
         public virtual void SetPlayerName(string nameText)
         {
             playerName.text = nameText;

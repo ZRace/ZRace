@@ -9,13 +9,17 @@ using UnityEngine.Events;
 
 namespace CBGames.Player
 {
+    [AddComponentMenu("CB GAMES/Player/MP Components/MP vSwimming")]
     [RequireComponent(typeof(SyncPlayer))]
     public class MP_vSwimming : vSwimming
     {
-        [Header("Network Versions Of Above Unity Events")]
+        [Header("UnityEvent. Called when you enter the water. This event is called over the network.")]
         public UnityEvent NetworkOnEnterWater;
+        [Header("UnityEvent. Called when you exit the water. This event is called over the network.")]
         public UnityEvent NetworkOnExitWater;
+        [Header("UnityEvent. Called when you are above the water. This event is called over the network.")]
         public UnityEvent NetworkOnAboveWater;
+        [Header("UnityEvent. Called when you are under the water. This event is called over the network.")]
         public UnityEvent NetworkOnUnderWater;
      
         vThirdPersonInput mp_tpInput = null;
@@ -45,6 +49,10 @@ namespace CBGames.Player
             base.Start();
         }
 
+        /// <summary>
+        /// Will send the `WaterImpactEffect` over the network via the `NetworkWaterImpactEffect` RPC.
+        /// </summary>
+        /// <param name="other"></param>
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag(waterTag) && GetComponent<PhotonView>().IsMine == true)
@@ -64,6 +72,10 @@ namespace CBGames.Player
             }
         }
 
+        /// <summary>
+        /// Will send the `WaterDropsEffect` over the network via the `NetworkWaterDropsEffect` RPC.
+        /// </summary>
+        /// <param name="other"></param>
         void OnTriggerExit(Collider other)
         {
             if (other.gameObject.CompareTag(waterTag) && GetComponent<PhotonView>().IsMine == true)
@@ -85,6 +97,10 @@ namespace CBGames.Player
             }
         }
 
+        /// <summary>
+        /// Keeps the same logic as the based invector code but also calls the `MP_UnderWaterBehaviour`
+        /// and `MP_SwimmingBehaviour` functions.
+        /// </summary>
         protected override void UpdateSwimmingBehavior()
         {
             base.UpdateSwimmingBehavior();
@@ -92,6 +108,9 @@ namespace CBGames.Player
             MP_SwimmingBehaviour();
         }
 
+        /// <summary>
+        /// Calls the `MP_EnterSwimState` or `MP_ExitSwimState` based on your position in the water.
+        /// </summary>
         private void MP_SwimmingBehaviour()
         {
             if (mp_tpInput.cc._capsuleCollider.bounds.center.y + heightOffset < mp_waterHeightLevel)
@@ -107,6 +126,10 @@ namespace CBGames.Player
                 MP_ExitSwimState();
         }
 
+        /// <summary>
+        /// Calls the `NetworkOnEnterWater` UnityEvent for everyone in the photon room. Also
+        /// plays the `Swimming` animation for everyone in the photon room.
+        /// </summary>
         private void MP_EnterSwimState()
         {
             mp_triggerSwimState = true;
@@ -114,6 +137,9 @@ namespace CBGames.Player
             GetComponent<PhotonView>().RPC("CrossFadeInFixedTime", RpcTarget.Others, "Swimming", 0.25f);
         }
 
+        /// <summary>
+        /// Calls the `NetworkOnExitWater` UnityEvent for everyone in the photon room.
+        /// </summary>
         private void MP_ExitSwimState()
         {
             if (!mp_triggerSwimState) return;
@@ -121,6 +147,9 @@ namespace CBGames.Player
             GetComponent<PhotonView>().RPC("InvokeOnExitWater", RpcTarget.Others);
         }
 
+        /// <summary>
+        /// Calls the `NetworkOnUnderWater` UnityEvent for everyone in the photon room.
+        /// </summary>
         void MP_UnderWaterBehaviour()
         {
             if (currentlyUnderWater)
@@ -144,6 +173,9 @@ namespace CBGames.Player
             }
         }
 
+        /// <summary>
+        /// Plays the `WaterRingEffect` for all networked versions in the photon room.
+        /// </summary>
         private void MP_WaterRingEffect()
         {
             if (mp_tpInput.cc.input != Vector3.zero) mp_waterRingSpawnFrequency = waterRingFrequencySwim;
