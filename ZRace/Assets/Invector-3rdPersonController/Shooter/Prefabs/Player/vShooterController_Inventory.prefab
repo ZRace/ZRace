@@ -408,6 +408,7 @@ Transform:
   - {fileID: 450070}
   - {fileID: 479538}
   - {fileID: 441870}
+  - {fileID: 5528604363159188125}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -89.999, z: 0}
@@ -460,7 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
-  openCloseWindow: 1
+  openCloseWindow: 0
   selectedToolbar: 5
   _isDead: 0
   _currentHealth: 0
@@ -475,6 +476,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _onDead:
+    m_PersistentCalls:
+      m_Calls: []
+  onChangeHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  onResetHealth:
     m_PersistentCalls:
       m_Calls: []
   deathBy: 0
@@ -581,6 +588,7 @@ MonoBehaviour:
   timeToRollAgain: 0.75
   groundCheckMethod: 1
   useSnapGround: 1
+  snapPower: 0.5
   groundMinDistance: 0.1
   groundMaxDistance: 0.5
   slopeLimit: 75
@@ -595,7 +603,6 @@ MonoBehaviour:
   inputSmooth: {x: 0, y: 0, z: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   matchTarget: {fileID: 0}
-  useInstance: 1
 --- !u!114 &11407282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,7 +618,6 @@ MonoBehaviour:
   openCloseEvents: 0
   openCloseWindow: 0
   selectedToolbar: 2
-  lockInput: 0
   unlockCursorOnStart: 0
   showCursorOnStart: 0
   horizontalInput:
@@ -719,6 +725,7 @@ MonoBehaviour:
     timeButtonWasPressed: 0
     lastTimeTheButtonWasPressed: 0
     inButtomTimer: 0
+  lockInput: 0
   lockCameraInput: 0
   ignoreCameraRotation: 0
   rotateCameraXInput:
@@ -931,8 +938,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
-  openCloseWindow: 1
-  selectedToolbar: 0
+  openCloseWindow: 0
+  selectedToolbar: 6
   damageLayer:
     serializedVersion: 2
     m_Bits: 32769
@@ -951,6 +958,7 @@ MonoBehaviour:
   alwaysAiming: 0
   onlyWalkWhenAiming: 1
   useDefaultMovesetWhenNotAiming: 1
+  onlyArmsSpeed: 25
   smoothArmIKRotation: 30
   smoothArmAlignWeight: 4
   maxAimAngle: 60
@@ -966,7 +974,7 @@ MonoBehaviour:
   useLockOnMeleeOnly: 1
   hipfireShot: 1
   hipfireDispersion: 0.5
-  hipfireAimTime: 0.5
+  hipfireAimTime: 3
   cameraMaxSwayAmount: 3
   cameraSwaySpeed: 0.5
   rWeapon: {fileID: 0}
@@ -1003,11 +1011,7 @@ MonoBehaviour:
   selectedToolbar: 0
   ammoListData: {fileID: 11400000, guid: 63dd85acb3dbe1746ab7200f610a2d5f, type: 2}
   itemManager: {fileID: 0}
-  ammos:
-  - ammoName: 
-    ammoID: 13
-    _count: 0
-    ammoItems: []
+  ammos: []
 --- !u!114 &11495740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1021,7 +1025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
-  openCloseWindow: 0
+  openCloseWindow: 1
   selectedToolbar: 0
   upDownAxis: {x: 1, y: 0, z: 0}
   strafeHeadWeight: 1
@@ -1135,7 +1139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
-  openCloseWindow: 1
+  openCloseWindow: 0
   selectedToolbar: 0
   inventory: {fileID: 0}
   itemListData: {fileID: 11400000, guid: 1493f9d9326e8014494b8cb04de38f25, type: 2}
@@ -1143,34 +1147,42 @@ MonoBehaviour:
   - id: 10
     name: 
     amount: 1
-    attributes: []
+    attributes:
+    - name: 2
+      value: 36
+      isOpen: 0
+      isBool: 0
+    - name: 6
+      value: 8
+      isOpen: 0
+      isBool: 0
     changeAttributes: 0
     autoEquip: 1
-    addToEquipArea: 0
+    addToEquipArea: 1
     indexArea: 0
   - id: 11
     name: 
     amount: 1
     attributes: []
     changeAttributes: 0
-    autoEquip: 1
-    addToEquipArea: 0
+    autoEquip: 0
+    addToEquipArea: 1
     indexArea: 0
   - id: 12
     name: 
     amount: 1
     attributes: []
     changeAttributes: 0
-    autoEquip: 1
-    addToEquipArea: 0
+    autoEquip: 0
+    addToEquipArea: 1
     indexArea: 0
   - id: 16
     name: 
     amount: 1
     attributes: []
     changeAttributes: 0
-    autoEquip: 1
-    addToEquipArea: 0
+    autoEquip: 0
+    addToEquipArea: 1
     indexArea: 0
   - id: 13
     name: 
@@ -1199,6 +1211,14 @@ MonoBehaviour:
   - id: 19
     name: 
     amount: 8
+    attributes: []
+    changeAttributes: 0
+    autoEquip: 0
+    addToEquipArea: 0
+    indexArea: 8
+  - id: 17
+    name: 
+    amount: 12
     attributes: []
     changeAttributes: 0
     autoEquip: 0
@@ -1347,6 +1367,12 @@ MonoBehaviour:
   onFinishUnequipItem:
     m_PersistentCalls:
       m_Calls: []
+  onSaveItems:
+    m_PersistentCalls:
+      m_Calls: []
+  onLoadItems:
+    m_PersistentCalls:
+      m_Calls: []
   itemsFilter: 020000000300000000000000
 --- !u!114 &11456124
 MonoBehaviour:
@@ -1425,6 +1451,12 @@ MonoBehaviour:
   isLockTriggerEvents: 0
   colliders: []
   mainCamera: {fileID: 0}
+  OnEnterTriggerAction:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExitTriggerAction:
+    m_PersistentCalls:
+      m_Calls: []
   OnStartAction:
     m_PersistentCalls:
       m_Calls: []
@@ -1535,22 +1567,16 @@ MonoBehaviour:
     timeButtonWasPressed: 0
     lastTimeTheButtonWasPressed: 0
     inButtomTimer: 0
-  enterRotationCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  exitRotationCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   OnEnterLadder:
     m_PersistentCalls:
       m_Calls: []
   OnExitLadder:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnterTriggerLadder:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExitTriggerLadder:
     m_PersistentCalls:
       m_Calls: []
   debugMode: 0
@@ -1814,7 +1840,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000018157998, y: 28.777025, z: 0.0000028610236}
+  m_ConnectedAnchor: {x: 0.00001818035, y: 28.77701, z: 0.0000047683725}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -3070,7 +3096,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000016143415, y: 46.44298, z: 0.00000917892}
+  m_ConnectedAnchor: {x: 0.000012330947, y: 46.44298, z: 0.000011563055}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -3369,7 +3395,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000021129848, y: 28.782991, z: 0.00001811981}
+  m_ConnectedAnchor: {x: 0.000020802023, y: 28.783024, z: 0.000020027159}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -3575,7 +3601,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 10.920675, y: -5.397657, z: 1.6830472}
+  m_ConnectedAnchor: {x: 10.920673, y: -5.397657, z: 1.6830539}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -4222,7 +4248,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -18.555304, y: 21.897718, z: -0.18382508}
+  m_ConnectedAnchor: {x: -18.555328, y: 21.897718, z: -0.18381745}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -4489,7 +4515,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00009227436, y: 33.153046, z: 2.5031457}
+  m_ConnectedAnchor: {x: -0.00009474236, y: 33.153046, z: 2.5031457}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -4631,7 +4657,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00038423453, y: 21.022522, z: -0.33011833}
+  m_ConnectedAnchor: {x: -0.00040286098, y: 21.022522, z: -0.33011857}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -5691,7 +5717,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -10.920568, y: -5.3976474, z: 1.9480971}
+  m_ConnectedAnchor: {x: -10.920569, y: -5.3976474, z: 1.9480904}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -6046,7 +6072,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0000081055805, y: 46.442314, z: 0.000008881091}
+  m_ConnectedAnchor: {x: -0.000011919972, y: 46.442314, z: 0.000006735324}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -6258,7 +6284,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 18.55635, y: 21.897703, z: 0.00801507}
+  m_ConnectedAnchor: {x: 18.556332, y: 21.897703, z: 0.008007679}
   serializedVersion: 2
   m_SwingAxis: {x: -1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -6476,3 +6502,158 @@ Transform:
   m_Father: {fileID: 413422}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1297688033
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 465398}
+    m_Modifications:
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636044767610463632, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: openCloseWindow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636044767610463632, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: selectedToolbar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636044767610463632, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: vertical.keyboard
+      value: Vertical
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636044767610463632, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: horizontal.keyboard
+      value: Horizontal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738095221149091664, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_Name
+      value: Inventory_ShooterOnly
+      objectReference: {fileID: 0}
+    - target: {fileID: 8335573240197496936, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8335573240197496936, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1f16ed7a299cdd943af9c6aff518a85a, type: 3}
+--- !u!224 &5528604363159188125 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5528604362267301756, guid: 1f16ed7a299cdd943af9c6aff518a85a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1297688033}
+  m_PrefabAsset: {fileID: 0}

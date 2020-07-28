@@ -10,29 +10,33 @@ namespace Invector
 
         void Awake()
         {
-            Application.targetFrameRate = -1;
+            Application.targetFrameRate = desiredFPS;
             QualitySettings.vSyncCount = 0;
         }
 
-        void Update()
-        {
-            long lastTicks = DateTime.Now.Ticks;
-            long currentTicks = lastTicks;
-            float delay = 1f / desiredFPS;
-            float elapsedTime;
+#if UNITY_EDITOR
 
-            if (desiredFPS <= 0)
-                return;
+        //void Update()
+        //{
+        //    long lastTicks = DateTime.Now.Ticks;
+        //    long currentTicks = lastTicks;
+        //    float delay = 1f / desiredFPS;
+        //    float elapsedTime;
 
-            while (true)
-            {
-                currentTicks = DateTime.Now.Ticks;
-                elapsedTime = (float)TimeSpan.FromTicks(currentTicks - lastTicks).TotalSeconds;
-                if (elapsedTime >= delay)
-                {
-                    break;
-                }
-            }
-        }
+        //    if (desiredFPS <= 0)
+        //        return;
+
+        //    while (true)
+        //    {
+        //        currentTicks = DateTime.Now.Ticks;
+        //        elapsedTime = (float)TimeSpan.FromTicks(currentTicks - lastTicks).TotalSeconds;
+        //        if (elapsedTime >= delay)
+        //        {
+        //            break;
+        //        }
+        //    }
+        //}
+
+#endif
     }
 }

@@ -3,8 +3,7 @@
 namespace Invector.vCharacterController
 {
     using IK;
-	using System;
-	using vShooter;
+    using vShooter;
     [vClassHeader("SHOOTER/MELEE INPUT", iconName = "inputIcon")]
     public class vShooterMeleeInput : vMeleeCombatInput, vIShooterIKController, PlayerController.vILockCamera
     {
@@ -492,7 +491,6 @@ namespace Invector.vCharacterController
                 shootCountA = 0;
                 shootCountB = 0;
             }
-            shooterManager.UpdateShotTime();
         }
 
         /// <summary>
@@ -510,7 +508,8 @@ namespace Invector.vCharacterController
                     if (shooterManager.hipfireShot) _aimTimming = shooterManager.HipfireAimTime;
                     weapon.powerCharge += Time.deltaTime * weapon.chargeSpeed;
                 }
-                else if ((weapon.powerCharge >= 1 && weapon.autoShotOnFinishCharge && weaponInput) || (!weaponInput && (_isAiming || (shooterManager.hipfireShot && _aimTimming > 0)) && weapon.powerCharge > 0))
+                else if ((weapon.powerCharge >= 1 && weapon.autoShotOnFinishCharge && weaponInput) ||
+                    (!weaponInput && (IsAiming /*_isAiming || (shooterManager.hipfireShot && _aimTimming > 0)*/) && weapon.powerCharge > 0.1f))
                 {
                     if (shooterManager.hipfireShot) _aimTimming = shooterManager.HipfireAimTime;
                     if (secundaryShot)
@@ -638,7 +637,7 @@ namespace Invector.vCharacterController
             {
                 controlAimCanvas.SetActiveAim(false);
                 controlAimCanvas.SetActiveScopeCamera(false);
-            }            
+            }
         }
 
         /// <summary>
@@ -763,7 +762,7 @@ namespace Invector.vCharacterController
                 animator.SetFloat(vAnimatorParameters.Shot_ID, shooterManager.GetShotID());
             }
             // turn on the onlyarms layer to aim 
-            onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, (CurrentActiveWeapon || isEquipping) ? 1f : 0f, 6f * vTime.deltaTime);
+            onlyArmsLayerWeight = Mathf.Lerp(onlyArmsLayerWeight, (CurrentActiveWeapon || isEquipping) ? 1f : 0f, shooterManager.onlyArmsSpeed * vTime.deltaTime);
             animator.SetLayerWeight(onlyArmsLayer, onlyArmsLayerWeight);
 
             if (CurrentActiveWeapon != null && !shooterManager.useDefaultMovesetWhenNotAiming || (_isAiming || _aimTimming > 0))
@@ -779,7 +778,7 @@ namespace Invector.vCharacterController
             // set the isBlocking false while using shooter weapons
             animator.SetBool(vAnimatorParameters.IsBlocking, false);
             // set the uppbody id (armsonly layer)
-            animator.SetFloat(vAnimatorParameters.UpperBody_ID, shooterManager.GetUpperBodyID(), .2f, vTime.deltaTime);
+            animator.SetFloat(vAnimatorParameters.UpperBody_ID, shooterManager.GetUpperBodyID());
             // set if the character can aim or not (upperbody layer)
             animator.SetBool(vAnimatorParameters.CanAim, aimConditions);
             // character is aiming
@@ -816,10 +815,21 @@ namespace Invector.vCharacterController
                 tpCamera.ChangeState("Strafing", true);
             else if (_isAiming && CurrentActiveWeapon)
             {
-                if (string.IsNullOrEmpty(CurrentActiveWeapon.customAimCameraState))
-                    tpCamera.ChangeState(cc.isCrouching ? "CrouchingAiming" : "Aiming", true);
+                if (isUsingScopeView)
+                {
+                    if (string.IsNullOrEmpty(CurrentActiveWeapon.customScopeCameraState))
+                        tpCamera.ChangeState(cc.isCrouching ? "CrouchingAiming" : "Aiming", true);
+                    else
+                        tpCamera.ChangeState(CurrentActiveWeapon.customScopeCameraState, true);
+                }
+
                 else
-                    tpCamera.ChangeState(CurrentActiveWeapon.customAimCameraState, true);
+                {
+                    if (string.IsNullOrEmpty(CurrentActiveWeapon.customAimCameraState))
+                        tpCamera.ChangeState(cc.isCrouching ? "CrouchingAiming" : "Aiming", true);
+                    else
+                        tpCamera.ChangeState(CurrentActiveWeapon.customAimCameraState, true);
+                }
             }
             else
                 tpCamera.ChangeState("Default", true);
@@ -910,7 +920,9 @@ namespace Invector.vCharacterController
         protected virtual void UpdateAimBehaviour()
         {
             UpdateAimPosition();
+
             UpdateHeadTrack();
+
             if (shooterManager && CurrentActiveWeapon)
             {
                 UpdateIKAdjust(shooterManager.IsLeftWeapon);
@@ -1067,7 +1079,7 @@ namespace Invector.vCharacterController
         {
             if (!shooterManager) return;
 
-            armAlignmentWeight = IsAiming && aimConditions && CanRotateAimArm() ? Mathf.Lerp(armAlignmentWeight, shooterManager.isShooting ? 0 : (1f * (Mathf.Clamp(cc.upperBodyInfo.normalizedTime, 0, 1f))), shooterManager.smoothArmAlignWeight * (Time.deltaTime)) : 0;
+            armAlignmentWeight = IsAiming && aimConditions && CanRotateAimArm() ? Mathf.Lerp(armAlignmentWeight, Mathf.Clamp(cc.upperBodyInfo.normalizedTime, 0, 1f), shooterManager.smoothArmAlignWeight * (Time.deltaTime)) : 0;
             if (CurrentActiveWeapon && armAlignmentWeight > 0.01f && CurrentActiveWeapon.alignRightUpperArmToAim)
             {
                 var aimPoint = targetArmAlignmentPosition;
@@ -1078,7 +1090,7 @@ namespace Invector.vCharacterController
                 var rot = Quaternion.FromToRotation(upperArm.InverseTransformDirection(orientation), upperArm.InverseTransformDirection(v));
 
                 if ((!float.IsNaN(rot.x) && !float.IsNaN(rot.y) && !float.IsNaN(rot.z)))
-                    upperArmRotationAlignment = rot;
+                    upperArmRotationAlignment = shooterManager.isShooting ? upperArmRotation : rot;
 
                 var angle = Vector3.Angle(aimPosition - aimAngleReference.transform.position, aimAngleReference.transform.forward);
 
@@ -1112,14 +1124,14 @@ namespace Invector.vCharacterController
                 var hand = isUsingLeftHand ? leftHand : rightHand;
                 var rot = Quaternion.FromToRotation(hand.InverseTransformDirection(orientation), hand.InverseTransformDirection(v));
                 if ((!float.IsNaN(rot.x) && !float.IsNaN(rot.y) && !float.IsNaN(rot.z)))
-                    handRotationAlignment = rot;
+                    handRotationAlignment = shooterManager.isShooting ? handRotation : rot;
                 var angle = Vector3.Angle(aimPosition - aimAngleReference.transform.position, aimAngleReference.transform.forward);
                 if ((!(angle > shooterManager.maxAimAngle || angle < -shooterManager.maxAimAngle)) || (controlAimCanvas && controlAimCanvas.isScopeCameraActive))
                     handRotation = Quaternion.Lerp(handRotation, handRotationAlignment, shooterManager.smoothArmIKRotation * (.001f + Time.deltaTime));
 
                 if (!float.IsNaN(handRotation.x) && !float.IsNaN(handRotation.y) && !float.IsNaN(handRotation.z))
                 {
-                    var armWeight = CurrentActiveWeapon.alignRightUpperArmToAim ? Mathf.Clamp(armAlignmentWeight, 0, 0.5f) : armAlignmentWeight;
+                    var armWeight = armAlignmentWeight;
                     hand.localRotation *= Quaternion.Euler(handRotation.eulerAngles.NormalizeAngle() * armWeight);
                 }
 
@@ -1249,7 +1261,14 @@ namespace Invector.vCharacterController
 
         protected virtual void UpdateHeadTrack()
         {
-            if (headTrack) headTrack.ignoreSmooth = IsAiming;
+            if (headTrack)
+            {
+                headTrack.ignoreSmooth = (IsAiming && _aimTimming > shooterManager.HipfireAimTime * 0.5f) || isUsingScopeView;
+                if (IsAiming && aimConditions && !isUsingScopeView)
+                {
+                    headTrack.SetTemporaryLookPoint(aimPosition, 0.1f);
+                }
+            }
             if (!shooterManager || !headTrack)
             {
                 if (headTrack)
@@ -1310,9 +1329,9 @@ namespace Invector.vCharacterController
             }
         }
 
-		#endregion
+        #endregion
 
-	}
+    }
 
     public static partial class vAnimatorParameters
     {

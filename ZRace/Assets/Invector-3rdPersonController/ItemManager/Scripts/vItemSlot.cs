@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Invector.vCharacterController;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 namespace Invector.vItemManager
 {
     public delegate void ItemSlotEvent(vItemSlot item);
-    [vClassHeader("Item Slot")]
+    [vClassHeader("Item Slot", openClose = false)]
     public class vItemSlot : vMonoBehaviour, IPointerClickHandler, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [vEditorToolbar("Default")]

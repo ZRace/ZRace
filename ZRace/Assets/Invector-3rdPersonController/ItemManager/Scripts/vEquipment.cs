@@ -10,10 +10,11 @@ namespace Invector.vItemManager
     /// </summary>
     [vClassHeader("Equipment", openClose = false, helpBoxText = "Use this component if you also use the ItemManager in your Character")]
     public partial class vEquipment : vMonoBehaviour
-    {
+    {    
         public OnHandleItemEvent onEquip, onUnequip;
-       
+        
         public EquipPoint equipPoint { get; set; }
+
         /// <summary>
         /// Event called when equipment is destroyed
         /// </summary>
@@ -25,18 +26,19 @@ namespace Invector.vItemManager
         /// <summary>
         /// Item representing the equipment
         /// </summary>
-        public virtual vItem referenceItem
-        {
-            get;
-            protected set;
-        }
+        public vItem referenceItem;
+
+        //{
+        //    get;
+        //    protected set;
+        //}
 
         /// <summary>
         /// Event called when the item is equipped
         /// </summary>
         /// <param name="item">target item</param>
         public virtual void OnEquip(vItem item)
-        {
+        {           
             referenceItem = item;          
             onEquip.Invoke(item);
         }

@@ -24,14 +24,17 @@ namespace Invector.vCharacterController
         public int upperBodyLayer { get { return animator.GetLayerIndex("UpperBody"); } }
         public int fullbodyLayer { get { return animator.GetLayerIndex("FullBody"); } }
 
-        protected Vector3 lasLeanEulerAngle;
+        protected Vector3 lastCharacterAngle;       
         #endregion
+
+        
 
         protected override void Start()
         {
             base.Start();
+            
             animatorStateInfos = new vAnimatorStateInfos(GetComponent<Animator>());
-            animatorStateInfos.RegisterListener();            
+            animatorStateInfos.RegisterListener();
         }
 
         protected virtual void OnEnable()
@@ -109,13 +112,13 @@ namespace Invector.vCharacterController
                 if (isStrafing)
                 {
                     animator.SetFloat(vAnimatorParameters.InputHorizontal, !stopMove ? horizontalSpeed : 0f, strafeSpeed.animationSmooth, Time.deltaTime);
-                    animator.SetFloat(vAnimatorParameters.InputVertical, !stopMove ? verticalSpeed : 0f, strafeSpeed.animationSmooth, Time.deltaTime);
+                    animator.SetFloat(vAnimatorParameters.InputVertical, !stopMove ? verticalSpeed : 0f, strafeSpeed.animationSmooth, Time.deltaTime);                   
                 }
                 else
                 {
                   
                     animator.SetFloat(vAnimatorParameters.InputVertical, stopMove ? 0 : verticalSpeed, freeSpeed.animationSmooth, Time.deltaTime);
-                    animator.SetFloat(vAnimatorParameters.InputHorizontal, stopMove ? 0 : useLeanMovement ? LeanMovement() : 0f, freeSpeed.animationSmooth, Time.deltaTime);
+                    animator.SetFloat(vAnimatorParameters.InputHorizontal, stopMove ? 0 :LeanMovement(), freeSpeed.animationSmooth, Time.deltaTime);
                 }
                 
                 animator.SetFloat(vAnimatorParameters.InputMagnitude, stopMove ? 0f : inputMagnitude, isStrafing ? strafeSpeed.animationSmooth : freeSpeed.animationSmooth, Time.deltaTime);
@@ -123,17 +126,23 @@ namespace Invector.vCharacterController
 
             if (turnOnSpotAnim)
             {
-                GetTurnOnSpotDirection(transform, Camera.main.transform, ref _speed, ref _direction, input);
+                GetTurnOnSpotDirection(transform, rotateTarget, ref _speed, ref _direction, input);
                 FreeTurnOnSpot(_direction * 180);
                 StrafeTurnOnSpot();
             }
+            lastCharacterAngle = transform.eulerAngles;
         }
 
         protected virtual float LeanMovement()
         {
-            var leanEuler =  transform.eulerAngles- lasLeanEulerAngle;
+            if(!useLeanMovement)
+            {              
+                return 0;
+            }
+           
+            var leanEuler =  transform.eulerAngles- lastCharacterAngle;
             float angleY = leanEuler.NormalizeAngle().y/(isStrafing?strafeSpeed.rotationSpeed: freeSpeed.rotationSpeed);
-            lasLeanEulerAngle = transform.eulerAngles;          
+             
             return angleY;
         }
 
@@ -238,7 +247,7 @@ namespace Invector.vCharacterController
                 return;
             }
 
-            var localFwd = transform.InverseTransformDirection(Camera.main.transform.forward);
+            var localFwd = transform.InverseTransformDirection(rotateTarget.forward);
             var angle = System.Math.Round(localFwd.x, 1);
 
             if (angle >= 0.01f && !isTurningOnSpot)

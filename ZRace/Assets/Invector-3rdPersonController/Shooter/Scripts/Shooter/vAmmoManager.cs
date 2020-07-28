@@ -77,12 +77,40 @@ namespace Invector.vItemManager
                 var ammo = ammos.Find(a => a.ammoID == item.id);
                 if (ammo == null)
                 {
-                    ammo = new vAmmo(item.name, item.id, item.amount);
+                    ammo = new vAmmo(item.name, item.id, 0);
                     ammos.Add(ammo);
                     ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
                 }
-                //var ammoItems = ammo.ammoItems.FindAll(i => i.amount < i.maxStack);
+
                 ammo.ammoItems.Add(item);
+            }
+            else
+            {
+                var primaryAmmo = item.GetItemAttribute(vItemAttributes.AmmoCount);
+                var secundaryAmmo = item.GetItemAttribute(vItemAttributes.SecundaryAmmoCount);
+                if(primaryAmmo!=null||secundaryAmmo!=null)
+                {
+                    var weaponReference = item.originalObject.GetComponent<vShooter.vShooterWeapon>();
+                    if(weaponReference!=null)
+                    {
+                        if(primaryAmmo!=null && primaryAmmo.value>weaponReference.clipSize)
+                        {
+                            var extraAmmo = primaryAmmo.value - weaponReference.clipSize;
+                            primaryAmmo.value -= extraAmmo;
+                            ItemReference newAmmoItem = new ItemReference(weaponReference.ammoID);
+                            newAmmoItem.amount = extraAmmo;
+                            itemManager.AddItem(newAmmoItem,true);
+                        }
+                        if(secundaryAmmo!=null && weaponReference.secundaryWeapon!=null && secundaryAmmo.value>weaponReference.secundaryWeapon.clipSize)
+                        {
+                            var extraAmmo = secundaryAmmo.value - weaponReference.secundaryWeapon.clipSize;
+                            secundaryAmmo.value -= extraAmmo;
+                            ItemReference newAmmoItem = new ItemReference(weaponReference.secundaryWeapon.ammoID);
+                            newAmmoItem.amount = extraAmmo;
+                            itemManager.AddItem(newAmmoItem, true);
+                        }
+                    }
+                }
             }
             UpdateTotalAmmo();
         }
@@ -141,16 +169,10 @@ namespace Invector.vItemManager
             ammos.Clear();
             for(int i =0;i< ammosInManager.Count;i++)
             {
-                vAmmo ammo = ammos.Find(a => a.ammoID.Equals(ammosInManager[i].id));
-                if (ammo == null)
-                {
-                    ammo = new vAmmo(ammosInManager[i].name, ammosInManager[i].id, ammosInManager[i].amount);
-                    ammos.Add(ammo);
-                }
-                else ammo.AddAmmo(ammosInManager[i].amount);
-            }
-           
+                AddAmmo(ammosInManager[i]);
+            }            
         }
+
         void OnDestroyAmmoItem(vItem item)
         {
             if (itemManager) itemManager.DestroyItem(item, item.amount);

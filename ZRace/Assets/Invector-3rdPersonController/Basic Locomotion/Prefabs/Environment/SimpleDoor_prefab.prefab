@@ -52,7 +52,7 @@ MonoBehaviour:
   state: 0
   pivot: {fileID: 4975131732465798396}
   startOpened: 0
-  autoOpen: 0
+  autoOpen: 1
   autoClose: 1
   closeOnlyWhenOpened: 1
   angleOfOpen: 90

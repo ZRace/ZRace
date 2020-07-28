@@ -10,82 +10,75 @@ namespace Invector.vMelee
     public class vCollectShooterMeleeControl : vCollectMeleeControl
     {
         protected vShooterManager shooterManager;
+        [vEditorToolbar("Shooter Events")]
+        public UnityEngine.Events.UnityEvent onEquipShooterWeapon, onUnequipShooterWeapon;
 
+
+        internal bool wasUsingShooterWeapon;
         protected override void Start()
         {
             base.Start();
             shooterManager = GetComponent<vShooterManager>();
         }
-
+       
         public override void HandleCollectableInput(vCollectableStandalone collectableStandAlone)
         {
             if (shooterManager && collectableStandAlone != null && collectableStandAlone.weapon != null)
             {
-                var weapon = collectableStandAlone.weapon.GetComponent<vShooterWeapon>();
-                if (weapon)
-                {
-                    Transform p = null;
-                    if (weapon.isLeftWeapon)
-                    {
-                        p = GetEquipPoint(leftHandler, collectableStandAlone.targetEquipPoint);
-                        if (p)
-                        {
-                            collectableStandAlone.weapon.transform.SetParent(p);
-                            collectableStandAlone.weapon.transform.localPosition = Vector3.zero;
-                            collectableStandAlone.weapon.transform.localEulerAngles = Vector3.zero;
-
-                            if (leftWeapon && leftWeapon != weapon.gameObject)
-                                RemoveLeftWeapon();                                                     
-
-                            shooterManager.SetLeftWeapon(weapon.gameObject);
-                            collectableStandAlone.OnEquip.Invoke();
-                            leftWeapon = weapon.gameObject;
-                            UpdateLeftDisplay(collectableStandAlone);
-                           
-                            if (rightWeapon)
-                                RemoveRightWeapon();
-                        }
-                    }
-                    else
-                    {
-                        p = GetEquipPoint(rightHandler, collectableStandAlone.targetEquipPoint);
-                        if (p)
-                        {
-                            collectableStandAlone.weapon.transform.SetParent(p);
-                            collectableStandAlone.weapon.transform.localPosition = Vector3.zero;
-                            collectableStandAlone.weapon.transform.localEulerAngles = Vector3.zero;
-
-                            if (rightWeapon && rightWeapon != weapon.gameObject)
-                                RemoveRightWeapon();
-
-                            shooterManager.SetRightWeapon(weapon.gameObject);
-                            collectableStandAlone.OnEquip.Invoke();
-                            rightWeapon = weapon.gameObject;
-                            UpdateRightDisplay(collectableStandAlone);
-
-                            if (leftWeapon)
-                                RemoveLeftWeapon();
-                        }
-                    }
-                }
-
-                RemoveShooterWeaponWhenEquippingDefense(collectableStandAlone);
+                EquipShooterWeapon(collectableStandAlone); 
             }
             base.HandleCollectableInput(collectableStandAlone);
         }
 
-        /// <summary>
-        /// Condition to drop the shooter weapon when equipping a shield
-        /// </summary>
-        /// <param name="collectableStandAlone"></param>
-        private void RemoveShooterWeaponWhenEquippingDefense(vCollectableStandalone collectableStandAlone)
+        protected virtual void EquipShooterWeapon(vCollectableStandalone collectable)
         {
-            var meleeWeapon = collectableStandAlone.weapon.GetComponent<vMeleeWeapon>();
-            if (!meleeWeapon) return;
-            if (meleeWeapon.meleeType == vMeleeType.OnlyDefense)
+            var weapon = collectable.weapon.GetComponent<vShooterWeapon>();
+            if (!weapon)
+            {              
+                return;
+            }          
+            Transform p = null;
+            if (weapon.isLeftWeapon)
             {
-                if (shooterManager.CurrentWeapon)
-                    RemoveRightWeapon();
+                p = GetEquipPoint(leftHandler, collectable.targetEquipPoint);
+                if (p)
+                {
+                    collectable.weapon.transform.SetParent(p);
+                    collectable.weapon.transform.localPosition = Vector3.zero;
+                    collectable.weapon.transform.localEulerAngles = Vector3.zero;
+
+                    if (leftWeapon && leftWeapon.gameObject != collectable.gameObject)
+                        RemoveLeftWeapon();
+
+                    shooterManager.SetLeftWeapon(weapon.gameObject);
+                    collectable.OnEquip.Invoke();
+                    leftWeapon = collectable;
+                    UpdateLeftDisplay(collectable);
+
+                    if (rightWeapon)
+                        RemoveRightWeapon();
+                }
+            }
+            else
+            {
+                p = GetEquipPoint(rightHandler, collectable.targetEquipPoint);
+                if (p)
+                {
+                    collectable.weapon.transform.SetParent(p);
+                    collectable.weapon.transform.localPosition = Vector3.zero;
+                    collectable.weapon.transform.localEulerAngles = Vector3.zero;
+
+                    if (rightWeapon && rightWeapon.gameObject != collectable.gameObject)
+                        RemoveRightWeapon();
+
+                    shooterManager.SetRightWeapon(weapon.gameObject);
+                    collectable.OnEquip.Invoke();
+                    rightWeapon = collectable;
+                    UpdateRightDisplay(collectable);
+
+                    if (leftWeapon)
+                        RemoveLeftWeapon();
+                }
             }
         }
 
@@ -102,5 +95,33 @@ namespace Invector.vMelee
             if (shooterManager)
                 shooterManager.lWeapon = null;
         }
+
+        protected override void CheckIsEquipedWifhWeapon()
+        {
+            if(!wasUsingShooterWeapon && isUsingShooterWeapon)
+            {
+                onUnequipMeleeWeapon.Invoke();
+                wasUsingMeleeWeapon = false;
+                onEquipShooterWeapon.Invoke();              
+                wasUsingShooterWeapon = true;
+            }
+            else if(wasUsingShooterWeapon && !isUsingShooterWeapon)
+            {
+                onUnequipShooterWeapon.Invoke();
+                wasUsingShooterWeapon = false;
+            }
+            if(!wasUsingShooterWeapon)
+                base.CheckIsEquipedWifhWeapon();
+        }
+
+        public virtual bool isUsingShooterWeapon
+        {
+            get
+            {
+                if (!shooterManager) return false;
+                return shooterManager.CurrentWeapon && shooterManager.IsCurrentWeaponActive();
+            }
+        }
+
     }
 }

@@ -85,7 +85,7 @@ namespace Invector.vMelee
             {
                 rightWeapon.meleeManager = this;
                 rightWeapon.SetActiveDamage(false);
-            }
+            }            
         }
 
         /// <summary>
@@ -406,7 +406,10 @@ namespace Invector.vMelee
                 rightWeapon.meleeManager = this;
                 rightWeapon.SetActiveDamage(false);
             }
-            else rightWeapon = null;
+            else
+            {                
+                rightWeapon = null;
+            }
         }
 
         public virtual vMeleeWeapon CurrentActiveAttackWeapon

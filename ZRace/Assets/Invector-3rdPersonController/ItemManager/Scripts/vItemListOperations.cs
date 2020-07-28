@@ -179,9 +179,15 @@ namespace Invector.vItemManager
             }
         }
 
-        public static bool ItemIsEquiped(this vItemManager itemManager, int id)
+        public static bool ItemIsEquipped(this vItemManager itemManager, int id)
         {
-            if (itemManager.inventory) return System.Array.Find(itemManager.inventory.equipAreas, equipArea => equipArea.currentEquipedItem && equipArea.currentEquipedItem.id.Equals(id));
+            if (itemManager.inventory) return System.Array.Find(itemManager.inventory.equipAreas, equipArea => equipArea.currentEquippedItem && equipArea.currentEquippedItem.id.Equals(id));
+            return false;
+        }
+
+        public static bool ItemTypeIsEquipped(this vItemManager itemManager, vItemType type)
+        {
+            if (itemManager.inventory) return System.Array.Find(itemManager.inventory.equipAreas, equipArea => equipArea.currentEquippedItem && equipArea.currentEquippedItem.type.Equals(type));
             return false;
         }
 
@@ -190,13 +196,31 @@ namespace Invector.vItemManager
             equipedItemInfo = null;
             if (itemManager.inventory)
             {
-                var area = System.Array.Find(itemManager.inventory.equipAreas, equipArea => equipArea.currentEquipedItem && equipArea.currentEquipedItem.id.Equals(id));
+                var area = System.Array.Find(itemManager.inventory.equipAreas, equipArea => equipArea.currentEquippedItem && equipArea.currentEquippedItem.id.Equals(id));
 
                 if (area)
                 {
-                    equipedItemInfo = new EquipedItemInfo(area.currentEquipedItem, area);
+                    equipedItemInfo = new EquipedItemInfo(area.currentEquippedItem, area);
                     equipedItemInfo.indexOfArea = System.Array.IndexOf(itemManager.inventory.equipAreas, area);
-                    equipedItemInfo.indexOfItem = itemManager.items.IndexOf(area.currentEquipedItem);
+                    equipedItemInfo.indexOfItem = itemManager.items.IndexOf(area.currentEquippedItem);
+                }
+                return area != null;
+            }
+            return false;
+        }
+
+        public static bool ItemTypeIsEquipped(this vItemManager itemManager, vItemType type, out EquipedItemInfo equipedItemInfo)
+        {
+            equipedItemInfo = null;
+            if (itemManager.inventory)
+            {
+                var area = System.Array.Find(itemManager.inventory.equipAreas, equipArea => equipArea.currentEquippedItem && equipArea.currentEquippedItem.type.Equals(type));
+
+                if (area)
+                {
+                    equipedItemInfo = new EquipedItemInfo(area.currentEquippedItem, area);
+                    equipedItemInfo.indexOfArea = System.Array.IndexOf(itemManager.inventory.equipAreas, area);
+                    equipedItemInfo.indexOfItem = itemManager.items.IndexOf(area.currentEquippedItem);
                 }
                 return area != null;
             }
@@ -207,12 +231,12 @@ namespace Invector.vItemManager
         {
             if (itemManager.inventory)
             {
-                var area = System.Array.Find(itemManager.inventory.equipAreas, equipArea => equipArea.currentEquipedItem && equipArea.currentEquipedItem.id.Equals(id));
-                return area ? area.currentEquipedItem : null;
+                var area = System.Array.Find(itemManager.inventory.equipAreas, equipArea => equipArea.currentEquippedItem && equipArea.currentEquippedItem.id.Equals(id));
+                return area ? area.currentEquippedItem : null;
             }
             return null;
         }
-
+      
         public class EquipedItemInfo
         {
             public vItem item;

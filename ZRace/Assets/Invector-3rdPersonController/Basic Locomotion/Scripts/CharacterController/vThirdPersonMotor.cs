@@ -136,6 +136,8 @@ namespace Invector.vCharacterController
         public GroundCheckMethod groundCheckMethod = GroundCheckMethod.High;
         [Tooltip("Snaps the capsule collider to the ground surface, recommend when using complex terrains or inclined ramps")]
         public bool useSnapGround = true;
+        [Range(0,1)]
+        public float snapPower = 0.5f;
         [Tooltip("Distance to became not grounded")]
         public float groundMinDistance = 0.1f;
         public float groundMaxDistance = 0.5f;
@@ -480,16 +482,18 @@ namespace Invector.vCharacterController
             _rigidbody.velocity = targetVelocity;            
         }
 
-        private void SnapToGround(ref Vector3 targetVelocity, ref bool useVerticalVelocity)
+        protected virtual void SnapToGround(ref Vector3 targetVelocity, ref bool useVerticalVelocity)
         {
-            if (applyingStepOffset) return;
+          
+            if (groundDistance < groundMinDistance * 0.2f || applyingStepOffset) return;
+
             var snapConditions = isGrounded && groundHit.collider != null && GroundAngle() <= slopeLimit && !disableCheckGround && !isSliding && !isJumping && !customAction && input.magnitude > 0.1f && !isInAirborne;
             if (snapConditions)
             {
-                var y = ((groundHit.point - transform.position) / Time.deltaTime).y;
-                if (y < limitFallVelocity)
-                    y = limitFallVelocity;
-                targetVelocity.y = y;
+                var distanceToGround = Mathf.Max(0.0f, groundDistance - groundMinDistance);
+                var snapVelocity = transform.up * (-distanceToGround * snapPower / Time.deltaTime);
+
+                targetVelocity = (targetVelocity + snapVelocity).normalized * targetVelocity.magnitude;
                 useVerticalVelocity = false;
             }
 

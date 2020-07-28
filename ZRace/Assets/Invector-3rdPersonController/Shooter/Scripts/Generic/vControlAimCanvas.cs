@@ -48,9 +48,10 @@ namespace Invector.vShooter
         Quaternion scopeCameraTargetRot, scopeCameraOriginRot;
         Vector3 scopeCameraTargetPos, scopeCameraOriginPos;
         bool updateScopeCameraTransition;
-
+        public Camera mainCamera;
         public virtual void Init(vThirdPersonController cc)
         {
+            mainCamera = Camera.main;
             instance = this;
             this.cc = cc;
             currentAimCanvas = aimCanvasCollection[0];
@@ -119,7 +120,7 @@ namespace Invector.vShooter
             if (validPoint == false) return;
             if (!aimTarget || !aimCenter) return;
 
-            Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(wordPosition);
+            Vector2 ViewportPosition = mainCamera.WorldToViewportPoint(wordPosition);
             Vector2 WorldObject_ScreenPosition = new Vector2(
             ((ViewportPosition.x * canvas.sizeDelta.x) - (canvas.sizeDelta.x * 0.5f)),
             ((ViewportPosition.y * canvas.sizeDelta.y) - (canvas.sizeDelta.y * 0.5f)));
@@ -148,6 +149,7 @@ namespace Invector.vShooter
             if (currentAimCanvas == null) return;
             if (value != isAimActive)
             {
+             
                 isAimActive = value;
                 if (value)
                 {
@@ -168,6 +170,7 @@ namespace Invector.vShooter
             if (currentAimCanvas == null) return;
             if (isScopeCameraActive != value || isScopeUIActive != useUI)
             {
+                mainCamera.enabled=!value;
                 isScopeUIActive = useUI;
                 if (value)
                 {
@@ -210,14 +213,14 @@ namespace Invector.vShooter
                 scopeCameraTargetPos = position;
                 scopeCameraTargetRot = Quaternion.LookRotation(lookPosition - scopeCamera.transform.position);
                 scopeCameraTargetZoom = _zoom;
-                scopeCameraOriginPos = Camera.main.transform.position;
-                scopeCameraOriginRot = Camera.main.transform.rotation;
-                scopeCameraOriginZoom = Camera.main.fieldOfView;
+                scopeCameraOriginPos = mainCamera.transform.position;
+                scopeCameraOriginRot = mainCamera.transform.rotation;
+                scopeCameraOriginZoom = mainCamera.fieldOfView;
                 if (!scopeCamera.isActiveAndEnabled && useScopeTransition)
                 {
-                    scopeCamera.transform.position = Camera.main.transform.position;
-                    scopeCamera.transform.rotation = Camera.main.transform.rotation;
-                    scopeCamera.fieldOfView = Camera.main.fieldOfView;
+                    scopeCamera.transform.position = mainCamera.transform.position;
+                    scopeCamera.transform.rotation = mainCamera.transform.rotation;
+                    scopeCamera.fieldOfView = mainCamera.fieldOfView;
                 }
             }
             else

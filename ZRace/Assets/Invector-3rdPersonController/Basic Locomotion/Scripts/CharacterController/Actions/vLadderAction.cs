@@ -28,12 +28,12 @@ namespace Invector.vCharacterController.vActions
         [Tooltip("Input to climb faster")]
         public GenericInput slideDownInput = new GenericInput("Q", "X", "X");
 
-        public AnimationCurve enterRotationCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
-        public AnimationCurve exitRotationCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
 
         [vEditorToolbar("Events")]
         public UnityEvent OnEnterLadder;
         public UnityEvent OnExitLadder;
+        public UnityEvent OnEnterTriggerLadder;
+        public UnityEvent OnExitTriggerLadder;
 
 
         [vEditorToolbar("Debug")]
@@ -110,7 +110,10 @@ namespace Invector.vCharacterController.vActions
         void TriggerEnterLadder()
         {
             if (debugMode) Debug.Log("Enter Ladder");
+            
+            OnExitTriggerLadder.Invoke();
 
+            if (ladderAction.targetCharacterParent) transform.parent = ladderAction.targetCharacterParent;
             tpInput.cc.isCrouching = false;
             tpInput.cc.ControlCapsuleHeight();
             tpInput.UpdateCameraStates();
@@ -123,7 +126,7 @@ namespace Invector.vCharacterController.vActions
             tpInput.cc.ResetInputAnimatorParameters();
             ladderAction.OnDoAction.Invoke();
             ladderActionTemp = ladderAction;
-
+            tpInput.cc.animator.updateMode = AnimatorUpdateMode.Normal;
             if (!string.IsNullOrEmpty(ladderActionTemp.playAnimation))
             {
                 tpInput.cc.animator.CrossFadeInFixedTime(ladderActionTemp.playAnimation, 0.25f);     // trigger the action animation clip                                           
@@ -171,19 +174,18 @@ namespace Invector.vCharacterController.vActions
                 if (ladderActionTemp != null) ladderActionTemp.OnPlayerExit.Invoke();
 
                 if (ladderActionTemp.useTriggerRotation)
-                {                    
+                {
                     if (debugMode) Debug.Log("Rotating to target...");
-                    //Debug.Log(enterRotationCurve.Evaluate(tpInput.cc.baseLayerInfo.normalizedTime));
-                    // smoothly rotate the character to the target                    
-                    //var newRot = new Vector3(transform.eulerAngles.x, ladderActionTemp.matchTarget.transform.eulerAngles.y, transform.eulerAngles.z);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, ladderActionTemp.matchTarget.transform.rotation, enterRotationCurve.Evaluate(tpInput.cc.baseLayerInfo.normalizedTime));
+                    EvaluateToRotation(ladderActionTemp.enterRotationCurve, ladderActionTemp.matchTarget.transform.rotation, tpInput.cc.baseLayerInfo.normalizedTime);
                 }
 
                 if (ladderActionTemp.matchTarget != null)
                 {
+                    if (transform.parent != ladderActionTemp.targetCharacterParent) transform.parent = ladderActionTemp.targetCharacterParent;
+
                     if (debugMode) Debug.Log("Match Target to enter...");
-                    // use match target to match the Y and Z target 
-                    tpInput.cc.MatchTarget(ladderActionTemp.matchTarget.transform.position, ladderActionTemp.matchTarget.transform.rotation, AvatarTarget.Root, new MatchTargetWeightMask(new Vector3(1, 1, 1), 0), ladderActionTemp.startMatchTarget, ladderActionTemp.endMatchTarget);
+
+                    EvaluateToPosition(ladderActionTemp.enterPositionXZCurve, ladderActionTemp.enterPositionYCurve, ladderActionTemp.matchTarget.position, tpInput.cc.baseLayerInfo.normalizedTime);
                 }
             }
 
@@ -197,18 +199,50 @@ namespace Invector.vCharacterController.vActions
                 if (ladderActionTemp.exitMatchTarget != null && !tpInput.cc.baseLayerInfo.IsName("QuickExitLadder"))
                 {
                     if (debugMode) Debug.Log("Match Target to exit...");
-                    // use match target to match the Y and Z target 
-                    tpInput.cc.MatchTarget(ladderActionTemp.exitMatchTarget.transform.position, ladderActionTemp.exitMatchTarget.transform.rotation, AvatarTarget.Root, new MatchTargetWeightMask(new Vector3(1, 1, 1), 0), ladderActionTemp.exitStartMatchTarget, ladderActionTemp.exitEndMatchTarget);
 
+                    EvaluateToPosition(ladderActionTemp.exitPositionXZCurve, ladderActionTemp.exitPositionYCurve, ladderActionTemp.exitMatchTarget.position, tpInput.cc.baseLayerInfo.normalizedTime);
                 }
                 var newRot = new Vector3(0, tpInput.animator.rootRotation.eulerAngles.y, 0);
-                transform.rotation = Quaternion.Lerp(tpInput.animator.rootRotation, Quaternion.Euler(newRot), exitRotationCurve.Evaluate(tpInput.cc.animator.GetCurrentAnimatorStateInfo(0).normalizedTime));
+                EvaluateToRotation(ladderActionTemp.exitRotationCurve, Quaternion.Euler(newRot), tpInput.cc.baseLayerInfo.normalizedTime);
+
                 if (tpInput.cc.baseLayerInfo.normalizedTime >= 0.8f)
                 {
                     // after playing the animation we reset some values
                     ResetPlayerSettings();
                 }
             }
+        }
+
+        protected virtual void EvaluateToPosition(AnimationCurve XZ, AnimationCurve Y, Vector3 targetPosition, float normalizedTime)
+        {
+            Vector3 rootPosition = tpInput.cc.animator.rootPosition;
+
+            float evaluatedXZ = XZ.Evaluate(normalizedTime);
+            float evaluatedY = Y.Evaluate(normalizedTime);
+
+            if (evaluatedXZ < 1f)
+            {
+                rootPosition.x = Mathf.Lerp(rootPosition.x, targetPosition.x, evaluatedXZ);
+                rootPosition.z = Mathf.Lerp(rootPosition.z, targetPosition.z, evaluatedXZ);
+            }
+
+            if (evaluatedY < 1f)
+            {
+                rootPosition.y = Mathf.Lerp(rootPosition.y, targetPosition.y, evaluatedY);
+            }
+
+            transform.position = rootPosition;
+        }
+
+        protected virtual void EvaluateToRotation(AnimationCurve curve, Quaternion targetRotation, float normalizedTime)
+        {
+            Quaternion rootRotation = tpInput.cc.animator.rootRotation;
+            float evaluatedCurve = curve.Evaluate(normalizedTime);
+            if (evaluatedCurve < 1)
+            {
+                rootRotation = Quaternion.Lerp(rootRotation, targetRotation, evaluatedCurve);
+            }
+            transform.rotation = rootRotation;
         }
 
         private void StaminaConsumption()
@@ -299,12 +333,14 @@ namespace Invector.vCharacterController.vActions
             tpInput.SetLockAllInput(false);
             tpInput.cc.StopCharacter();
             tpInput.cc.disableAnimations = false;
+            tpInput.cc.animator.updateMode = AnimatorUpdateMode.AnimatePhysics;
+            if (transform.parent != null) transform.parent = null;
         }
 
         public override void OnActionStay(Collider other)
         {
             if (other.gameObject.CompareTag(actionTag))
-            {
+            {                
                 CheckForTriggerAction(other);
             }
         }
@@ -313,6 +349,7 @@ namespace Invector.vCharacterController.vActions
         {
             if (other.gameObject.CompareTag(actionTag))
             {
+                OnExitTriggerLadder.Invoke();
                 // disable ingame hud
                 if (ladderAction != null) ladderAction.OnPlayerExit.Invoke();
                 ladderAction = null;
@@ -336,6 +373,7 @@ namespace Invector.vCharacterController.vActions
             {
                 ladderAction = _ladderAction;
                 ladderAction.OnPlayerEnter.Invoke();
+                OnEnterTriggerLadder.Invoke();
             }
             else
             {

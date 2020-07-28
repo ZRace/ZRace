@@ -16,7 +16,7 @@ namespace Invector.vCharacterController
         [Header("Melee Inputs")]
         public GenericInput weakAttackInput = new GenericInput("Mouse0", "RB", "RB");
         public GenericInput strongAttackInput = new GenericInput("Alpha1", false, "RT", true, "RT", false);
-        public GenericInput blockInput = new GenericInput("Mouse1", "LB", "LB");
+        public GenericInput blockInput = new GenericInput("Mouse1", "LB", "LB");        
 
         internal vMeleeManager meleeManager;
         public bool isAttacking { get; protected set; }
@@ -52,6 +52,11 @@ namespace Invector.vCharacterController
             {
                 return isAttacking || cc.isDead || cc.customAction || cc.isRolling;
             }
+        }
+
+        protected override void Start()
+        {
+            base.Start();
         }
 
         protected override void LateUpdate()

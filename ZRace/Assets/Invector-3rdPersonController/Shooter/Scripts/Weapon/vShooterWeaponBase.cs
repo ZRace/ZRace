@@ -72,7 +72,8 @@ namespace Invector.vShooter
 
         public OnInstantiateProjectile onInstantiateProjectile;
 
-        protected float _shootFrequency;
+        protected float _nextShootTime;
+        protected float _nextEmptyClipTime;
         #endregion
 
         #region Public Methods
@@ -123,32 +124,45 @@ namespace Invector.vShooter
         /// <param name="sender">ender to reference of the damage</param>
         /// <param name="successfulShot">Action to check if shoot is sucessful</param>
         public virtual void Shoot(Vector3 aimPosition, Transform _sender = null, UnityAction<bool> successfulShot = null)
-        {
-            if (!isValidShotFrequency) return;
-            this.sender = _sender != null ? _sender : transform;
+        {          
             if (HasAmmo())
             {
+                if (!CanDoShot) return;
+               
                 UseAmmo();
                 this.sender = _sender != null ? _sender : transform;
                 HandleShot(aimPosition);
                 if (successfulShot != null) successfulShot.Invoke(true);
+                _nextShootTime = Time.time + shootFrequency;
+                _nextEmptyClipTime = _nextShootTime;
             }
             else
             {
+                if (!CanDoEmptyClip) return;
+              
                 EmptyClipEffect();
                 if (successfulShot != null) successfulShot.Invoke(false);
+                  _nextEmptyClipTime = Time.time + shootFrequency;
             }
         }
 
         /// <summary>
         /// Check if can shoot by <seealso cref="shootFrequency"/>
         /// </summary>
-        public virtual bool isValidShotFrequency
+        public virtual bool CanDoShot
         {
             get
             {
-                bool _canShot = _shootFrequency < Time.time;
-                if (_canShot) _shootFrequency = Time.time + shootFrequency;
+                bool _canShot = _nextShootTime < Time.time;
+                return _canShot;
+            }
+        }     
+
+        protected virtual bool CanDoEmptyClip
+        {
+            get
+            {
+                bool _canShot = _nextEmptyClipTime < Time.time;
                 return _canShot;
             }
         }

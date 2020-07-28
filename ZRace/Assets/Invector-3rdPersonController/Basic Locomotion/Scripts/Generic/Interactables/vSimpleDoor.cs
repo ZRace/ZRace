@@ -117,6 +117,20 @@ namespace Invector
                 StartCoroutine(HandleDoor());
             }
         }
+        /// <summary>
+        /// Open or close door depending othe your current <see cref="state"/>
+        /// </summary>
+        public virtual void ToggleOpenClose()
+        {
+            if (state == DoorState.Closed && state != DoorState.Opening)
+            {
+                Open();
+            }
+            else
+            {
+                Close();
+            }
+        }
 
         /// <summary>
         /// Open or close door Routine

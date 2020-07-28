@@ -24,17 +24,14 @@ namespace Invector.vShooter
         {
             if (!weapon) return;
             if (animator) animator.SetFloat("PowerCharger", 0);
-            if (animator) animator.ResetTrigger("UnSpring");
             if (animator) animator.ResetTrigger("Shot");
-            if (animator) animator.SetTrigger("Spring");
             if (weapon.ammoCount > 0) OnEnableArrow.Invoke();
         }
 
         public void DisableArrow()
         {
             OnDisableArrow.Invoke();
-            if (animator) animator.SetTrigger("UnSpring");
-            if (animator) animator.ResetTrigger("Spring");
+
             if (animator) animator.ResetTrigger("Shot");
             if (animator) animator.SetFloat("PowerCharger", 0);
         }
@@ -67,7 +64,6 @@ namespace Invector.vShooter
             yield return new WaitForSeconds(delayToSpringAfterShot);
             if (weapon.isAiming)
             {
-                if (animator) animator.SetTrigger("Spring");
                 if (weapon.ammoCount > 0) OnFinishShot.Invoke();
             }
         }

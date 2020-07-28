@@ -12694,7 +12694,6 @@ MonoBehaviour:
   useIkAttacking: 0
   disableIkOnShot: 0
   useIKOnAiming: 1
-  canAimWithoutAmmo: 1
   handIKTarget: {fileID: 442536}
   secundaryWeapon: {fileID: 0}
   aimReference: {fileID: 417996}
@@ -12710,6 +12709,7 @@ MonoBehaviour:
   scopeID: 4
   scopeZoom: 0
   customAimCameraState: 
+  customScopeCameraState: ScopeAiming
   scopeTarget: {fileID: 438768}
   zoomScopeCamera: {fileID: 0}
   keepScopeCameraRotationZ: 1
@@ -12779,6 +12779,7 @@ MonoBehaviour:
   onUnequip:
     m_PersistentCalls:
       m_Calls: []
+  referenceItem: {fileID: 0}
 --- !u!1 &137704
 GameObject:
   m_ObjectHideFlags: 0

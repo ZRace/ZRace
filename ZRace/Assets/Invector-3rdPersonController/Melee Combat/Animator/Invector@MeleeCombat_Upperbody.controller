@@ -13230,9 +13230,9 @@ AnimatorStateMachine:
   m_StateMachineTransitions:
   - first: {fileID: 0}
     second: []
-  - first: {fileID: 110790156}
-    second: []
   - first: {fileID: 1107000012077418080}
+    second: []
+  - first: {fileID: 110790156}
     second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 48, y: 0, z: 0}
@@ -25993,7 +25993,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 3
     m_ConditionEvent: GroundDistance
-    m_EventTreshold: 0.25
+    m_EventTreshold: 0.3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102214439001568818}
   m_Solo: 0
@@ -33545,12 +33545,6 @@ AnimatorStateMachine:
   m_StateMachineTransitions:
   - first: {fileID: 0}
     second: []
-  - first: {fileID: 1107522770563196282}
-    second:
-    - {fileID: 1109195838345771488}
-  - first: {fileID: 1107352502706023130}
-    second:
-    - {fileID: 1109515306538650046}
   - first: {fileID: 1107386280914322628}
     second:
     - {fileID: 1109956231591184804}
@@ -33563,12 +33557,18 @@ AnimatorStateMachine:
   - first: {fileID: 1107964730024747042}
     second:
     - {fileID: 1109025621482636618}
+  - first: {fileID: 1107352502706023130}
+    second:
+    - {fileID: 1109515306538650046}
   - first: {fileID: 1107289557424460618}
     second:
     - {fileID: 1109034240739169588}
   - first: {fileID: 1107745783126129282}
     second:
     - {fileID: 1109521855061353880}
+  - first: {fileID: 1107522770563196282}
+    second:
+    - {fileID: 1109195838345771488}
   - first: {fileID: 1107765573026549858}
     second:
     - {fileID: 1109772914082439820}
@@ -33855,12 +33855,12 @@ AnimatorStateMachine:
   m_StateMachineTransitions:
   - first: {fileID: 0}
     second: []
-  - first: {fileID: 1107052282257458664}
-    second:
-    - {fileID: 1109151013025857590}
   - first: {fileID: 1107705078376071210}
     second:
     - {fileID: 1109515796335334572}
+  - first: {fileID: 1107052282257458664}
+    second:
+    - {fileID: 1109151013025857590}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -528, y: 60, z: 0}
   m_EntryPosition: {x: -528, y: 24, z: 0}

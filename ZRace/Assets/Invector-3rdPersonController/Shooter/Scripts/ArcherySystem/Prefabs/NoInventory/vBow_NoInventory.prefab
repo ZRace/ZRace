@@ -386,10 +386,112 @@ MonoBehaviour:
   endExitTimeAnimation: 0.8
   animatorActionState: 0
   resetAnimatorActionState: 1
+  useAnimatorMatchTarget: 1
+  matchTarget: {fileID: 0}
   avatarTarget: 0
+  useLocalX: 0
+  useLocalZ: 1
+  matchPositionXZCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  matchPositionYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  matchRotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   matchPos: {x: 0, y: 0, z: 0}
   matchRot: 0
-  matchTarget: {fileID: 0}
   startMatchTarget: 0
   endMatchTarget: 0
   onPressActionDelay: 0
@@ -446,6 +548,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   targetEquipPoint: bowHandler
+  twoHandWeapon: 1
   weapon: {fileID: 1502236462830544}
   weaponIcon: {fileID: 21300000, guid: 528dc63907f3b6c4fb9d4d26db1ae997, type: 3}
   weaponText: 
@@ -1055,7 +1158,7 @@ GameObject:
   m_Layer: 1
   m_Name: vBow_NoInventory
   m_TagString: Weapon
-  m_Icon: {fileID: -2349822300998112484, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1066,7 +1169,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1502236462830544}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.12, y: 0.9780002, z: -19.948881}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1109,7 +1212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 1
+  selectedToolbar: 7
   weaponCategory: MyCategory
   shootFrequency: 0.5
   isInfinityAmmo: 0
@@ -1202,13 +1305,12 @@ MonoBehaviour:
   alignRightHandToAim: 0
   alignRightUpperArmToAim: 1
   raycastAimTarget: 1
-  useIkOnIdle: 0
-  useIkOnFree: 0
+  useIkOnIdle: 1
+  useIkOnFree: 1
   useIkOnStrafe: 0
   useIkAttacking: 0
   disableIkOnShot: 1
   useIKOnAiming: 1
-  canAimWithoutAmmo: 1
   handIKTarget: {fileID: 4593254401443928}
   secundaryWeapon: {fileID: 0}
   aimReference: {fileID: 4266288799370022}
@@ -1224,6 +1326,7 @@ MonoBehaviour:
   scopeID: 4
   scopeZoom: 60
   customAimCameraState: 
+  customScopeCameraState: 
   scopeTarget: {fileID: 0}
   zoomScopeCamera: {fileID: 0}
   keepScopeCameraRotationZ: 1
@@ -1351,7 +1454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 1
-  openCloseWindow: 1
+  openCloseWindow: 0
   selectedToolbar: 0
   delayToSpringAfterShot: 0.6
   minPenetration: 0
@@ -1424,7 +1527,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!65 &65429349196470508
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1835,15 +1938,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746762563695960}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: -0.047}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -0, y: 0.227, z: 0.044}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4505752197408892}
   - {fileID: 4668951444604596}
   m_Father: {fileID: 4729964882479752}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1798273337157348
 GameObject:
   m_ObjectHideFlags: 0

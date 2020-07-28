@@ -49,15 +49,15 @@ namespace Invector.vItemManager
         void CheckTwoHandItem(vEquipArea area, vItemSlot slot)
         {
             if (slot.item == null) return;
-            var opposite = equipAreas.Find(_area => _area != null && area.equipPointName.Equals("LeftArm") && _area.currentEquipedItem != null);
+            var opposite = equipAreas.Find(_area => _area != null && area.equipPointName.Equals("LeftArm") && _area.currentEquippedItem != null);
             //var RightEquipmentController = changeEquipmentControllers.Find(equipCtrl => equipCtrl.equipArea != null && equipCtrl.equipArea.equipPointName.Equals("RightArm"));
             if (area.equipPointName.Equals("LeftArm"))
-                opposite = equipAreas.Find(_area => _area != null && area.equipPointName.Equals("RightArm") && _area.currentEquipedItem != null);
+                opposite = equipAreas.Find(_area => _area != null && area.equipPointName.Equals("RightArm") && _area.currentEquippedItem != null);
             else if (!area.equipPointName.Equals("RightArm"))
             {
                 return;
             }
-            if (opposite != null && (slot.item.twoHandWeapon || opposite.currentEquipedItem.twoHandWeapon))
+            if (opposite != null && (slot.item.twoHandWeapon || opposite.currentEquippedItem.twoHandWeapon))
             {
                 opposite.onUnequipItem.Invoke(opposite, slot.item);
                 opposite.UnequipItem(slot as vEquipSlot);

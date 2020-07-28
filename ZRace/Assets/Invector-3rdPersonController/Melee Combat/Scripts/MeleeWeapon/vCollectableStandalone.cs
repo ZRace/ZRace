@@ -8,10 +8,13 @@ namespace Invector.vCharacterController.vActions
     [vClassHeader("Collectable Standalone", "Use this component when your character doesn't have a ItemManager", openClose = false)]
     public class vCollectableStandalone : vTriggerGenericAction
     {
+        [vEditorToolbar("Collectable")]
         public string targetEquipPoint;
+        public bool twoHandWeapon;
         public GameObject weapon;
         public Sprite weaponIcon;
         public string weaponText;
+        [vEditorToolbar("Events")]
         public UnityEvent OnEquip;
         public UnityEvent OnDrop;
 

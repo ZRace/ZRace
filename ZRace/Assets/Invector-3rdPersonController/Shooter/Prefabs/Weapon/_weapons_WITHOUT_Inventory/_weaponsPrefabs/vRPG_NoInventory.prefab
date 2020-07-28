@@ -245,7 +245,6 @@ MonoBehaviour:
   useIkAttacking: 0
   disableIkOnShot: 0
   useIKOnAiming: 1
-  canAimWithoutAmmo: 1
   handIKTarget: {fileID: 434962}
   secundaryWeapon: {fileID: 0}
   aimReference: {fileID: 464024}
@@ -261,6 +260,7 @@ MonoBehaviour:
   scopeID: 3
   scopeZoom: 35
   customAimCameraState: 
+  customScopeCameraState: 
   scopeTarget: {fileID: 450816}
   zoomScopeCamera: {fileID: 0}
   keepScopeCameraRotationZ: 1
@@ -288,6 +288,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onFullPower:
+    m_PersistentCalls:
+      m_Calls: []
+  onDisable:
     m_PersistentCalls:
       m_Calls: []
   onChangerPowerCharger:
@@ -618,6 +621,7 @@ MonoBehaviour:
   openCloseEvents: 1
   openCloseWindow: 0
   selectedToolbar: 0
+  inputType: 0
   actionInput:
     useInput: 1
     isAxisInUse: 0
@@ -630,18 +634,19 @@ MonoBehaviour:
     joystickAxisInvert: 0
     keyboardAxisInvert: 0
     mobileAxisInvert: 0
-    buttomTimer: 0
+    timeButtonWasPressed: 0
+    lastTimeTheButtonWasPressed: 0
     inButtomTimer: 0
-  inputType: 0
   buttonTimer: 3
   inputDelay: 0.1
-  doActionWhilePressingButton: 1
+  playAnimationWhileHoldingButton: 1
   doubleButtomTime: 0.25
   actionTag: Action
   disableOnStart: 0
   disableCollision: 0
   disableGravity: 0
   activeFromForward: 0
+  forwardAngle: 30
   useTriggerRotation: 0
   destroyAfter: 0
   destroyDelay: 0
@@ -650,10 +655,112 @@ MonoBehaviour:
   endExitTimeAnimation: 0.8
   animatorActionState: 0
   resetAnimatorActionState: 1
+  useAnimatorMatchTarget: 1
+  matchTarget: {fileID: 0}
   avatarTarget: 0
+  useLocalX: 0
+  useLocalZ: 1
+  matchPositionXZCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  matchPositionYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  matchRotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   matchPos: {x: 0, y: 0, z: 0}
   matchRot: 0
-  matchTarget: {fileID: 0}
   startMatchTarget: 0
   endMatchTarget: 0
   onPressActionDelay: 0
@@ -710,6 +817,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   targetEquipPoint: 
+  twoHandWeapon: 1
   weapon: {fileID: 116674}
   weaponIcon: {fileID: 21300000, guid: 89ba1f6f55195c944aad86c1767dfe52, type: 3}
   weaponText: 

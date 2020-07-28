@@ -23,7 +23,7 @@ namespace Invector.vItemManager
             for (int i = 0; i < equipAreas.Length; i++)
             {
                 EquipAreaData equipAreaData = new EquipAreaData();
-                equipAreaData.indexOfSelectedSlot = equipAreas[i].indexOfEquipedItem;
+                equipAreaData.indexOfSelectedSlot = equipAreas[i].indexOfEquippedItem;
 
                 for (int e = 0; e < equipAreas[i].equipSlots.Count; e++)
                 {
@@ -93,7 +93,7 @@ namespace Invector.vItemManager
                         vEquipArea area = equipAreas[i];
                         EquipAreaData areaData = data.equipAreas[i];
                         
-                        area.indexOfEquipedItem = areaData.indexOfSelectedSlot;                        
+                        area.indexOfEquippedItem = areaData.indexOfSelectedSlot;                        
 
                         for (int e = 0; e < equipAreas[i].equipSlots.Count; e++)
                         {

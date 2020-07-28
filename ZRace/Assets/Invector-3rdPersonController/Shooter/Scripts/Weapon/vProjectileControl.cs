@@ -1,19 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using Photon.Pun.UtilityScripts;
 
 namespace Invector.vShooter
 {
     using Invector.vEventSystems;
-	using Photon.Pun;
-	using Photon.Pun.UtilityScripts;
-
-	[vClassHeader("Projectile Control", "The damage value is changed from minDamage, maxDamage, DropOffStart, DropOffEnd of the ShooterWeapon", openClose = false)]
+    [vClassHeader("Projectile Control", "The damage value is changed from minDamage, maxDamage, DropOffStart, DropOffEnd of the ShooterWeapon", openClose = false)]
     public class vProjectileControl : vMonoBehaviour
     {
         public vBulletLifeSettings bulletLifeSettings;
-        public string namePlayer;
         public int bulletLife = 100;
         public bool debugTrajetory;
         public bool debugHittedObject;
@@ -54,17 +48,15 @@ namespace Invector.vShooter
 
         protected virtual void Start()
         {
-			transform.SetParent(vObjectContainer.root, true);
-			debugLife = bulletLife;
+            transform.SetParent(vObjectContainer.root, true);
+            debugLife = bulletLife;
             _rigidBody = GetComponent<Rigidbody>();
             startPosition = transform.position;
             previousPosition = transform.position - transform.forward * 0.1f;
         }
 
-		protected virtual void Update()
+        protected virtual void Update()
         {
-
-
             RaycastHit hitInfo;
             if (_rigidBody.velocity.magnitude > 1)
                 transform.rotation = Quaternion.LookRotation(_rigidBody.velocity.normalized, transform.up);
@@ -75,8 +67,8 @@ namespace Invector.vShooter
 
                 var dist = Vector3.Distance(startPosition, transform.position) + castDist;
                 if (!(ignoreTags.Contains(hitInfo.collider.gameObject.tag) || (shooterTransform != null && hitInfo.collider.transform.IsChildOf(shooterTransform))))
-				{
-					if (debugHittedObject) Debug.Log(hitInfo.collider.gameObject.name, hitInfo.collider);
+                {
+                    if (debugHittedObject) Debug.Log(hitInfo.collider.gameObject.name, hitInfo.collider);
                     onCastCollider.Invoke(hitInfo);
                     damage.damageValue = maxDamage;
                     if (damageByDistance)
@@ -96,8 +88,6 @@ namespace Invector.vShooter
                     }
                     damage.hitPosition = hitInfo.point;
                     damage.receiver = hitInfo.collider.transform;
-
-
 
                     if (damage.damageValue > 0)
                     {

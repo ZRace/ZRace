@@ -102,8 +102,10 @@ namespace Invector.vShooter
         public int scopeID;
         [Tooltip("change the FOV of the scope view\n **The calc is default value (60)-scopeZoom**"), Range(-118, 60)]
         public float scopeZoom = 60;
-        [Tooltip("Used with the TPCamera to use a custom CameraState, if it's empty it will use the 'Aiming' CameraState.")]
+        [Tooltip("Used with the TPCamera to use a custom CameraState while aiming, if it's empty it will use the 'Aiming' CameraState.")]
         public string customAimCameraState;
+        [Tooltip("Used with the TPCamera to use a custom CameraState while using scope view mode, if it's empty it will use the 'Aiming' CameraState.")]
+        public string customScopeCameraState;
         [Tooltip("assign an empty transform with the pos/rot of your scope view")]
         public Transform scopeTarget;
         public Camera zoomScopeCamera;
