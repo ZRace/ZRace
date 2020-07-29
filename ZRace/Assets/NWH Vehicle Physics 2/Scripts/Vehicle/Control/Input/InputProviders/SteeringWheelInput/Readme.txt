@@ -1,1 +1,0 @@
-For SteeringWheelInputProvider setup instructions check: http://nwhvehiclephysics.com/doku.php/NWH/VehiclePhysics2/Input/SteeringWheelInputProvider
