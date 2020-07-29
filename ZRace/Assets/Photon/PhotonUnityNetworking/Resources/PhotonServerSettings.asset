@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
+  m_Name: PhotonServerSettings
+  m_EditorClassIdentifier: 
+  AppSettings:
+    AppIdRealtime: bd3eebc4-43bd-4ade-9891-a17ead500adf
+    AppIdChat: 05795e32-7649-4e84-bbe7-e3dda6b6834e
+    AppIdVoice: de7543cc-9816-4ae2-bf7c-bf88538e091f
+    AppVersion: 
+    UseNameServer: 1
+    FixedRegion: 
+    Server: 
+    Port: 0
+    Protocol: 0
+    AuthMode: 0
+    EnableLobbyStatistics: 0
+    NetworkLogging: 1
+  DevRegion: eu
+  PunLogging: 0
+  EnableSupportLogger: 0
+  RunInBackground: 1
+  StartInOfflineMode: 0
+  RpcList:
+  - ChangeColour
+  - ClickRpc
+  - CrossFadeInFixedTime
+  - DestroyRpc
+  - DestroySpaceship
+  - Fire
+  - FloatInvoke
+  - GameObjectInvoke
+  - GenericSync_SetPosRot
+  - GenericSync_SetTrigger
+  - InvokeNoInputEvent
+  - Item_NetworkDestroy
+  - Live
+  - MasterClientInstantiate
+  - MeleeManager_ReceiveSetLeftWeapon
+  - MeleeManager_ReceiveSetRightWeapon
+  - NetworkCollect
+  - NetworkDestroySelf
+  - NetworkEnterLadder
+  - NetworkExitLadder
+  - NetworkInstantiate
+  - NetworkJump
+  - NetworkOnPressInput
+  - NetworkOnReceiveDamage
+  - NetworkPlayerPlayAnimation
+  - NetworkSceneCollected
+  - NetworkSetActive
+  - NetworkSetPlayerName
+  - PlayerDropItem
+  - ReceiveDamage
+  - ResetTriggers
+  - RespawnSpaceship
+  - rpc
+  - RPC_LoadScene
+  - rpc_s
+  - RPC_SpawnObjects
+  - SendDamage
+  - SendNetworkBreakObject
+  - SendToScene
+  - SetActiveRagdoll
+  - SetPositionRotation
+  - SetTeam
+  - SetTriggers
+  - UpdateEntrancePoint
+  - UseRigidBodyGravity
+  - SetScore
+  - SettScore
+  DisableAutoOpenWizard: 1
+  ShowSettings: 1
+  DevRegionSetOnce: 1
