@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7547186743180275511
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Revolver
+  m_EditorClassIdentifier: 
+  id: 24
+  description: Revolver Magnum 44
+  type: 2
+  icon: {fileID: 21300000, guid: c8f94dc492e2d2342a1e2103ae382c7d, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 7545374925313474851, guid: d4d3f62cc6e17354092013c310b57cbc,
+    type: 3}
+  dropObject: {fileID: 199660, guid: 38ebe90b46d37bd47822899bd47a318a, type: 3}
+  attributes:
+  - name: 2
+    value: 46
+    isOpen: 1
+    isBool: 0
+  - name: 6
+    value: 6
+    isOpen: 1
+    isBool: 0
+  isInEquipArea: 0
+  destroyAfterUse: 0
+  canBeUsed: 0
+  canBeDroped: 1
+  canBeDestroyed: 1
+  EnableAnim: LowBack
+  DisableAnim: LowBack
+  enableDelayTime: 0.5
+  disableDelayTime: 0.5
+  customHandler: 
+  twoHandWeapon: 0
+  onDestroy:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,6 +82,8 @@ MonoBehaviour:
   - {fileID: 114768070110970990}
   - {fileID: 114325489470222926}
   - {fileID: 114525615715430938}
+  - {fileID: -7547186743180275511}
+  - {fileID: 713515845088844166}
   inEdition: 0
   itemsHidden: 1
 --- !u!114 &11427962
@@ -178,7 +225,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 147976, guid: 490b027b4bc17844c86dfb0e3f50ba97, type: 3}
+  originalObject: {fileID: 147976, guid: b15be6455a3afff4d890acbb4b0930d7, type: 3}
   dropObject: {fileID: 170868, guid: 29c64441cf150e1478de24e3252446ec, type: 3}
   attributes:
   - name: 2
@@ -225,7 +272,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 109168, guid: c9d537197cc153745a468a97ec00241f, type: 3}
+  originalObject: {fileID: 109168, guid: f78e3c3b29fb46245abfb94a7bfd5907, type: 3}
   dropObject: {fileID: 150024, guid: b13b1a669dda56f4cbd8fb0d831eec76, type: 3}
   attributes:
   - name: 2
@@ -311,7 +358,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 136552, guid: e53efed3927a7254aa010f9c6752223c, type: 3}
+  originalObject: {fileID: 136552, guid: e57a24999df51cc44b3f35289339d6ba, type: 3}
   dropObject: {fileID: 121418, guid: 763836da888842349a25cd7daf28a752, type: 3}
   attributes:
   - name: 2
@@ -482,7 +529,7 @@ MonoBehaviour:
   DisableAnim: LowFront
   enableDelayTime: 0.5
   disableDelayTime: 0.5
-  customHandler: meleeHandler
+  customHandler: Melee_Handler
   twoHandWeapon: 0
   onDestroy:
     m_PersistentCalls:
@@ -617,11 +664,12 @@ MonoBehaviour:
   id: 11
   description: Attached with a Scope
   type: 2
-  icon: {fileID: 21300000, guid: c9bcb3ac64db75147b5fde5864fdfcb2, type: 3}
+  icon: {fileID: 21300000, guid: 10bc29a2ba2c74e4d98b3e6d786a3faa, type: 3}
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 130016, guid: 0aa8a1542200b3f4a978ba11eeb1ec1b, type: 3}
+  originalObject: {fileID: 2410714044521085203, guid: ef5b376a4332578439e1d3fbb5389a1d,
+    type: 3}
   dropObject: {fileID: 120964, guid: d514a70d9dfd1ec459bbec7c9799555a, type: 3}
   attributes:
   - name: 2
@@ -678,7 +726,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 1000010116632662, guid: 2232bbcc5a195274c9744c2c6352e910,
+  originalObject: {fileID: 1000010116632662, guid: 0b15dcbf85468d046917a8c78cc5bf62,
     type: 3}
   dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 3}
   attributes:
@@ -730,7 +778,8 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 170828, guid: a0ef3c70b27799d409935f45a6537bb0, type: 3}
+  originalObject: {fileID: 5821933580488791406, guid: aaa5857eb64b21b41a279d20fb020fc5,
+    type: 3}
   dropObject: {fileID: 199660, guid: 38ebe90b46d37bd47822899bd47a318a, type: 3}
   attributes:
   - name: 2
@@ -812,7 +861,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
-  m_Name: Axe
+  m_Name: Fireman Axe
   m_EditorClassIdentifier: 
   itemsToCraft: []
   canCraft: 0
@@ -824,7 +873,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 1000010725870802, guid: 0cf98a7633e41834ba19e8626f1ceadc,
+  originalObject: {fileID: 1000010725870802, guid: b85ab1fee99028d43a9eebe877b99ebb,
     type: 3}
   dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 3}
   attributes:
@@ -853,7 +902,7 @@ MonoBehaviour:
   DisableAnim: HighBack
   enableDelayTime: 0.5
   disableDelayTime: 0.5
-  customHandler: meleeHandler
+  customHandler: Melee_Handler
   twoHandWeapon: 0
   onDestroy:
     m_PersistentCalls:
@@ -915,7 +964,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
-  m_Name: Short Sword
+  m_Name: Machete
   m_EditorClassIdentifier: 
   itemsToCraft: []
   canCraft: 1
@@ -927,7 +976,7 @@ MonoBehaviour:
   stackable: 0
   maxStack: 1
   amount: 0
-  originalObject: {fileID: 1000012884940116, guid: 5dc53aa14e78ec54fbf2281c1abb7f47,
+  originalObject: {fileID: 1000012884940116, guid: 716b7c1923aa6d8499ded83980346497,
     type: 3}
   dropObject: {fileID: 1000012655258636, guid: cf28841817afdab4c8060f470a322c37, type: 3}
   attributes:
@@ -956,7 +1005,7 @@ MonoBehaviour:
   DisableAnim: HighBack
   enableDelayTime: 0.5
   disableDelayTime: 0.5
-  customHandler: meleeHandler
+  customHandler: Melee_Handler
   twoHandWeapon: 0
   onDestroy:
     m_PersistentCalls:
@@ -1182,6 +1231,59 @@ MonoBehaviour:
   enableDelayTime: 0.5
   disableDelayTime: 0.5
   customHandler: bowHandler
+  twoHandWeapon: 1
+  onDestroy:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &713515845088844166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adabc1ae49fd3c44a36cc9152ebb0f9, type: 3}
+  m_Name: Assault Rifle (no scope)
+  m_EditorClassIdentifier: 
+  id: 25
+  description: AK 47
+  type: 2
+  icon: {fileID: 21300000, guid: 3f4d32b559e82a74e942173dddf0d1be, type: 3}
+  stackable: 0
+  maxStack: 1
+  amount: 0
+  originalObject: {fileID: 8934749540826652155, guid: 2858e2bb5c790cb418e7da5c01a08c1e,
+    type: 3}
+  dropObject: {fileID: 120964, guid: d514a70d9dfd1ec459bbec7c9799555a, type: 3}
+  attributes:
+  - name: 2
+    value: 25
+    isOpen: 0
+    isBool: 0
+  - name: 6
+    value: 25
+    isOpen: 0
+    isBool: 0
+  - name: 10
+    value: 85
+    isOpen: 0
+    isBool: 0
+  - name: 9
+    value: 0
+    isOpen: 0
+    isBool: 0
+  isInEquipArea: 0
+  destroyAfterUse: 0
+  canBeUsed: 0
+  canBeDroped: 1
+  canBeDestroyed: 1
+  EnableAnim: HighBack
+  DisableAnim: HighBack
+  enableDelayTime: 0.5
+  disableDelayTime: 0.5
+  customHandler: 
   twoHandWeapon: 1
   onDestroy:
     m_PersistentCalls:
