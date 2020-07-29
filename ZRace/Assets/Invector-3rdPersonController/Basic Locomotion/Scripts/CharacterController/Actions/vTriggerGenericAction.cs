@@ -30,7 +30,6 @@ namespace Invector.vCharacterController.vActions
         [vHelpBox("*Only for GetButtonTimer* \n\n<b>TRUE: </b> Play the animation while you're holding the button \n" +
             "<b>FALSE: </b>Play the animation after you finish holding the button")]
         public bool playAnimationWhileHoldingButton = true;
-
         
         [vHelpBox("Time to press the button twice *Only for GetDoubleButton*")]
         public float doubleButtomTime = 0.25f;
@@ -71,16 +70,28 @@ namespace Invector.vCharacterController.vActions
         public int animatorActionState = 0;
         [vHelpBox("Reset the ActionState parameter to 0 after playing the animation")]
         public bool resetAnimatorActionState = true;
-        [vHelpBox("Select the bone you want to use as reference to the Match Target")]
+        public bool useAnimatorMatchTarget = true;
+        [vHelpBox("Use a empty transform as reference for the MatchTarget")]
+        public Transform matchTarget;
+        [vHelpBox("Select the bone you want to use as reference to the Match Target")]       
         public AvatarTarget avatarTarget;
+        [Header("Curve Match target system")]
+        public bool useLocalX = false;       
+        public bool useLocalZ = true;      
+        public AnimationCurve matchPositionXZCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(.5f, 1), new Keyframe(1, 1));   
+        public AnimationCurve matchPositionYCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(.5f, 1), new Keyframe(1, 1));      
+        public AnimationCurve matchRotationCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(.5f, 1), new Keyframe(1, 1));
+
         [vHelpBox("Check what positions XYZ you want the matchTarget to work")]
+        [Header("Animator Match target system")]  
+        [vHelpBox("<b>These properties are related to the animator's matchtarget system</b>.\n<i> To use our new system curve based, <color=red>uncheck the UseAnimatorMatchTarget</color></i>\n <b>This properties will be removed in next update</b>",messageType:vHelpBoxAttribute.MessageType.Info)]
+        [Space(30)]
+
         [FormerlySerializedAs("matchTargetMask")]
         public Vector3 matchPos;
         [vHelpBox("Rotate Weight for your character to use the matchTarget rotation")]
         [Range(0, 1f)]
-        public float matchRot;
-        [vHelpBox("Use a empty transform as reference for the MatchTarget")]
-        public Transform matchTarget;
+        public float matchRot;      
         [vHelpBox("Time of the animation to start the MatchTarget goes from 0 to 1")]
         public float startMatchTarget;
         [vHelpBox("Time of the animation to end the MatchTarget goes from 0 to 1")]

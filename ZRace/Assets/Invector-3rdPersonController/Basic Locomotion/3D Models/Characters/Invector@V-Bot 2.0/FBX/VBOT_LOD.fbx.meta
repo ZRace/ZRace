@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 340f99b8334a14c4a8a01dce6e1e5348
-timeCreated: 1558652167
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Armature
     100002: VBOT_:Head
@@ -184,15 +182,17 @@ ModelImporter:
     13700004: VBOT_:VBOT_LOD2
     13700006: VBOT_:VBOT_LOD3
     20500000: //RootNode
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -200,12 +200,98 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - Armature
+    - Armature/VBOT_:Hips
+    - Armature/VBOT_:Hips/VBOT_:LeftUpLeg
+    - Armature/VBOT_:Hips/VBOT_:LeftUpLeg/VBOT_:LeftLeg
+    - Armature/VBOT_:Hips/VBOT_:LeftUpLeg/VBOT_:LeftLeg/VBOT_:LeftFoot
+    - Armature/VBOT_:Hips/VBOT_:LeftUpLeg/VBOT_:LeftLeg/VBOT_:LeftFoot/VBOT_:LeftToeBase
+    - Armature/VBOT_:Hips/VBOT_:LeftUpLeg/VBOT_:LeftLeg/VBOT_:LeftFoot/VBOT_:LeftToeBase/VBOT_:LeftToe_End
+    - Armature/VBOT_:Hips/VBOT_:LeftUpLeg/VBOT_:LeftLeg/VBOT_:LeftFoot/VBOT_:LeftToeBase/VBOT_:LeftToe_End/VBOT_:LeftToe_End_end
+    - Armature/VBOT_:Hips/VBOT_:RightUpLeg
+    - Armature/VBOT_:Hips/VBOT_:RightUpLeg/VBOT_:RightLeg
+    - Armature/VBOT_:Hips/VBOT_:RightUpLeg/VBOT_:RightLeg/VBOT_:RightFoot
+    - Armature/VBOT_:Hips/VBOT_:RightUpLeg/VBOT_:RightLeg/VBOT_:RightFoot/VBOT_:RightToeBase
+    - Armature/VBOT_:Hips/VBOT_:RightUpLeg/VBOT_:RightLeg/VBOT_:RightFoot/VBOT_:RightToeBase/VBOT_:RightToe_End
+    - Armature/VBOT_:Hips/VBOT_:RightUpLeg/VBOT_:RightLeg/VBOT_:RightFoot/VBOT_:RightToeBase/VBOT_:RightToe_End/VBOT_:RightToe_End_end
+    - Armature/VBOT_:Hips/VBOT_:Spine
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandIndex1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandIndex1/VBOT_:LeftHandIndex2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandIndex1/VBOT_:LeftHandIndex2/VBOT_:LeftHandIndex3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandIndex1/VBOT_:LeftHandIndex2/VBOT_:LeftHandIndex3/VBOT_:LeftHandIndex4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandIndex1/VBOT_:LeftHandIndex2/VBOT_:LeftHandIndex3/VBOT_:LeftHandIndex4/VBOT_:LeftHandIndex4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandMiddle1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandMiddle1/VBOT_:LeftHandMiddle2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandMiddle1/VBOT_:LeftHandMiddle2/VBOT_:LeftHandMiddle3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandMiddle1/VBOT_:LeftHandMiddle2/VBOT_:LeftHandMiddle3/VBOT_:LeftHandMiddle4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandMiddle1/VBOT_:LeftHandMiddle2/VBOT_:LeftHandMiddle3/VBOT_:LeftHandMiddle4/VBOT_:LeftHandMiddle4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandPinky1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandPinky1/VBOT_:LeftHandPinky2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandPinky1/VBOT_:LeftHandPinky2/VBOT_:LeftHandPinky3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandPinky1/VBOT_:LeftHandPinky2/VBOT_:LeftHandPinky3/VBOT_:LeftHandPinky4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandPinky1/VBOT_:LeftHandPinky2/VBOT_:LeftHandPinky3/VBOT_:LeftHandPinky4/VBOT_:LeftHandPinky4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandRing1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandRing1/VBOT_:LeftHandRing2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandRing1/VBOT_:LeftHandRing2/VBOT_:LeftHandRing3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandRing1/VBOT_:LeftHandRing2/VBOT_:LeftHandRing3/VBOT_:LeftHandRing4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandRing1/VBOT_:LeftHandRing2/VBOT_:LeftHandRing3/VBOT_:LeftHandRing4/VBOT_:LeftHandRing4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandThumb1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandThumb1/VBOT_:LeftHandThumb2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandThumb1/VBOT_:LeftHandThumb2/VBOT_:LeftHandThumb3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandThumb1/VBOT_:LeftHandThumb2/VBOT_:LeftHandThumb3/VBOT_:LeftHandThumb4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:LeftShoulder/VBOT_:LeftArm/VBOT_:LeftForeArm/VBOT_:LeftHand/VBOT_:LeftHandThumb1/VBOT_:LeftHandThumb2/VBOT_:LeftHandThumb3/VBOT_:LeftHandThumb4/VBOT_:LeftHandThumb4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:Neck
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:Neck/VBOT_:Head
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:Neck/VBOT_:Head/VBOT_:HeadTop_End
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:Neck/VBOT_:Head/VBOT_:HeadTop_End/VBOT_:HeadTop_End_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandIndex1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandIndex1/VBOT_:RightHandIndex2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandIndex1/VBOT_:RightHandIndex2/VBOT_:RightHandIndex3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandIndex1/VBOT_:RightHandIndex2/VBOT_:RightHandIndex3/VBOT_:RightHandIndex4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandIndex1/VBOT_:RightHandIndex2/VBOT_:RightHandIndex3/VBOT_:RightHandIndex4/VBOT_:RightHandIndex4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandMiddle1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandMiddle1/VBOT_:RightHandMiddle2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandMiddle1/VBOT_:RightHandMiddle2/VBOT_:RightHandMiddle3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandMiddle1/VBOT_:RightHandMiddle2/VBOT_:RightHandMiddle3/VBOT_:RightHandMiddle4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandMiddle1/VBOT_:RightHandMiddle2/VBOT_:RightHandMiddle3/VBOT_:RightHandMiddle4/VBOT_:RightHandMiddle4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandPinky1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandPinky1/VBOT_:RightHandPinky2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandPinky1/VBOT_:RightHandPinky2/VBOT_:RightHandPinky3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandPinky1/VBOT_:RightHandPinky2/VBOT_:RightHandPinky3/VBOT_:RightHandPinky4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandPinky1/VBOT_:RightHandPinky2/VBOT_:RightHandPinky3/VBOT_:RightHandPinky4/VBOT_:RightHandPinky4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandRing1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandRing1/VBOT_:RightHandRing2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandRing1/VBOT_:RightHandRing2/VBOT_:RightHandRing3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandRing1/VBOT_:RightHandRing2/VBOT_:RightHandRing3/VBOT_:RightHandRing4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandRing1/VBOT_:RightHandRing2/VBOT_:RightHandRing3/VBOT_:RightHandRing4/VBOT_:RightHandRing4_end
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandThumb1
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandThumb1/VBOT_:RightHandThumb2
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandThumb1/VBOT_:RightHandThumb2/VBOT_:RightHandThumb3
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandThumb1/VBOT_:RightHandThumb2/VBOT_:RightHandThumb3/VBOT_:RightHandThumb4
+    - Armature/VBOT_:Hips/VBOT_:Spine/VBOT_:Spine1/VBOT_:Spine2/VBOT_:RightShoulder/VBOT_:RightArm/VBOT_:RightForeArm/VBOT_:RightHand/VBOT_:RightHandThumb1/VBOT_:RightHandThumb2/VBOT_:RightHandThumb3/VBOT_:RightHandThumb4/VBOT_:RightHandThumb4_end
+    - VBOT_:VBOT_LOD0
+    - VBOT_:VBOT_LOD1
+    - VBOT_:VBOT_LOD2
+    - VBOT_:VBOT_LOD3
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: T-pose
@@ -413,22 +499,34 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.9999999
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -1284,7 +1382,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0

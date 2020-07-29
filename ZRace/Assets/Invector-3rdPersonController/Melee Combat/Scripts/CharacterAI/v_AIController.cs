@@ -12,7 +12,6 @@ namespace Invector.vCharacterController.AI
         public float destinationRoutineIteration = 0.25f;
         public float findTargetIteration = 0.25f;
         public float smoothSpeed = 5f;
-        public Transform findTarget;
 
         [vEditorToolbar("Events")]
         [Header("--- On Change State Events ---")]
@@ -88,16 +87,6 @@ namespace Invector.vCharacterController.AI
                     {
                         currentTarget.transform = vChar.transform;
                         currentTarget.character = vChar;
-                        findTarget = currentTarget.transform;
-                        if(findTarget.tag != "Vehicle")
-						{
-                            meleeManager.defaultAttackDistance = 1f;
-                        }
-						else if(findTarget.tag == "Vehicle")
-						{
-                            meleeManager.defaultAttackDistance = 1.75f;
-                        }
-
                     }
                 }
 
@@ -106,12 +95,12 @@ namespace Invector.vCharacterController.AI
                     currentTarget.transform = null;
                 }
             }
-			else if (currentHealth <= 0f)
-			{
-				destination = transform.position;
-				currentTarget.transform = null;
-			}
-		}
+            else if (currentHealth <= 0f)
+            {
+                destination = transform.position;
+                currentTarget.transform = null;
+            }
+        }
 
         bool CheckTargetIsAlive()
         {

@@ -9808,7 +9808,6 @@ GameObject:
   m_Component:
   - component: {fileID: 473090}
   - component: {fileID: 11420468}
-  - component: {fileID: 11494344}
   - component: {fileID: 5460516}
   - component: {fileID: 6525828}
   - component: {fileID: 114509644050344404}
@@ -9922,7 +9921,6 @@ MonoBehaviour:
   useIkAttacking: 0
   disableIkOnShot: 0
   useIKOnAiming: 1
-  canAimWithoutAmmo: 1
   handIKTarget: {fileID: 420246}
   secundaryWeapon: {fileID: 0}
   aimReference: {fileID: 406260}
@@ -9938,6 +9936,7 @@ MonoBehaviour:
   scopeID: 0
   scopeZoom: 35
   customAimCameraState: 
+  customScopeCameraState: 
   scopeTarget: {fileID: 413910}
   zoomScopeCamera: {fileID: 2000058}
   keepScopeCameraRotationZ: 0
@@ -9989,72 +9988,14 @@ MonoBehaviour:
   onFullPower:
     m_PersistentCalls:
       m_Calls: []
+  onDisable:
+    m_PersistentCalls:
+      m_Calls: []
   onChangerPowerCharger:
     m_PersistentCalls:
       m_Calls: []
   root: {fileID: 0}
   isSecundaryWeapon: 0
---- !u!114 &11494344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ebe2ea9c9ea0544d84d9c27f7470915, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openCloseEvents: 0
-  openCloseWindow: 0
-  selectedToolbar: 0
-  damage:
-    damageValue: 0
-    staminaBlockCost: 0
-    staminaRecoveryDelay: 0
-    ignoreDefense: 0
-    activeRagdoll: 0
-    sender: {fileID: 0}
-    receiver: {fileID: 0}
-    hitPosition: {x: 0, y: 0, z: 0}
-    hitReaction: 1
-    recoil_id: 0
-    reaction_id: 0
-    damageType: 
-  overrideDamageSender: {fileID: 0}
-  hitBoxes:
-  - {fileID: 11414326}
-  damageModifier: 0
-  canApplyDamage: 0
-  onDamageHit:
-    m_PersistentCalls:
-      m_Calls: []
-  onRecoilHit:
-    m_PersistentCalls:
-      m_Calls: []
-  onEnableDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  onDisableDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  meleeManager: {fileID: 0}
-  meleeType: 1
-  useStrongAttack: 1
-  distanceToAttack: 1
-  attackID: 2
-  movesetID: 2
-  staminaCost: 0
-  staminaRecoveryDelay: 0
-  defenseRate: 100
-  defenseRange: 90
-  defenseID: 0
-  recoilID: 0
-  breakAttack: 0
-  onDefense:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!54 &5460516
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19640,7 +19581,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 466986}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &156168
 GameObject:
@@ -19744,7 +19685,7 @@ Transform:
   m_LocalScale: {x: 0.07890193, y: 0.09118193, z: 0.058717564}
   m_Children: []
   m_Father: {fileID: 466986}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &8281144
 AudioSource:
@@ -20042,7 +19983,7 @@ Transform:
   m_LocalScale: {x: 1.0720533, y: 0.955747, z: 1}
   m_Children: []
   m_Father: {fileID: 466986}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &170840
 GameObject:
@@ -20074,7 +20015,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 470688}
-  - {fileID: 461334}
   - {fileID: 420246}
   - {fileID: 406260}
   - {fileID: 401602}
@@ -20166,7 +20106,7 @@ Transform:
   - {fileID: 404620}
   - {fileID: 437566}
   m_Father: {fileID: 466986}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &175766
 GameObject:
@@ -20197,7 +20137,7 @@ Transform:
   m_Children:
   - {fileID: 407976}
   m_Father: {fileID: 466986}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &176316
 GameObject:
@@ -20259,6 +20199,7 @@ MonoBehaviour:
   openCloseEvents: 1
   openCloseWindow: 0
   selectedToolbar: 0
+  inputType: 0
   actionInput:
     useInput: 1
     isAxisInUse: 0
@@ -20271,18 +20212,19 @@ MonoBehaviour:
     joystickAxisInvert: 0
     keyboardAxisInvert: 0
     mobileAxisInvert: 0
-    buttomTimer: 0
+    timeButtonWasPressed: 0
+    lastTimeTheButtonWasPressed: 0
     inButtomTimer: 0
-  inputType: 0
   buttonTimer: 3
   inputDelay: 0.1
-  doActionWhilePressingButton: 1
+  playAnimationWhileHoldingButton: 1
   doubleButtomTime: 0.25
   actionTag: Action
   disableOnStart: 0
   disableCollision: 0
   disableGravity: 0
   activeFromForward: 0
+  forwardAngle: 30
   useTriggerRotation: 0
   destroyAfter: 0
   destroyDelay: 0
@@ -20291,10 +20233,112 @@ MonoBehaviour:
   endExitTimeAnimation: 0.8
   animatorActionState: 0
   resetAnimatorActionState: 1
+  useAnimatorMatchTarget: 1
+  matchTarget: {fileID: 0}
   avatarTarget: 0
+  useLocalX: 0
+  useLocalZ: 1
+  matchPositionXZCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  matchPositionYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  matchRotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   matchPos: {x: 0, y: 0, z: 0}
   matchRot: 0
-  matchTarget: {fileID: 0}
   startMatchTarget: 0
   endMatchTarget: 0
   onPressActionDelay: 0
@@ -20351,6 +20395,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   targetEquipPoint: 
+  twoHandWeapon: 1
   weapon: {fileID: 125666}
   weaponIcon: {fileID: 21300000, guid: 71509c5d804e82d4bab6ecd153b20f9f, type: 3}
   weaponText: 
@@ -30022,7 +30067,7 @@ Transform:
   m_LocalScale: {x: 0.07337467, y: 0.09118193, z: 0.063140675}
   m_Children: []
   m_Father: {fileID: 466986}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &10845386
 Light:
@@ -30062,71 +30107,6 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &194414
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 461334}
-  - component: {fileID: 6578318}
-  - component: {fileID: 11414326}
-  m_Layer: 2
-  m_Name: hitbox
-  m_TagString: Weapon
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &461334
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194414}
-  m_LocalRotation: {x: 0.000000075496956, y: -0.0000023245811, z: -0.00000040332358,
-    w: 1}
-  m_LocalPosition: {x: -0.009800221, y: -0.03550001, z: -0.13930002}
-  m_LocalScale: {x: 0.11249996, y: 0.20000009, z: 0.67499983}
-  m_Children: []
-  m_Father: {fileID: 466986}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6578318
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194414}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11414326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb97f58541b05b24ab37661346298ff2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openCloseEvents: 0
-  openCloseWindow: 0
-  selectedToolbar: 0
-  attackObject: {fileID: 0}
-  trigger: {fileID: 6578318}
-  damagePercentage: 100
-  triggerType: -1
 --- !u!1 &194538
 GameObject:
   m_ObjectHideFlags: 0

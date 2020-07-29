@@ -76,10 +76,10 @@ namespace Invector.vItemManager
                     if (slotsInArea[i].item != null)
                     {
                         var holder = holderAreas[equipArea.equipPointName].Find(h => slotsInArea[i].item && slotsInArea[i].item.id == h.itemID
-                        && ((equipArea.currentEquipedItem != null
-                        && equipArea.currentEquipedItem != item
-                        && equipArea.currentEquipedItem != slotsInArea[i].item
-                        && equipArea.currentEquipedItem.id != item.id) || equipArea.currentEquipedItem == null));
+                        && ((equipArea.currentEquippedItem != null
+                        && equipArea.currentEquippedItem != item
+                        && equipArea.currentEquippedItem != slotsInArea[i].item
+                        && equipArea.currentEquippedItem.id != item.id) || equipArea.currentEquippedItem == null));
 
                         if (holder)
                         {
@@ -90,14 +90,14 @@ namespace Invector.vItemManager
                     }
                 }
                 // Check Current Item to Equip with time
-                if (equipArea.currentEquipedItem != null && equipArea.currentEquipedItem == item)
+                if (equipArea.currentEquippedItem != null && equipArea.currentEquippedItem == item)
                 {
-                    var holder = holderAreas[equipArea.equipPointName].Find(h => h.itemID == equipArea.currentEquipedItem.id);
+                    var holder = holderAreas[equipArea.equipPointName].Find(h => h.itemID == equipArea.currentEquippedItem.id);
                     if (holder)
                     {
                         // Unhide Holder and hide Equiped weapon
-                        var immediate = (equipArea.currentEquipedItem != item || itemManager.playItemAnimation) &&
-                            !string.IsNullOrEmpty(equipArea.currentEquipedItem.EnableAnim);
+                        var immediate = (equipArea.currentEquippedItem != item || itemManager.playItemAnimation) &&
+                            !string.IsNullOrEmpty(equipArea.currentEquippedItem.EnableAnim);
 
                         if (debugMode) Debug.Log("UnHold: " + item.name);
                         holder.SetActiveHolder(true);

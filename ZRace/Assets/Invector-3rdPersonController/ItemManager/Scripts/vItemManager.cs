@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Invector.vItemManager
 {
     using Invector.vCharacterController;
+    using Invector.vEventSystems;
     using vCharacterController.vActions;
 
     [vClassHeader("ItemManager")]
@@ -54,20 +55,21 @@ namespace Invector.vItemManager
         /// Events called in Equip or Unequip actions
         /// </summary>
         public OnChangeEquipmentEvent onEquipItem, onUnequipItem, onFinishEquipItem, onFinishUnequipItem;
+
         /// <summary>
         ///Event called when save inventory items using <seealso cref="SaveItemsExample"/>
         /// </summary>
         public UnityEngine.Events.UnityEvent onSaveItems;
+
         /// <summary>
         ///Event called when load inventory items using <seealso cref="LoadItemsExample"/>
         /// </summary>
         public UnityEngine.Events.UnityEvent onLoadItems;
+
         /// <summary>
         /// Equipments in EquipArea
         /// </summary>
         public Dictionary<vItem, vEquipment> equipments = new Dictionary<vItem, vEquipment>();
-
-
 
         protected GameObject equipmentContainer;
         internal List<vItem> items;
@@ -76,6 +78,7 @@ namespace Invector.vItemManager
 
         private float equipTimer;
         private Animator animator;
+        public vAnimatorStateInfos animatorStateInfos;
 
         [HideInInspector]
         public List<vItemType> itemsFilter = new List<vItemType>() { 0 };
@@ -101,17 +104,16 @@ namespace Invector.vItemManager
         /// </summary>
         internal bool temporarilyIgnoreItemAnimation;
 
-   
         #endregion
 
         IEnumerator Start()
         {
             // Finds a Inventory Prefab inside the character
-            if(!inventory)
+            if (!inventory)
                 inventory = transform.GetComponentInChildren<vInventory>();
 
             if (!inventory)
-                if(debugMode)Debug.LogWarning("Missing Inventory prefab - You need to Drag and drop a Inventory Prefab inside the Character");
+                if (debugMode) Debug.LogWarning("Missing Inventory prefab - You need to Drag and drop a Inventory Prefab inside the Character");
 
             if (inventory)
             {
@@ -141,6 +143,10 @@ namespace Invector.vItemManager
             // Access the Animator
             animator = GetComponent<Animator>();
 
+            // Register Animator State Info
+            animatorStateInfos = new vAnimatorStateInfos(animator);
+            animatorStateInfos.RegisterListener();
+
             yield return new WaitForEndOfFrame();
 
             // Initialize Items 
@@ -151,7 +157,7 @@ namespace Invector.vItemManager
                     AddItem(startItems[i], true);
             }
         }
-     
+
         #region Generic Utils
 
         /// <summary>
@@ -170,9 +176,6 @@ namespace Invector.vItemManager
         /// <param name="value"></param>
         protected virtual void OnOpenCloseInventory(bool value)
         {
-            if (value)
-                animator.SetTrigger("ResetState");
-
             onOpenCloseInventory.Invoke(value);
         }
 
@@ -181,7 +184,7 @@ namespace Invector.vItemManager
         /// </summary>
         public void SaveItemsExample()
         {
-            this.SaveInventory();           
+            this.SaveInventory();
         }
 
         /// <summary>
@@ -189,7 +192,25 @@ namespace Invector.vItemManager
         /// </summary>
         public void LoadItemsExample()
         {
-            this.LoadInventory();          
+            this.LoadInventory();
+        }
+
+        /// <summary>
+        /// Check vAnimatorTags from the Animator
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public virtual bool IsAnimatorTag(string tag)
+        {
+            if (animator == null) return false;
+            if (animatorStateInfos != null)
+            {
+                if (animatorStateInfos.HasTag(tag))
+                {
+                    return true;
+                }
+            }            
+            return false;
         }
 
         #endregion
@@ -204,14 +225,14 @@ namespace Invector.vItemManager
         protected virtual void CheckTwoHandItem(EquipPoint equipPoint, vItem item)
         {
             if (item == null) return;
-            var opposite = equipPoints.Find(ePoint => ePoint.area != null && ePoint.equipPointName.Equals("LeftArm") && ePoint.area.currentEquipedItem != null);
+            var opposite = equipPoints.Find(ePoint => ePoint.area != null && ePoint.equipPointName.Equals("LeftArm") && ePoint.area.currentEquippedItem != null);
             if (equipPoint.equipPointName.Equals("LeftArm"))
-                opposite = equipPoints.Find(ePoint => ePoint.area != null && ePoint.equipPointName.Equals("RightArm") && ePoint.area.currentEquipedItem != null);
+                opposite = equipPoints.Find(ePoint => ePoint.area != null && ePoint.equipPointName.Equals("RightArm") && ePoint.area.currentEquippedItem != null);
             else if (!equipPoint.equipPointName.Equals("RightArm"))
             {
                 return;
             }
-            if (opposite != null && (item.twoHandWeapon || opposite.area.currentEquipedItem.twoHandWeapon))
+            if (opposite != null && (item.twoHandWeapon || opposite.area.currentEquippedItem.twoHandWeapon))
             {
                 opposite.area.RemoveCurrentItem();
             }
@@ -541,12 +562,12 @@ namespace Invector.vItemManager
 
         #region Equipment Pooling
 
-        protected GameObject EquipEquipment(vItem item, bool startActive = true)
+        protected vEquipment EquipEquipment(vItem item, bool startActive = true)
         {
             if (equipments.ContainsKey(item))
             {
                 if (!startActive)
-                {                   
+                {
                     if (debugMode) Debug.Log($"<color=green>Disable Equipment {equipments[item].gameObject} </color>");
                     equipments[item].gameObject.SetActive(false);
                 }
@@ -555,9 +576,9 @@ namespace Invector.vItemManager
                     if (debugMode) Debug.Log($"<color=green>Enable Equipment {equipments[item].gameObject} </color>");
                     equipments[item].gameObject.SetActive(true);
                 }
-                
-               
-                return equipments[item].gameObject;
+
+
+                return equipments[item];
             }
             else
             {
@@ -569,7 +590,7 @@ namespace Invector.vItemManager
                     {
                         var equipmentClone = Instantiate(item.originalObject);
                         if (!startActive)
-                        {                         
+                        {
                             if (debugMode) Debug.Log($"<color=green>Instantiate and disable Equipment {equipmentClone.gameObject} </color>");
                             equipmentClone.gameObject.SetActive(false);
                         }
@@ -580,19 +601,18 @@ namespace Invector.vItemManager
                         equipmentClone.transform.SetParent(equipmentContainer.transform);
                         equipmentClone.transform.localPosition = Vector3.zero;
                         equipmentClone.transform.localEulerAngles = Vector3.zero;
-                        equipment = equipmentClone.GetComponent<vEquipment>();
-                        equipment.OnEquip(item);
-                        equipments.Add(item, equipment);                     
-                        return equipmentClone;
+                        equipment = equipmentClone.GetComponent<vEquipment>();                       
+                        equipments.Add(item, equipment);
+                        return equipment;
                     }
                 }
             }
             return null;
         }
 
-        protected GameObject EquipEquipment(vItem item, Vector3 position, Quaternion rotation, Transform parent = null)
+        protected vEquipment EquipEquipment(vItem item, Vector3 position, Quaternion rotation, Transform parent = null)
         {
-            GameObject equipment = EquipEquipment(item);
+            vEquipment equipment = EquipEquipment(item);
             if (equipment)
             {
                 if (parent)
@@ -600,7 +620,8 @@ namespace Invector.vItemManager
                     equipment.transform.parent = parent;
                 }
                 equipment.transform.position = position;
-                equipment.transform.rotation = rotation;               
+                equipment.transform.rotation = rotation;
+                equipment.OnEquip(item);
                 return equipment;
             }
             return null;
@@ -615,6 +636,8 @@ namespace Invector.vItemManager
                 equipments[item].gameObject.transform.SetParent(equipmentContainer.transform);
                 equipments[item].gameObject.transform.localPosition = Vector3.zero;
                 equipments[item].gameObject.transform.localEulerAngles = Vector3.zero;
+                equipments[item].equipPoint = null;
+                equipments[item].OnUnequip(item);
             }
         }
 
@@ -660,7 +683,7 @@ namespace Invector.vItemManager
 
                         if (itemReference.addToEquipArea)
                         {
-                            itemReference.addToEquipArea = false;                            
+                            itemReference.addToEquipArea = false;
                             AutoEquipItem(_item, itemReference.indexArea, itemReference.autoEquip, ignoreItemAnimation);
                         }
 
@@ -698,6 +721,7 @@ namespace Invector.vItemManager
             if (inventory.equipAreas != null && inventory.equipAreas.Length > 0 && indexArea < inventory.equipAreas.Length)
             {
                 var validSlot = inventory.equipAreas[indexArea].equipSlots.Find(slot => slot.isValid && slot.item == null && slot.itemType.Contains(item.type));
+                if (validSlot == null) validSlot = inventory.equipAreas[indexArea].currentEquippedSlot;
                 if (validSlot && !inventory.equipAreas[indexArea].equipSlots.Exists(slot => slot.item == item))
                 {
                     var indexOfSlot = inventory.equipAreas[indexArea].equipSlots.IndexOf(validSlot);
@@ -707,7 +731,7 @@ namespace Invector.vItemManager
             }
             else
             {
-                if(debugMode)Debug.LogWarning("Fail to auto equip " + item.name + " on equipArea " + indexArea);
+                if (debugMode) Debug.LogWarning("Fail to auto equip " + item.name + " on equipArea " + indexArea);
             }
         }
 
@@ -720,32 +744,26 @@ namespace Invector.vItemManager
         {
             if (!item) return;
             onEquipItem.Invoke(equipArea, item);
-            if(debugMode)Debug.Log($"<color=green>Start Equip {item} </color>");
+            if (debugMode) Debug.Log($"<color=green>Start Equip {item} </color>");
             inventory.UpdateInventory();
-            if (item != equipArea.currentEquipedItem)
+            if (item != equipArea.currentEquippedItem)
             {
-                if (debugMode) Debug.Log($"<color=green>Not Current Equip {item} </color>{equipArea.indexOfEquipedItem}", equipArea.currentEquipedItem);
+                if (debugMode) Debug.Log($"<color=green>Not Current Equip {item} </color>{equipArea.indexOfEquippedItem}", equipArea.currentEquippedItem);
                 EquipEquipment(item, false);
                 onFinishEquipItem?.Invoke(equipArea, item);
-                if(debugMode)Debug.Log($"<color=green>Finish Equip {item} </color>");
+                if (debugMode) Debug.Log($"<color=green>Finish Equip {item} </color>");
                 return;
             }
 
             var equipPoint = equipPoints.Find(ep => ep.equipPointName == equipArea.equipPointName);
             if (equipPoint != null && item != null && equipPoint.equipmentReference.item != item)
             {
-                equipTimer = item.enableDelayTime;
+                
                 if (item.originalObject)
                 {
                     var equipment = item.originalObject.GetComponentInChildren<vEquipment>();
                     if (equipment != null)
-                    {                     
-                        if (playItemAnimation)
-                        {
-                            if(debugMode)Debug.Log($"<color=green>Play Equip Animation {item} </color>");
-                            animator.SetBool("FlipEquip", equipArea.equipPointName.Contains("Left"));
-                            animator.CrossFade(item.EnableAnim, 0.25f);
-                        }
+                    {                       
                         equipPoint.area = equipArea;
                         StartCoroutine(EquipItemRoutine(equipPoint, item, () => { onFinishEquipItem?.Invoke(equipArea, item); }));
                     }
@@ -762,32 +780,36 @@ namespace Invector.vItemManager
         IEnumerator EquipItemRoutine(EquipPoint equipPoint, vItem item, UnityEngine.Events.UnityAction onFinish)
         {
             LockInventoryInput(true);
+            while (inEquip || IsAnimatorTag("IsEquipping"))
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            if (playItemAnimation)
+            {                
+                if (debugMode) Debug.Log($"<color=green>Play Equip Animation {item} </color>");
+                equipTimer = item.enableDelayTime;
+                animator.SetBool("FlipEquip", equipPoint.equipPointName.Contains("Left"));
+                animator.CrossFade(item.EnableAnim, 0.25f);
+            }
+
             if (!inEquip)
             {
                 inEquip = true;
                 inventory.canEquip = false;
-               
 
                 if (equipPoint != null)
                 {
                     if (item.originalObject)
                     {
-                        if (equipPoint.equipmentReference != null && equipPoint.equipmentReference.equipedObject != null)
-                        {
-                            var _equipmentsA = equipPoint.equipmentReference.equipedObject.GetComponentsInChildren<vEquipment>();
-                            for (int i = 0; i < _equipmentsA.Length; i++)
-                            {
-                                if (_equipmentsA[i] != null)
-                                {
-                                    _equipmentsA[i].OnUnequip(equipPoint.equipmentReference.item);
-                                    _equipmentsA[i].equipPoint = null;
-                                }
-                            }
-                            if (equipPoint.equipmentReference.item)
-                                UnequipEquipment(equipPoint.equipmentReference.item);
-                        }
-                        if ( playItemAnimation && !string.IsNullOrEmpty(item.EnableAnim))
+                        if (equipPoint.equipmentReference != null && equipPoint.equipmentReference.equipedObject != null && equipPoint.equipmentReference.item)
                         {                           
+                            UnequipEquipment(equipPoint.equipmentReference.item);                       
+                            equipPoint.equipmentReference.item = null;
+                        }
+                       
+                        if (playItemAnimation && !string.IsNullOrEmpty(item.EnableAnim))
+                        {                            
                             while (equipTimer > 0)
                             {
                                 if (debugMode) Debug.Log($"<color=green>In Equip delay {item} </color>");
@@ -796,46 +818,32 @@ namespace Invector.vItemManager
                                 equipTimer -= vTime.deltaTime;
                             }
                         }
+                        inEquip = false;
                         var point = equipPoint.handler.customHandlers.Find(p => p.name == item.customHandler);
-                        var equipTransform = point != null ? point : equipPoint.handler.defaultHandler;                 
-                        var equipedObject = EquipEquipment(item, equipTransform.position, equipTransform.rotation, equipTransform) as GameObject;  
+                        var equipTransform = point != null ? point : equipPoint.handler.defaultHandler;
+                        var equipedObject = EquipEquipment(item, equipTransform.position, equipTransform.rotation, equipTransform);
+                        equipedObject.equipPoint = equipPoint;
                         equipPoint.equipmentReference.item = item;
-                        equipPoint.equipmentReference.equipedObject = equipedObject;
-                        var _equipments = equipPoint.equipmentReference.equipedObject.GetComponentsInChildren<vEquipment>();
-                        for (int i = 0; i < _equipments.Length; i++)
-                        {
-                            if (_equipments[i] != null)
-                            {
-                                _equipments[i].OnEquip(equipPoint.equipmentReference.item);
-                                _equipments[i].equipPoint = equipPoint;
-                            }
-                        }
-                        equipPoint.onInstantiateEquiment.Invoke(equipedObject);
+                        equipPoint.equipmentReference.equipedObject = equipedObject.gameObject;                      
+                        
+                        equipPoint.onInstantiateEquiment.Invoke(equipedObject.gameObject);                       
                     }
-                    else if (equipPoint.equipmentReference != null && equipPoint.equipmentReference.equipedObject != null)
+                    else if (equipPoint.equipmentReference != null && equipPoint.equipmentReference.equipedObject != null && equipPoint.equipmentReference.item)
                     {
-                        var _equipments = equipPoint.equipmentReference.equipedObject.GetComponentsInChildren<vEquipment>();
-                        for (int i = 0; i < _equipments.Length; i++)
-                        {
-                            if (_equipments[i] != null)
-                            {
-                                _equipments[i].OnUnequip(equipPoint.equipmentReference.item);
-                                _equipments[i].equipPoint = null;
-                            }
-                        }
-                        if (equipPoint.equipmentReference.item)
-                            UnequipEquipment(equipPoint.equipmentReference.item);
+                        UnequipEquipment(equipPoint.equipmentReference.item);
+                        equipments[equipPoint.equipmentReference.item].equipPoint = null;
                         equipPoint.equipmentReference.item = null;
                     }
                 }
-                inEquip = false;
-                inventory.canEquip = true;
+                
                 if (equipPoint != null)
                     CheckTwoHandItem(equipPoint, item);
             }
             LockInventoryInput(false);
             onFinish?.Invoke();
-            if(debugMode)Debug.Log($"<color=green>Finish Equip {item} </color>");
+            if (debugMode) Debug.Log($"<color=green>Finish Equip {item} </color>");
+            inEquip = false;
+            inventory.canEquip = true;
         }
 
         /// <summary>
@@ -854,8 +862,8 @@ namespace Invector.vItemManager
             {
                 var area = inventory.equipAreas[indexOfArea];
                 if (area != null)
-                {                   
-                    area.AddItemToEquipSlot(indexOfSlot, item, autoEquip);                  
+                {
+                    area.AddItemToEquipSlot(indexOfSlot, item, autoEquip);
                 }
             }
             if (ignoreItemAnimation)
@@ -885,7 +893,7 @@ namespace Invector.vItemManager
         #endregion
 
         #region Unequip Item
-
+        float unequipTimer;
         /// <summary>
         /// Unequips a specific Item from a specific EquipArea, this method is called internally on a Event from the Inventory
         /// </summary>
@@ -895,15 +903,15 @@ namespace Invector.vItemManager
         {
             if (!item) return;
             onUnequipItem.Invoke(equipArea, item);
-            if(debugMode)Debug.Log($"<color=red>Start Unequip {item}</color>");
+            if (debugMode) Debug.Log($"<color=red>Start Unequip {item}</color>");
             var equipPoint = equipPoints.Find(ep => ep.equipPointName == equipArea.equipPointName &&
             ep.equipmentReference.item != null &&
             ep.equipmentReference.item == item);
-          
+
             if (equipPoint != null && item != null)
             {
                 equipPoint.onInstantiateEquiment.Invoke(null);
-                equipTimer = item.disableDelayTime;
+                unequipTimer = item.disableDelayTime;
                 if (item.originalObject)
                 {
                     var equipment = item.originalObject.GetComponentInChildren<vEquipment>();
@@ -911,7 +919,7 @@ namespace Invector.vItemManager
                     {
                         if (!inventory.isOpen && playItemAnimation && !inEquip && equipPoint.equipmentReference.equipedObject.activeInHierarchy)
                         {
-                            if(debugMode)Debug.Log($"<color=red>Play Unequip Animation {item}</color>");
+                            if (debugMode) Debug.Log($"<color=red>Play Unequip Animation {item}</color>");
                             animator.SetBool("FlipEquip", equipArea.equipPointName.Contains("Left"));
                             animator.CrossFade(item.DisableAnim, 0.25f);
                         }
@@ -921,7 +929,7 @@ namespace Invector.vItemManager
             }
             else if (item != null)
             {
-                if(debugMode)Debug.Log($"<color=red>Finish Unequip {item}</color>");
+                if (debugMode) Debug.Log($"<color=red>Finish Unequip {item}</color>");
                 onFinishUnequipItem.Invoke(equipArea, item);
             }
             inventory.UpdateInventory();
@@ -993,39 +1001,33 @@ namespace Invector.vItemManager
             {
                 inEquip = true;
                 inventory.canEquip = false;
-              
+
 
                 if (equipPoint != null && equipPoint.equipmentReference != null && equipPoint.equipmentReference.equipedObject != null)
                 {
-                    var _equipments = equipPoint.equipmentReference.equipedObject.GetComponents<vEquipment>();
-                    for (int i = 0; i < _equipments.Length; i++)
+                    if (!inventory.isOpen && playItemAnimation)
                     {
-                        if (_equipments[i] != null)
-                        {
-                            _equipments[i].OnUnequip(equipPoint.equipmentReference.item);
-                            _equipments[i].equipPoint = null;
-                        }
-                    }
-
-                    if (!inventory.isOpen&&playItemAnimation)
-                    {                       
-                        while (equipTimer > 0 && !string.IsNullOrEmpty(item.DisableAnim))
+                        while (unequipTimer > 0 && !string.IsNullOrEmpty(item.DisableAnim))
                         {
                             if (debugMode) Debug.Log($"<color=red>In Unequip delay {item} </color>");
-                            equipTimer -= vTime.deltaTime;
+                            unequipTimer -= vTime.deltaTime;
                             yield return null;
                         }
                     }
                     if (equipPoint != null && equipPoint.equipmentReference != null && equipPoint.equipmentReference.equipedObject)
-                    {                        
-                        UnequipEquipment(item);
+                    {                       
+                        UnequipEquipment(item);                       
                         equipPoint.equipmentReference.item = null;
                     }
                 }
                 inEquip = false;
                 inventory.canEquip = true;
             }
-            if(debugMode)Debug.Log($"<color=red>Finish Unequip {item}</color>");
+            else
+            {
+
+            }
+            if (debugMode) Debug.Log($"<color=red>Finish Unequip {item}</color>");
             onFinish?.Invoke();
             LockInventoryInput(false);
 
@@ -1181,7 +1183,7 @@ namespace Invector.vItemManager
                 temporarilyIgnoreItemAnimation = ignoreItemAnimation;
             if (inventory.equipAreas != null && indexOfArea < inventory.equipAreas.Length)
             {
-                var item = inventory.equipAreas[indexOfArea].currentEquipedItem;
+                var item = inventory.equipAreas[indexOfArea].currentEquippedItem;
                 if (item)
                     DestroyItem(item, item.amount);
             }
@@ -1293,7 +1295,7 @@ namespace Invector.vItemManager
 
             if (inventory.equipAreas != null && indexOfArea < inventory.equipAreas.Length)
             {
-                var item = inventory.equipAreas[indexOfArea].currentEquipedItem;
+                var item = inventory.equipAreas[indexOfArea].currentEquippedItem;
                 if (item)
                     DropItem(item, item.amount);
             }
@@ -1404,7 +1406,7 @@ namespace Invector.vItemManager
         public bool changeAttributes;
         public bool autoEquip = false;
         public bool addToEquipArea = true;
-        public int indexArea;        
+        public int indexArea;
     }
 
     [System.Serializable]

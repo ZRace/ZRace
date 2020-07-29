@@ -14568,6 +14568,7 @@ MonoBehaviour:
   - RightLowerArm
   ignoreDefense: 0
   activeRagdoll: 0
+  senselessTime: 0
   resetAttackTrigger: 0
   debug: 0
 --- !u!114 &114003474810550248
@@ -22799,12 +22800,12 @@ AnimatorStateMachine:
   m_StateMachineTransitions:
   - first: {fileID: 0}
     second: []
-  - first: {fileID: 1107317655660455606}
-    second:
-    - {fileID: 1109702216339247894}
   - first: {fileID: 1107506582051915410}
     second:
     - {fileID: 1109589162062948926}
+  - first: {fileID: 1107317655660455606}
+    second:
+    - {fileID: 1109702216339247894}
   m_StateMachineBehaviours:
   - {fileID: 114184132882009474}
   m_AnyStatePosition: {x: -528, y: 60, z: 0}

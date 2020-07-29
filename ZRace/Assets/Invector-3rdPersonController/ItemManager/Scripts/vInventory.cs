@@ -187,7 +187,7 @@ namespace Invector.vItemManager
                 {
                     var slot = equipArea.equipSlots[a];
 
-                    if (equipArea.currentEquipedItem == null)
+                    if (equipArea.currentEquippedItem == null)
                     {
                         OnUnequipItem(equipArea, slot.item);
                         equipArea.UnequipItem(slot);
@@ -450,12 +450,12 @@ namespace Invector.vItemManager
                     if (removeItem && changeEquipControl.display.item == item)
                     {
                         changeEquipControl.display.RemoveItem();
-                        changeEquipControl.display.ItemIdentifier(changeEquipControl.equipArea.indexOfEquipedItem + 1, true);
+                        changeEquipControl.display.ItemIdentifier(changeEquipControl.equipArea.indexOfEquippedItem + 1, true);
                     }
-                    else if (equipArea.currentEquipedItem == item)
+                    else if (equipArea.currentEquippedItem == item)
                     {
                         changeEquipControl.display.AddItem(item);
-                        changeEquipControl.display.ItemIdentifier(changeEquipControl.equipArea.indexOfEquipedItem + 1, true);
+                        changeEquipControl.display.ItemIdentifier(changeEquipControl.equipArea.indexOfEquippedItem + 1, true);
                     }
                 }
             }

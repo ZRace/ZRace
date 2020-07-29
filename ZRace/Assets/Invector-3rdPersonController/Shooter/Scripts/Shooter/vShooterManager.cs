@@ -45,6 +45,8 @@ namespace Invector.vShooter
         public bool useDefaultMovesetWhenNotAiming = true;
 
         [vEditorToolbar("IK Adjust")]
+        [Tooltip("Control the speed of the Animator Layer OnlyArms Weight")]
+        public float onlyArmsSpeed = 25f;
         [Tooltip("smooth of the right hand when correcting the aim")]
         public float smoothArmIKRotation = 30f;
         [Tooltip("smooth of the right arm when correcting the aim")]
@@ -108,8 +110,7 @@ namespace Invector.vShooter
         private Animator animator;
         private int totalAmmo;
         private int secundaryTotalAmmo;
-        private bool usingThirdPersonController;
-        private float currentShotTime;
+        private bool usingThirdPersonController; 
         private float hipfirePrecisionAngle;
         private float hipfirePrecision;
         internal bool isReloadingWeapon;
@@ -204,7 +205,7 @@ namespace Invector.vShooter
                     if (useAmmoDisplay && ammoDisplayL) ammoDisplayL.Show();
                     UpdateLeftAmmo();
                 }
-                currentShotTime = 0;
+             
                 LoadIKAdjust(lWeapon.weaponCategory);
                 onEquipWeapon.Invoke(weapon.gameObject, true);
             }
@@ -216,6 +217,7 @@ namespace Invector.vShooter
             {
                 var w = weapon.GetComponent<vShooterWeapon>();
                 SetRightWeapon(w);
+                onEquipWeapon.Invoke(weapon.gameObject, true);
             }
             else rWeapon = null;
         }
@@ -248,7 +250,7 @@ namespace Invector.vShooter
                     if (useAmmoDisplay && ammoDisplayR) ammoDisplayR.Show();
                     UpdateRightAmmo();
                 }
-                currentShotTime = 0;
+               
                 LoadIKAdjust(rWeapon.weaponCategory);
                 onEquipWeapon.Invoke(weapon.gameObject, false);
             }
@@ -282,7 +284,7 @@ namespace Invector.vShooter
 
                 HideAmmoDisplay(ammoDisplay);
             }
-            currentShotTime = 0;
+          
         }
 
         protected virtual void GetAmmoDisplays()
@@ -369,7 +371,7 @@ namespace Invector.vShooter
 
         public virtual bool isShooting
         {
-            get { return currentShotTime > 0; }
+            get { return CurrentWeapon && !CurrentWeapon.CanDoShot; }
         }
 
         public virtual void ReloadWeapon()
@@ -689,7 +691,7 @@ namespace Invector.vShooter
             {
                 LoadAllAmmo(targetWeapon, useSecundaryWeapon);
             }
-            currentShotTime = weapon.shootFrequency;
+           
             if (!useSecundaryWeapon && totalAmmo <= 0)
             {
                 weapon.onFinishAmmo.Invoke();
@@ -741,11 +743,6 @@ namespace Invector.vShooter
                 tpCamera.offsetMouse.x = bx + tx;
                 tpCamera.offsetMouse.y = by + ty;
             }
-        }
-
-        public virtual void UpdateShotTime()
-        {
-            if (currentShotTime > 0) currentShotTime -= Time.deltaTime;
         }
     }
 }

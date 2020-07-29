@@ -6,16 +6,16 @@ namespace Invector.vItemManager
     public class vMeleeEquipment : vEquipment
     {
         vMeleeWeapon _weapon;
-        bool withoutWeapon;
+        protected bool withoutMeleeWeapon;
 
-        protected virtual vMeleeWeapon weapon
+        protected virtual vMeleeWeapon meleeWeapon
         {
             get
             {
-                if (!_weapon && !withoutWeapon)
+                if (!_weapon && !withoutMeleeWeapon)
                 {
                     _weapon = GetComponent<vMeleeWeapon>();
-                    if (!_weapon) withoutWeapon = true;
+                    if (!_weapon) withoutMeleeWeapon = true;
                 }
 
                 return _weapon;
@@ -24,20 +24,22 @@ namespace Invector.vItemManager
 
         public override void OnEquip(vItem item)
         {
-            if (!weapon) return;
+            if (meleeWeapon)
+            {
+                var damage = item.GetItemAttribute(vItemAttributes.Damage);
+                var staminaCost = item.GetItemAttribute(vItemAttributes.StaminaCost);
+                var defenseRate = item.GetItemAttribute(vItemAttributes.DefenseRate);
+                var defenseRange = item.GetItemAttribute(vItemAttributes.DefenseRange);
+                if (damage != null) this.meleeWeapon.damage.damageValue = damage.value;
+                if (staminaCost != null) this.meleeWeapon.staminaCost = staminaCost.value;
+                if (defenseRate != null) this.meleeWeapon.defenseRate = defenseRate.value;
+                if (defenseRange != null) this.meleeWeapon.defenseRange = defenseRate.value;
+            }          
+       
             base.OnEquip(item);
-            var damage = item.GetItemAttribute(vItemAttributes.Damage);
-            var staminaCost = item.GetItemAttribute(vItemAttributes.StaminaCost);
-            var defenseRate = item.GetItemAttribute(vItemAttributes.DefenseRate);
-            var defenseRange = item.GetItemAttribute(vItemAttributes.DefenseRange);
-            if (damage != null) this.weapon.damage.damageValue = damage.value;
-            if (staminaCost != null) this.weapon.staminaCost = staminaCost.value;
-            if (defenseRate != null) this.weapon.defenseRate = defenseRate.value;
-            if (defenseRange != null) this.weapon.defenseRange = defenseRate.value;
         }
         public override void OnUnequip(vItem item)
-        {
-            if (!weapon) return;
+        {           
             base.OnUnequip(item);
         }
     }

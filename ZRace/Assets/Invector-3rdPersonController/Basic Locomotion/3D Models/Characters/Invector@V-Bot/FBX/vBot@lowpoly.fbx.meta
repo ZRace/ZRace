@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 66a74de1d4a081e49b0a790722fd06ab
-timeCreated: 1535574060
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Head
     100002: HeadTop_End
@@ -79,15 +77,22 @@ ModelImporter:
     7400000: lowpoly
     9500000: //RootNode
     13700000: VBot_LowPoly
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: V-bot-Materal.002
+    second: {fileID: 2100000, guid: e273db19c8bd7704099afa4200e56a2c, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -95,12 +100,48 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - Hips
+    - Hips/LeftUpLeg
+    - Hips/LeftUpLeg/LeftLeg
+    - Hips/LeftUpLeg/LeftLeg/LeftFoot
+    - Hips/LeftUpLeg/LeftLeg/LeftFoot/LeftToeBase
+    - Hips/LeftUpLeg/LeftLeg/LeftFoot/LeftToeBase/LeftToe_End
+    - Hips/RightUpLeg
+    - Hips/RightUpLeg/RightLeg
+    - Hips/RightUpLeg/RightLeg/RightFoot
+    - Hips/RightUpLeg/RightLeg/RightFoot/RightToeBase
+    - Hips/RightUpLeg/RightLeg/RightFoot/RightToeBase/RightToe_End
+    - Hips/Spine
+    - Hips/Spine/Spine1
+    - Hips/Spine/Spine1/Spine2
+    - Hips/Spine/Spine1/Spine2/LeftShoulder
+    - Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm
+    - Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm
+    - Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand
+    - Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandIndex1
+    - Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandIndex1/LeftHandIndex2
+    - Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandIndex1/LeftHandIndex2/LeftHandIndex3
+    - Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandIndex1/LeftHandIndex2/LeftHandIndex3/LeftHandIndex4
+    - Hips/Spine/Spine1/Spine2/Neck
+    - Hips/Spine/Spine1/Spine2/Neck/Head
+    - Hips/Spine/Spine1/Spine2/Neck/Head/HeadTop_End
+    - Hips/Spine/Spine1/Spine2/RightShoulder
+    - Hips/Spine/Spine1/Spine2/RightShoulder/RightArm
+    - Hips/Spine/Spine1/Spine2/RightShoulder/RightArm/RightForeArm
+    - Hips/Spine/Spine1/Spine2/RightShoulder/RightArm/RightForeArm/RightHand
+    - Hips/Spine/Spine1/Spine2/RightShoulder/RightArm/RightForeArm/RightHand/RightHandIndex1
+    - Hips/Spine/Spine1/Spine2/RightShoulder/RightArm/RightForeArm/RightHand/RightHandIndex1/RightHandIndex2
+    - Hips/Spine/Spine1/Spine2/RightShoulder/RightArm/RightForeArm/RightHand/RightHandIndex1/RightHandIndex2/RightHandIndex3
+    - Hips/Spine/Spine1/Spine2/RightShoulder/RightArm/RightForeArm/RightHand/RightHandIndex1/RightHandIndex2/RightHandIndex3/RightHandIndex4
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: lowpoly
@@ -206,22 +247,34 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -635,12 +688,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 40e7ec1f6084b4f4da924d1e042c8b89,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 3
   humanoidOversampling: 1
   additionalBone: 0

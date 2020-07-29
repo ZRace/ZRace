@@ -24,6 +24,27 @@ ONLINE DOCUMENTATION: https://www.invector.xyz/thirdpersondocumentation
 
 Invector Team - 2020
 
+MeleeCombat 2.5.3 Mobile Update 07/07/2020
+
+- Project updated to Unity 2018.4.23f1
+- New Mobile Controls
+- New Mobile Inventory Prefabs
+- New Mobile Camera Movement (improved sensitivity)
+- New Mobile Demo scenes
+- Fix missing sprite at the Inventory Selector object
+- Fix AutoEquipping 2 items at the same time not playing the equip animations correctly
+- Improved SnapToGround method and add SnapPower to choose the how much it affect 
+- Improved Headtrack to make the character look at the aim point when aiming
+- Add OnEnterTrigger/OnExitTrigger Events for the GenericAction
+- Add ItemType verification to the vCheckIfItemIsEquipped component
+- Add vMatchTarget with Curves for the GenericAction (better results than the Animator MatchTarget)
+- Add Toggle Open/Door in the SimpleDoor
+- Add ItemsID and ItemsType to trigger events when using a specific Item or ItemType in the CheckItemIsEquipped component
+- Add Option to parent the Character to the Ladder and add Curve to do MatchTarget
+- Add TwoHandSword script example (1 item equipping 2 of the same equipment, ex: dual swords)
+
+-----------------------------------------------------------------------------------------------------
+
 MeleeCombat v2.5.2 BugFixes - 16/05/2020
 
 - Fix Character Creator Window bug in the button "Create" not working on 2019.x when the prefab of the character is in the scene
@@ -36,8 +57,6 @@ MeleeCombat v2.5.2 BugFixes - 16/05/2020
 - Add ItemManager Save/Load Item Event
 - Add HealthController OnResetHealth and OnChangeHealth Events
 - Add OnEquipWeapon Event in the Shooter and Melee Managers a aditional verification to identify the side (left/right)
-
-* The Mobile Inventory is being developed and will be on the next Big Update release!
 
 -----------------------------------------------------------------------------------------------------
 

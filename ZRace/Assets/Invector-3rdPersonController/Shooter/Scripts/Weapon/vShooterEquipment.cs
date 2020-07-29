@@ -4,15 +4,27 @@ using UnityEngine;
 namespace Invector.vItemManager
 {
     [vClassHeader("Shooter Equipment", openClose = false, useHelpBox = true, helpBoxText = "Use this component if you also use the ItemManager in your Character")]
-    public class vShooterEquipment : vEquipment
+    public class vShooterEquipment : vMeleeEquipment
     {
-        vShooterWeapon _shooter;
-        vMelee.vMeleeWeapon _melee;
-        bool withoutShooterWeapon;
-        bool withoutMeleeWeapon;
+        protected vShooterWeapon _shooter;
+        protected vEquipment _secundaryEquipment;
+     
+        protected bool withoutShooterWeapon;
+        protected bool withoutSecundaryEquipment;
 
-      
-        protected virtual vShooterWeapon shooterWeapon
+        public virtual vEquipment secundaryEquipment
+        {
+            get
+            {
+                if(shooterWeapon && shooterWeapon.secundaryWeapon && !withoutSecundaryEquipment && !secundaryEquipment)
+                {
+                    _secundaryEquipment = shooterWeapon.secundaryWeapon.GetComponent<vEquipment>();
+                    if (!_secundaryEquipment) withoutSecundaryEquipment = true;
+                }
+                return _secundaryEquipment;
+            }
+        }
+        public virtual vShooterWeapon shooterWeapon
         {
             get
             {
@@ -25,58 +37,43 @@ namespace Invector.vItemManager
                 return _shooter;
             }
         }
-        protected virtual vMelee.vMeleeWeapon meleeWeapon
-        {
-            get
-            {
-                if (!_melee && !withoutMeleeWeapon)
-                {
-                    _melee = GetComponent<vMelee.vMeleeWeapon>();
-                    if (!_melee) withoutMeleeWeapon = true;
-                }
-
-                return _melee;
-            }
-        }
+     
         public override void OnEquip(vItem item)
         {
-            if (!shooterWeapon) return;
-            base.OnEquip(item);
-            shooterWeapon.changeAmmoHandle = new vShooterWeapon.ChangeAmmoHandle(ChangeAmmo);
-            shooterWeapon.checkAmmoHandle = new vShooterWeapon.CheckAmmoHandle(CheckAmmo);
-            var damageAttribute = item.GetItemAttribute(shooterWeapon.isSecundaryWeapon ? vItemAttributes.SecundaryDamage : vItemAttributes.Damage);
-
-            if (damageAttribute != null)
+          
+            if (shooterWeapon)
             {
-                shooterWeapon.maxDamage = damageAttribute.value;
-            }
+                shooterWeapon.changeAmmoHandle = new vShooterWeapon.ChangeAmmoHandle(ChangeAmmo);
+                shooterWeapon.checkAmmoHandle = new vShooterWeapon.CheckAmmoHandle(CheckAmmo);
+                var damageAttribute = item.GetItemAttribute(shooterWeapon.isSecundaryWeapon ? vItemAttributes.SecundaryDamage : vItemAttributes.Damage);
 
-            if (shooterWeapon.secundaryWeapon)
-            {
-                var _equipments = shooterWeapon.secundaryWeapon.GetComponents<vEquipment>();
-                for (int i = 0; i < _equipments.Length; i++)
+                if (damageAttribute != null)
                 {
-                    if (_equipments[i] != null) _equipments[i].OnEquip(item);
+                    shooterWeapon.maxDamage = damageAttribute.value;
+                }
+
+                if (secundaryEquipment)
+                {
+                    secundaryEquipment.OnEquip(item);                    
                 }
             }
+            base.OnEquip(item);
         }
 
         public override void OnUnequip(vItem item)
         {
-            if (!shooterWeapon) return;
-            base.OnUnequip(item);
-            if (!item) return;           
-            shooterWeapon.changeAmmoHandle = null;
-            shooterWeapon.checkAmmoHandle = null;
-
-            if (shooterWeapon.secundaryWeapon)
+            if (shooterWeapon)
             {
-                var _equipments = shooterWeapon.secundaryWeapon.GetComponents<vEquipment>();
-                for (int i = 0; i < _equipments.Length; i++)
+                shooterWeapon.changeAmmoHandle = null;
+                shooterWeapon.checkAmmoHandle = null;
+
+                if (secundaryEquipment)
                 {
-                    if (_equipments[i] != null) _equipments[i].OnUnequip(item);
+                    secundaryEquipment.OnUnequip(item);
                 }
-            }
+            }         
+           
+            base.OnUnequip(item);
         }
 
         protected virtual bool CheckAmmo(ref bool isValid, ref int totalAmmo)

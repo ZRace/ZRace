@@ -11,8 +11,8 @@ namespace Invector.vItemManager
         [HideInInspector]
         public vItemSlot currentSelectedSlot;
         [HideInInspector]
-        public int amount;        
-       
+        public int amount;
+
         public virtual void OnEnable()
         {
             if (inventory == null)
@@ -20,25 +20,26 @@ namespace Invector.vItemManager
 
             if (inventory && itemWindow)
             {
-                inventory.onDestroyItem.RemoveListener(OnDestroyItem);               
+                inventory.onDestroyItem.RemoveListener(OnDestroyItem);
                 inventory.onDestroyItem.AddListener(OnDestroyItem);
                 itemWindow.CreateEquipmentWindow(inventory.items, OnSubmit, OnSelectSlot);
                 inventory.OnUpdateInventory -= CheckItemExits;
                 inventory.OnUpdateInventory += CheckItemExits;
             }
         }
+
         public void OnDisable()
         {
-            if(inventory)
+            if (inventory)
                 inventory.OnUpdateInventory -= CheckItemExits;
         }
 
         public virtual void OnDestroyItem(vItem item, int amount)
-        {         
+        {
             var _slot = itemWindow.slots.Find(slot => slot.item.Equals(item));
             if (_slot != null && (_slot.item == null || _slot.item.amount == 0))
             {
-                
+
                 itemWindow.slots.Remove(_slot);
                 Destroy(_slot.gameObject);
             }
@@ -63,7 +64,7 @@ namespace Invector.vItemManager
         public virtual void OnSelectSlot(vItemSlot slot)
         {
             currentSelectedSlot = slot;
-        }
+        }       
 
         public virtual void DropItem()
         {
@@ -85,7 +86,7 @@ namespace Invector.vItemManager
         {
             if (amount > 0)
             {
-                inventory.OnDestroyItem(currentSelectedSlot.item, amount);
+                inventory.OnDestroyItem(currentSelectedSlot.item, amount);                
                 if (currentSelectedSlot != null && (currentSelectedSlot.item == null || currentSelectedSlot.item.amount <= 0))
                 {
                     if (itemWindow.slots.Contains(currentSelectedSlot))
@@ -99,9 +100,7 @@ namespace Invector.vItemManager
 
         public virtual void UseItem()
         {
-
-            inventory.OnUseItem(currentSelectedSlot.item);
-           
+            inventory.OnUseItem(currentSelectedSlot.item);            
         }
 
         private void CheckItemExits()

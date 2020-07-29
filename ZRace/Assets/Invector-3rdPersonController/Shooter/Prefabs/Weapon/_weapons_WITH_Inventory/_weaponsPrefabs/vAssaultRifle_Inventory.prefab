@@ -31836,7 +31836,6 @@ GameObject:
   m_Component:
   - component: {fileID: 430016}
   - component: {fileID: 11429992}
-  - component: {fileID: 114000010825389716}
   - component: {fileID: 114382262437889658}
   - component: {fileID: 114101256399636916}
   m_Layer: 2
@@ -31875,7 +31874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 1
+  selectedToolbar: 8
   weaponCategory: Rifle
   shootFrequency: 0.125
   isInfinityAmmo: 0
@@ -31948,7 +31947,6 @@ MonoBehaviour:
   useIkAttacking: 0
   disableIkOnShot: 0
   useIKOnAiming: 1
-  canAimWithoutAmmo: 1
   handIKTarget: {fileID: 492864}
   secundaryWeapon: {fileID: 0}
   aimReference: {fileID: 461228}
@@ -31964,6 +31962,7 @@ MonoBehaviour:
   scopeID: 2
   scopeZoom: 45
   customAimCameraState: 
+  customScopeCameraState: ScopeAiming
   scopeTarget: {fileID: 401306}
   zoomScopeCamera: {fileID: 2036098}
   keepScopeCameraRotationZ: 1
@@ -32037,72 +32036,14 @@ MonoBehaviour:
   onFullPower:
     m_PersistentCalls:
       m_Calls: []
+  onDisable:
+    m_PersistentCalls:
+      m_Calls: []
   onChangerPowerCharger:
     m_PersistentCalls:
       m_Calls: []
   root: {fileID: 0}
   isSecundaryWeapon: 0
---- !u!114 &114000010825389716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ebe2ea9c9ea0544d84d9c27f7470915, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openCloseEvents: 0
-  openCloseWindow: 0
-  selectedToolbar: 0
-  damage:
-    damageValue: 0
-    staminaBlockCost: 0
-    staminaRecoveryDelay: 0
-    ignoreDefense: 0
-    activeRagdoll: 0
-    sender: {fileID: 0}
-    receiver: {fileID: 0}
-    hitPosition: {x: 0, y: 0, z: 0}
-    hitReaction: 1
-    recoil_id: 0
-    reaction_id: 0
-    damageType: 
-  overrideDamageSender: {fileID: 0}
-  hitBoxes:
-  - {fileID: 114000010213942838}
-  damageModifier: 0
-  canApplyDamage: 0
-  onDamageHit:
-    m_PersistentCalls:
-      m_Calls: []
-  onRecoilHit:
-    m_PersistentCalls:
-      m_Calls: []
-  onEnableDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  onDisableDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  meleeManager: {fileID: 0}
-  meleeType: 1
-  useStrongAttack: 0
-  distanceToAttack: 1
-  attackID: 2
-  movesetID: 2
-  staminaCost: 0
-  staminaRecoveryDelay: 0
-  defenseRate: 100
-  defenseRange: 90
-  defenseID: 0
-  recoilID: 0
-  breakAttack: 0
-  onDefense:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114382262437889658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32124,6 +32065,7 @@ MonoBehaviour:
   onUnequip:
     m_PersistentCalls:
       m_Calls: []
+  referenceItem: {fileID: 0}
 --- !u!114 &114101256399636916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32137,7 +32079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openCloseEvents: 0
-  openCloseWindow: 1
+  openCloseWindow: 0
   selectedToolbar: 0
   getAnimatorInParent: 1
   animatorEvents:
@@ -32390,7 +32332,7 @@ MonoBehaviour:
   openCloseEvents: 0
   openCloseWindow: 0
   selectedToolbar: 0
-  attackObject: {fileID: 114000010825389716}
+  attackObject: {fileID: 0}
   trigger: {fileID: 65000013253093084}
   damagePercentage: 100
   triggerType: -1

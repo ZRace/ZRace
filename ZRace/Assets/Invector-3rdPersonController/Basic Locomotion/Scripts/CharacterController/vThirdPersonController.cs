@@ -4,8 +4,11 @@ namespace Invector.vCharacterController
 {
     [vClassHeader("THIRD PERSON CONTROLLER", iconName = "controllerIcon")]
     public class vThirdPersonController : vThirdPersonAnimator
-    {       
-
+    {
+        /// <summary>
+        /// Move the controller to a specific Position
+        /// </summary>
+        /// <param name="targetPosition"></param>
         public virtual void MoveToPosition(Vector3 targetPosition)
         {
             Vector3 dir = targetPosition - transform.position;
@@ -16,6 +19,9 @@ namespace Invector.vCharacterController
             inputSmooth = Vector3.Lerp(inputSmooth, input, (isStrafing ? strafeSpeed.movementSmooth : freeSpeed.movementSmooth) * Time.deltaTime);
         }
 
+        /// <summary>
+        /// Handle RootMotion movement and specific Actions
+        /// </summary>
         public virtual void ControlAnimatorRootMotion()
         {
             if (!this.enabled) return;
@@ -29,12 +35,14 @@ namespace Invector.vCharacterController
             if (customAction || lockAnimMovement)
             {
                 StopCharacterWithLerp();
+
                 transform.position = animator.rootPosition;
                 transform.rotation = animator.rootRotation;
             }
 
-            if (inputSmooth == Vector3.zero)
+            else if (inputSmooth == Vector3.zero)
             {
+                animator.ApplyBuiltinRootMotion();
                 transform.position = animator.rootPosition;
                 transform.rotation = animator.rootRotation;
             }
@@ -43,16 +51,19 @@ namespace Invector.vCharacterController
                 MoveCharacter(moveDirection);
         }
 
+        /// <summary>
+        /// Set the Controller movement speed (rigidbody, animator and root motion)
+        /// </summary>
         public virtual void ControlLocomotionType()
         {
-            if (lockAnimMovement || lockMovement || customAction || isRolling ) return;
+            if (lockAnimMovement || lockMovement || customAction || isRolling) return;
 
             if (!lockSetMoveSpeed)
             {
                 if (locomotionType.Equals(LocomotionType.FreeWithStrafe) && !isStrafing || locomotionType.Equals(LocomotionType.OnlyFree))
                 {
                     SetControllerMoveSpeed(freeSpeed);
-                    SetAnimatorMoveSpeed(freeSpeed);                    
+                    SetAnimatorMoveSpeed(freeSpeed);
                 }
                 else if (locomotionType.Equals(LocomotionType.OnlyStrafe) || locomotionType.Equals(LocomotionType.FreeWithStrafe) && isStrafing)
                 {
@@ -66,6 +77,9 @@ namespace Invector.vCharacterController
                 MoveCharacter(moveDirection);
         }
 
+        /// <summary>
+        /// Manage the Control Rotation Type of the Player
+        /// </summary>
         public virtual void ControlRotationType()
         {
             if (lockAnimRotation || lockRotation || customAction || isRolling) return;
@@ -84,6 +98,9 @@ namespace Invector.vCharacterController
             }
         }
 
+        /// <summary>
+        /// Use it to keep the direction the Player is moving (most used with CCV camera)
+        /// </summary>
         public virtual void ControlKeepDirection()
         {
             // update oldInput to compare with current Input if keepDirection is true
@@ -97,6 +114,10 @@ namespace Invector.vCharacterController
             }
         }
 
+        /// <summary>
+        /// Determine the direction the player will face based on input and the referenceTransform
+        /// </summary>
+        /// <param name="referenceTransform"></param>
         public virtual void UpdateMoveDirection(Transform referenceTransform = null)
         {
             if (isRolling && !rollControl || input.magnitude <= 0.01)
@@ -121,13 +142,17 @@ namespace Invector.vCharacterController
             }
         }
 
+        /// <summary>
+        /// Set the isSprinting bool and manage the Sprint Behavior 
+        /// </summary>
+        /// <param name="value"></param>
         public virtual void Sprint(bool value)
-        {            
+        {
             var sprintConditions = (currentStamina > 0 && hasMovementInput && isGrounded && !customAction &&
                 !(isStrafing && !strafeSpeed.walkByDefault && (horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f) && !sprintOnlyFree));
 
             if (value && sprintConditions)
-            {                
+            {
                 if (currentStamina > (finishStaminaOnSprint ? sprintStamina : 0) && hasMovementInput)
                 {
                     finishStaminaOnSprint = false;
@@ -135,11 +160,15 @@ namespace Invector.vCharacterController
                     {
                         isCrouching = false;
                         isSprinting = !isSprinting;
-                        OnStartSprinting.Invoke();                        
+                        if (isSprinting)
+                            OnStartSprinting.Invoke();
+                        else
+                            OnFinishSprinting.Invoke();
                     }
                     else if (!isSprinting)
                     {
-                        isSprinting = true;                        
+                        OnStartSprinting.Invoke();
+                        isSprinting = true;
                     }
                 }
                 else if (!useContinuousSprint && isSprinting)
@@ -166,6 +195,9 @@ namespace Invector.vCharacterController
             }
         }
 
+        /// <summary>
+        /// Manage the isCrouching bool
+        /// </summary>
         public virtual void Crouch()
         {
             if (isGrounded && !customAction)
@@ -183,13 +215,16 @@ namespace Invector.vCharacterController
             }
         }
 
+        /// <summary>
+        /// Set the isStrafing bool
+        /// </summary>
         public virtual void Strafe()
         {
             isStrafing = !isStrafing;
         }
 
         /// <summary>
-        /// Triggers the Jump Animation
+        /// Triggers the Jump Animation and set the necessary variables to make the Jump behavior in the <seealso cref="vThirdPersonMotor"/>
         /// </summary>
         /// <param name="consumeStamina">Option to consume or not the stamina</param>
         public virtual void Jump(bool consumeStamina = false)
@@ -214,7 +249,7 @@ namespace Invector.vCharacterController
         }
 
         /// <summary>
-        /// Triggers the Roll Animation
+        /// Triggers the Roll Animation and set the stamina cost for this action
         /// </summary>
         public virtual void Roll()
         {

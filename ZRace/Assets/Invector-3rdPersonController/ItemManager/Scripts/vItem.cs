@@ -20,13 +20,13 @@ namespace Invector.vItemManager
         public bool stackable = true;
         [HideInInspector]
         public int maxStack;
-        [HideInInspector]
+        //[HideInInspector]
         public int amount;
         [HideInInspector]
         public GameObject originalObject;
         [HideInInspector]
         public GameObject dropObject;
-        [HideInInspector]
+        //[HideInInspector]
         public List<vItemAttribute> attributes = new List<vItemAttribute>();
         [HideInInspector]
         public bool isInEquipArea;

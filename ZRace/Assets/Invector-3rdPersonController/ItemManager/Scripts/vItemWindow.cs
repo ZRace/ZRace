@@ -55,11 +55,11 @@ namespace Invector.vItemManager
 
 
         public void ReloadItems(List<vItem> items)
-        {            
-            int indexOfSlot = slots.Contains(currentSelectedSlot) ? slots.IndexOf(currentSelectedSlot): 0;
-            for(int i =0;i<slots.Count;i++)
+        {
+            int indexOfSlot = slots.Contains(currentSelectedSlot) ? slots.IndexOf(currentSelectedSlot) : 0;
+            for (int i = 0; i < slots.Count; i++)
             {
-                if(i>=0 && i<slots.Count)
+                if (i >= 0 && i < slots.Count)
                 {
                     if (slots[i] != null && (slots[i].item == null || !items.Contains(slots[i].item)))
                     {
@@ -67,17 +67,17 @@ namespace Invector.vItemManager
                         slots.Remove(slots[i]);
                         if (i == indexOfSlot)
                         {
-                            currentSelectedSlot = i - 1 >= 0 ? slots[i - 1] : slots.Count - 1 > 0? slots[0]:null;
+                            currentSelectedSlot = i - 1 >= 0 ? slots[i - 1] : slots.Count - 1 > 0 ? slots[0] : null;
                             if (currentSelectedSlot != null) CreateFullItemDescription(currentSelectedSlot);
                         }
                         i--;
                     }
-                    else if(slots[i]==null)
-                    {                        
-                        slots.RemoveAt(i);                        
+                    else if (slots[i] == null)
+                    {
+                        slots.RemoveAt(i);
                         i--;
                     }
-                }                 
+                }
             }
             if (currentSelectedSlot == null || currentSelectedSlot.item == null || slots.Count == 0)
             {
@@ -97,7 +97,7 @@ namespace Invector.vItemManager
             this.currentItem = currentItem;
             var _items = items.FindAll(item => type.Contains(item.type));
 
-            StartCoroutine(CreateEquipmentWindowRoutine(_items, onPickUpItemCallback, destroyAdictionSlots: true));      
+            StartCoroutine(CreateEquipmentWindowRoutine(_items, onPickUpItemCallback, destroyAdictionSlots: true));
         }
 
         protected virtual IEnumerator CreateEquipmentWindowRoutine(List<vItem> items, UnityAction<vItemSlot> onPickUpItemCallBack = null, UnityAction<vItemSlot> onSelectSlotCallBack = null, bool destroyAdictionSlots = true)
@@ -125,10 +125,10 @@ namespace Invector.vItemManager
 
                     for (int i = 0; i < difference; i++)
                     {
-                        yield return null;                        
+                        yield return null;
                         Destroy(slots[0].gameObject);
                         slots.RemoveAt(0);
-                    }                    
+                    }
                 }
                 bool selecItem = false;
                 onSubmitSlotCallback = onPickUpItemCallBack;
@@ -176,8 +176,8 @@ namespace Invector.vItemManager
                     StartCoroutine(SetSelectableHandle(slots[0].gameObject));
                 }
             }
-          
-            if(slots.Count>0)
+
+            if (slots.Count > 0)
             {
                 onAddSlots.Invoke();
                 CreateFullItemDescription(currentSelectedSlot);
@@ -216,8 +216,8 @@ namespace Invector.vItemManager
             currentSelectedSlot = slot;
             CreateFullItemDescription(slot);
             onSelectCallback?.Invoke(slot);
-            onSelectSlot.Invoke(slot);          
-           
+            onSelectSlot.Invoke(slot);
+
         }
 
         protected virtual void CreateFullItemDescription(vItemSlot slot)

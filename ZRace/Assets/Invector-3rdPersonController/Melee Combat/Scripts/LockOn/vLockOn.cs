@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 namespace Invector.vCharacterController
 {
@@ -10,6 +10,7 @@ namespace Invector.vCharacterController
         [System.Serializable]
         public class LockOnEvent : UnityEngine.Events.UnityEvent<Transform> { }
 
+        [Tooltip("Make sure to disable or change the StrafeInput to a different key at the Player Input component")]
         public bool strafeWhileLockOn = true;
         [Tooltip("Create a Image inside the UI and assign here")]
         public RectTransform aimImagePrefab;
@@ -48,7 +49,7 @@ namespace Invector.vCharacterController
                 tpInput.onUpdate += UpdateLockOn;
 
                 // access the HealthController to Reset the LockOn when Dead
-                GetComponent<vHealthController>().onDead.AddListener((GameObject g) => 
+                GetComponent<vHealthController>().onDead.AddListener((GameObject g) =>
                 {
                     // action to reset lockOn
                     isLockingOn = false;
@@ -62,7 +63,7 @@ namespace Invector.vCharacterController
         {
             get
             {
-                if (_aimCanvas) return _aimCanvas;                
+                if (_aimCanvas) return _aimCanvas;
                 _aimCanvas = FindObjectOfType<Canvas>();
                 return _aimCanvas;
             }
@@ -119,7 +120,7 @@ namespace Invector.vCharacterController
                 {
                     tpInput.cc.lockInStrafe = true;
                     tpInput.cc.isStrafing = true;
-                }                    
+                }
                 else
                 {
                     tpInput.cc.lockInStrafe = false;
@@ -191,7 +192,7 @@ namespace Invector.vCharacterController
                     aimImage.transform.gameObject.SetActive(false);
             }
             if (currentTarget && aimImage && aimCanvas)
-                aimImage.anchoredPosition = currentTarget.GetScreenPointOffBoundsCenter(aimCanvas, Camera.main, spriteHeight);
+                aimImage.anchoredPosition = currentTarget.GetScreenPointOffBoundsCenter(aimCanvas, tpCamera.targetCamera, spriteHeight);
             else if (aimCanvas)
                 aimImage.anchoredPosition = Vector2.zero;
         }
@@ -201,11 +202,11 @@ namespace Invector.vCharacterController
             if (currentTarget == null && tpInput.tpCamera != null)
             {
                 onUnLockOnTarget.Invoke(tpInput.tpCamera.lockTarget);
-                tpInput.tpCamera.RemoveLockTarget();                
+                tpInput.tpCamera.RemoveLockTarget();
                 isLockingOn = false;
                 inTarget = false;
             }
-        }       
+        }
 
         public virtual void NextTarget()
         {

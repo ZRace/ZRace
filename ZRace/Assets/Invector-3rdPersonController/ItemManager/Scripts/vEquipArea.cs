@@ -40,7 +40,7 @@ namespace Invector.vItemManager
         public vEquipSlot currentSelectedSlot;
         public vEquipSlot lastSelectedSlot;
         [HideInInspector]
-        public int indexOfEquipedItem;
+        public int indexOfEquippedItem;
         public vItem lastEquipedItem;
 
         internal bool isInit;
@@ -75,14 +75,25 @@ namespace Invector.vItemManager
         }
 
         /// <summary>
-        /// Item in Current Equiped Slot
+        /// Current Equipped Slot
         /// </summary>
-        public vItem currentEquipedItem
+        public vEquipSlot currentEquippedSlot
+        {
+            get
+            {
+                return equipSlots[indexOfEquippedItem];
+               
+            }
+        }
+        /// <summary>
+        /// Item in Current Equipped Slot
+        /// </summary>
+        public vItem currentEquippedItem
         {
             get
             {
                 var validEquipSlots = ValidSlots;
-                if (validEquipSlots.Count > 0 && indexOfEquipedItem >= 0 && indexOfEquipedItem < validEquipSlots.Count) return validEquipSlots[indexOfEquipedItem].item;
+                if (validEquipSlots.Count > 0 && indexOfEquippedItem >= 0 && indexOfEquippedItem < validEquipSlots.Count) return validEquipSlots[indexOfEquippedItem].item;
 
                 return null;
             }
@@ -150,7 +161,7 @@ namespace Invector.vItemManager
             if (slot)
             {
                 vItem item = slot.item;
-                if (ValidSlots[indexOfEquipedItem].item == item)
+                if (ValidSlots[indexOfEquippedItem].item == item)
                     lastEquipedItem = item;
                 slot.RemoveItem();
                 onUnequipItem.Invoke(this, item);
@@ -166,21 +177,21 @@ namespace Invector.vItemManager
             var slot = ValidSlots.Find(_slot => _slot.item == item);
             if (slot)
             {
-                if (ValidSlots[indexOfEquipedItem].item == item) lastEquipedItem = item;
+                if (ValidSlots[indexOfEquippedItem].item == item) lastEquipedItem = item;
                 slot.RemoveItem();
                 onUnequipItem.Invoke(this, item);
             }
         }
 
         /// <summary>
-        /// Unequip <seealso cref="currentEquipedItem"/>
+        /// Unequip <seealso cref="currentEquippedItem"/>
         /// </summary>
         public void UnequipCurrentItem()
         {
             if (currentSelectedSlot && currentSelectedSlot.item)
             {
                 var _item = currentSelectedSlot.item;
-                if (ValidSlots[indexOfEquipedItem].item == _item) lastEquipedItem = _item;
+                if (ValidSlots[indexOfEquippedItem].item == _item) lastEquipedItem = _item;
                 currentSelectedSlot.RemoveItem();
                 onUnequipItem.Invoke(this, _item);
             }
@@ -276,47 +287,47 @@ namespace Invector.vItemManager
         }
 
         /// <summary>
-        /// Equip next slot <seealso cref="currentEquipedItem"/>
+        /// Equip next slot <seealso cref="currentEquippedItem"/>
         /// </summary>
         public void NextEquipSlot()
         {
             if (equipSlots == null || equipSlots.Count == 0) return;
 
-            lastEquipedItem = currentEquipedItem;
+            lastEquipedItem = currentEquippedItem;
             var validEquipSlots = ValidSlots;
-            if (indexOfEquipedItem + 1 < validEquipSlots.Count)
-                indexOfEquipedItem++;
+            if (indexOfEquippedItem + 1 < validEquipSlots.Count)
+                indexOfEquippedItem++;
             else
-                indexOfEquipedItem = 0;
+                indexOfEquippedItem = 0;
 
-            if (currentEquipedItem != null)
-                onEquipItem.Invoke(this, currentEquipedItem);
+            if (currentEquippedItem != null)
+                onEquipItem.Invoke(this, currentEquippedItem);
             onUnequipItem.Invoke(this, lastEquipedItem);
         }
 
         /// <summary>
-        /// Equip previous slot <seealso cref="currentEquipedItem"/>
+        /// Equip previous slot <seealso cref="currentEquippedItem"/>
         /// </summary>
         public void PreviousEquipSlot()
         {
             if (equipSlots == null || equipSlots.Count == 0) return;
 
-            lastEquipedItem = currentEquipedItem;
+            lastEquipedItem = currentEquippedItem;
             var validEquipSlots = ValidSlots;
 
-            if (indexOfEquipedItem - 1 >= 0)
-                indexOfEquipedItem--;
+            if (indexOfEquippedItem - 1 >= 0)
+                indexOfEquippedItem--;
             else
-                indexOfEquipedItem = validEquipSlots.Count - 1;
+                indexOfEquippedItem = validEquipSlots.Count - 1;
 
-            if (currentEquipedItem != null)
-                onEquipItem.Invoke(this, currentEquipedItem);
+            if (currentEquippedItem != null)
+                onEquipItem.Invoke(this, currentEquippedItem);
 
             onUnequipItem.Invoke(this, lastEquipedItem);
         }
 
         /// <summary>
-        /// Equip slot <see cref="currentEquipedItem"/>
+        /// Equip slot <see cref="currentEquippedItem"/>
         /// </summary>
         /// <param name="indexOfSlot">index of target slot</param>
         public void SetEquipSlot(int indexOfSlot)
@@ -324,13 +335,13 @@ namespace Invector.vItemManager
             if (equipSlots == null || equipSlots.Count == 0) return;
             if (indexOfSlot < equipSlots.Count && indexOfSlot >= 0)
             {
-                lastEquipedItem = currentEquipedItem;
-                indexOfEquipedItem = indexOfSlot;
-                if (currentEquipedItem != null)
+                lastEquipedItem = currentEquippedItem;
+                indexOfEquippedItem = indexOfSlot;
+                if (currentEquippedItem != null)
                 {
-                    onEquipItem.Invoke(this, currentEquipedItem);
+                    onEquipItem.Invoke(this, currentEquippedItem);
                 }
-                if(currentEquipedItem != lastEquipedItem)
+                if(currentEquippedItem != lastEquipedItem)
                     onUnequipItem.Invoke(this, lastEquipedItem);
             }
         }
@@ -348,6 +359,7 @@ namespace Invector.vItemManager
                 AddItemToEquipSlot(equipSlots.IndexOf(slot as vEquipSlot), item, autoEquip);
             }
         }
+
         /// <summary>
         /// Add an item to an slot
         /// </summary>
@@ -368,7 +380,7 @@ namespace Invector.vItemManager
 
                     if (slot.item != null && slot.item != item)
                     {
-                        if (currentEquipedItem == slot.item) lastEquipedItem = slot.item;
+                        if (currentEquippedItem == slot.item) lastEquipedItem = slot.item;
                         slot.item.isInEquipArea = false;
                         onUnequipItem.Invoke(this, slot.item);
                     }
@@ -382,6 +394,7 @@ namespace Invector.vItemManager
                 }
             }
         }
+
         /// <summary>
         /// Remove item of an slot
         /// </summary>
@@ -393,6 +406,7 @@ namespace Invector.vItemManager
                 RemoveItemOfEquipSlot(equipSlots.IndexOf(slot as vEquipSlot));
             }
         }
+
         /// <summary>
         /// Remove item of an slot
         /// </summary>
@@ -406,24 +420,25 @@ namespace Invector.vItemManager
                 {
                     var item = slot.item;
                     item.isInEquipArea = false;
-                    if (currentEquipedItem == item) lastEquipedItem = currentEquipedItem;
+                    if (currentEquippedItem == item) lastEquipedItem = currentEquippedItem;
                     slot.RemoveItem();
                     onUnequipItem.Invoke(this, item);
                 }
             }
         }
+
         /// <summary>
         /// Add item to current equiped slot 
         /// </summary>
         /// <param name="item">target item</param>
         public void AddCurrentItem(vItem item)
         {
-            if (indexOfEquipedItem < equipSlots.Count)
+            if (indexOfEquippedItem < equipSlots.Count)
             {
-                var slot = equipSlots[indexOfEquipedItem];
+                var slot = equipSlots[indexOfEquippedItem];
                 if (slot.item != null && item != slot.item)
                 {
-                    if (currentEquipedItem == slot.item) lastEquipedItem = slot.item;
+                    if (currentEquippedItem == slot.item) lastEquipedItem = slot.item;
                     slot.item.isInEquipArea = false;
                     onUnequipItem.Invoke(this, currentSelectedSlot.item);
                 }
@@ -431,14 +446,15 @@ namespace Invector.vItemManager
                 onEquipItem.Invoke(this, item);
             }
         }
+
         /// <summary>
         /// Remove current equiped Item
         /// </summary>
         public void RemoveCurrentItem()
         {
-            if (!currentEquipedItem) return;
-            lastEquipedItem = currentEquipedItem;
-            ValidSlots[indexOfEquipedItem].RemoveItem();
+            if (!currentEquippedItem) return;
+            lastEquipedItem = currentEquippedItem;
+            ValidSlots[indexOfEquippedItem].RemoveItem();
             onUnequipItem.Invoke(this, lastEquipedItem);
 
         }

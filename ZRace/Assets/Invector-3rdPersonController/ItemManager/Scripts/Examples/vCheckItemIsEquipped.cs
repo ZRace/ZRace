@@ -1,19 +1,24 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Invector.vItemManager
 {
-    [vClassHeader("Check If Item Is Equipped")]
+    [vClassHeader("Check If Item Is Equipped", openClose = false)]
     public class vCheckItemIsEquipped : vMonoBehaviour
     {
         public vItemManager itemManager;
         public bool getInParent = true;
-        public List<CheckEvent> itemChecks;
+        [FormerlySerializedAs("itemChecks")]
+        public List<CheckItemIDEvent> itemIDEvents;
+        public List<CheckItemTypeEvent> itemTypeEvents;
 
         void Awake()
         {
             if (!itemManager)
             {
-                if(getInParent)
+                if (getInParent)
                     itemManager = GetComponentInParent<vItemManager>();
                 else
                     itemManager = GetComponent<vItemManager>();
@@ -24,16 +29,35 @@ namespace Invector.vItemManager
 
         private void CheckIsEquipped(vEquipArea arg0, vItem arg1)
         {
-            for (int i = 0; i < itemChecks.Count; i++)
+            for (int i = 0; i < itemIDEvents.Count; i++)
             {
-                CheckEvent check = itemChecks[i];
-                CheckItem(check);
+                CheckItemIDEvent check = itemIDEvents[i];
+                CheckItemID(check);
+            }
+            for (int i = 0; i < itemTypeEvents.Count; i++)
+            {
+                CheckItemTypeEvent check = itemTypeEvents[i];
+                CheckItemType(check);
             }
         }
 
-        private void CheckItem(CheckEvent check)
+        private void CheckItemID(CheckItemIDEvent check)
         {
-            bool _isEquipped = itemManager.ItemIsEquiped(check._itemID);
+            bool _isEquipped = check._itemsID.Exists(t => itemManager.ItemIsEquipped(t));
+
+            if (_isEquipped != check.isEquipped)
+            {
+                check.isEquipped = _isEquipped;
+                if (check.isEquipped)
+                    check.onIsItemEquipped.Invoke();
+                else
+                    check.onIsItemUnequipped.Invoke();
+            }
+        }
+
+        private void CheckItemType(CheckItemTypeEvent check)
+        {
+            bool _isEquipped = check.itemTypes.Exists(t => itemManager.ItemTypeIsEquipped(t));
             if (_isEquipped != check.isEquipped)
             {
                 check.isEquipped = _isEquipped;
@@ -45,11 +69,22 @@ namespace Invector.vItemManager
         }
 
         [System.Serializable]
-        public class CheckEvent
+        public class CheckItemIDEvent
         {
-            public int _itemID;
+            public string name;
+            public List<int> _itemsID;
             public UnityEngine.Events.UnityEvent onIsItemEquipped, onIsItemUnequipped;
             internal bool isEquipped;
         }
+
+        [System.Serializable]
+        public class CheckItemTypeEvent
+        {
+            public string name;
+            public List<vItemType> itemTypes;
+            public UnityEngine.Events.UnityEvent onIsItemEquipped, onIsItemUnequipped;
+            internal bool isEquipped;
+        }
+
     }
 }

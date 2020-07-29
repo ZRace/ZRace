@@ -29,7 +29,7 @@ namespace Invector.vCharacterController
         private int index = 0;
         private List<Transform> visibles;
         private Transform target;
-        private vCamera.vThirdPersonCamera tpCamera;
+        protected vCamera.vThirdPersonCamera tpCamera;
         private Rect rect;
         private bool _inLockOn;
         protected bool changingTarget;
@@ -178,7 +178,7 @@ namespace Invector.vCharacterController
             if (Camera.main == null)
                 this.enabled = false;
 
-            tpCamera = Camera.main.GetComponent<vCamera.vThirdPersonCamera>();
+            tpCamera =Camera.main.GetComponent<vCamera.vThirdPersonCamera>();
             var width = Screen.width - (Screen.width * screenMarginX);
             var height = Screen.height - (Screen.height * screenMarginY);
             var posX = (Screen.width * 0.5f) - (width * 0.5f);
@@ -268,11 +268,11 @@ namespace Invector.vCharacterController
             var lpriority_01 = new List<Transform>();
             var lpriority_02 = new List<Transform>();
             var lpriority_03 = new List<Transform>();
-            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(tpCamera.targetCamera);
             for (int i = 0; i < list.Count; i++)
             {
                 var _transform = list[i];
-                Vector2 screenPoint = Camera.main.WorldToScreenPoint(_transform.transform.position);
+                Vector2 screenPoint = tpCamera.targetCamera.WorldToScreenPoint(_transform.transform.position);
                 if (GeometryUtility.TestPlanesAABB(planes, _transform.GetComponent<Collider>().bounds) && rect.Contains(screenPoint))
                     lpriority_01.Add(_transform);
                 else if (GeometryUtility.TestPlanesAABB(planes, _transform.GetComponent<Collider>().bounds))
@@ -282,15 +282,15 @@ namespace Invector.vCharacterController
             }
             lpriority_01.Sort(delegate (Transform t1, Transform t2)
             {
-                Vector2 screenPoint_01 = Camera.main.WorldToScreenPoint(t1.transform.position);
-                Vector2 screenPoint_02 = Camera.main.WorldToScreenPoint(t2.transform.position);
+                Vector2 screenPoint_01 = tpCamera.targetCamera.WorldToScreenPoint(t1.transform.position);
+                Vector2 screenPoint_02 = tpCamera.targetCamera.WorldToScreenPoint(t2.transform.position);
                 return Vector2.Distance(screenPoint_01, rect.center)
                     .CompareTo(Vector2.Distance(screenPoint_02, rect.center));
             });
             lpriority_02.Sort(delegate (Transform t1, Transform t2)
             {
-                Vector2 screenPoint_01 = Camera.main.WorldToScreenPoint(t1.transform.position);
-                Vector2 screenPoint_02 = Camera.main.WorldToScreenPoint(t2.transform.position);
+                Vector2 screenPoint_01 = tpCamera.targetCamera.WorldToScreenPoint(t1.transform.position);
+                Vector2 screenPoint_02 = tpCamera.targetCamera.WorldToScreenPoint(t2.transform.position);
                 return Vector2.Distance(screenPoint_01, rect.center)
                     .CompareTo(Vector2.Distance(screenPoint_02, rect.center));
             });

@@ -28,6 +28,9 @@ namespace Invector.vCharacterController.vActions
         [vReadOnly, SerializeField]
         protected List<Collider> colliders = new List<Collider>();
         public Camera mainCamera;
+
+        public UnityEngine.Events.UnityEvent OnEnterTriggerAction;
+        public UnityEngine.Events.UnityEvent OnExitTriggerAction;
         public UnityEngine.Events.UnityEvent OnStartAction;
         public UnityEngine.Events.UnityEvent OnCancelAction;
         public UnityEngine.Events.UnityEvent OnEndAction;
@@ -116,7 +119,10 @@ namespace Invector.vCharacterController.vActions
             {
                 triggerAction = _triggerAction;
                 if (triggerAction)
+                {
                     triggerAction.OnPlayerEnter.Invoke(gameObject);
+                    OnEnterTriggerAction.Invoke();
+                }                    
             }
 
             TriggerActionInput();
@@ -152,6 +158,7 @@ namespace Invector.vCharacterController.vActions
                         else
                         {
                             actions[key].OnPlayerExit.Invoke(gameObject);
+                            OnExitTriggerAction.Invoke();
                         }
                     }
                     else
@@ -163,6 +170,7 @@ namespace Invector.vCharacterController.vActions
                         else
                         {
                             actions[key].OnPlayerExit.Invoke(gameObject);
+                            OnExitTriggerAction.Invoke();
                         }
                     }
                 }
@@ -190,28 +198,35 @@ namespace Invector.vCharacterController.vActions
             }
 
             if (playingAnimation)
-            {
-                triggerAction.OnStartAnimation.Invoke();
+            {              
 
                 if (triggerAction.matchTarget != null)
                 {
-                    DebugAction("<color=blue>Match Target...</color> ");
-                    // use match target to match the Y and Z target 
-                    tpInput.cc.MatchTarget(triggerAction.matchTarget.transform.position, triggerAction.matchTarget.transform.rotation, triggerAction.avatarTarget,
-                        new MatchTargetWeightMask(triggerAction.matchPos, triggerAction.matchRot), triggerAction.startMatchTarget, triggerAction.endMatchTarget);
+                   if(debugMode)Debug.Log($"<b>GenericAction: </b><color=blue>Match Target...</color> ");
+                    if (triggerAction.useAnimatorMatchTarget)
+                    {
+                        // use match target to match the Y and Z target 
+                        tpInput.cc.MatchTarget(triggerAction.matchTarget.transform.position, triggerAction.matchTarget.transform.rotation, triggerAction.avatarTarget,
+                            new MatchTargetWeightMask(triggerAction.matchPos, triggerAction.matchRot), triggerAction.startMatchTarget, triggerAction.endMatchTarget);
+                    }
+                    else EvaluateToTargetPosition();
                 }
 
                 if (triggerAction.useTriggerRotation)
                 {
-                    DebugAction("<color=blue>Rotate to Target...</color> ");
-                    // smoothly rotate the character to the target
-                    var newRot = new Vector3(transform.eulerAngles.x, triggerAction.transform.eulerAngles.y, transform.eulerAngles.z);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(newRot), tpInput.cc.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+                   if(debugMode)Debug.Log($"<b>GenericAction: </b><color=blue>Rotate to Target...</color> ");
+                    if (triggerAction.useAnimatorMatchTarget)
+                    {
+                        // smoothly rotate the character to the target
+                        var newRot = new Vector3(transform.eulerAngles.x, triggerAction.transform.eulerAngles.y, transform.eulerAngles.z);
+                        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(newRot), tpInput.cc.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+                    }
+                    else EvaluateToTargetRotation();
                 }
 
                 if (actionStarted && (triggerAction.inputType != vTriggerGenericAction.InputType.GetButtonTimer || !triggerAction.playAnimationWhileHoldingButton) && tpInput.cc.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= triggerAction.endExitTimeAnimation)
                 {
-                    DebugAction("Finish Animation ");
+                   if(debugMode)Debug.Log($"<b>GenericAction: </b>Finish Animation ");
                     // triggers the OnEndAnimation Event
                     EndAction();
                 }
@@ -221,10 +236,72 @@ namespace Invector.vCharacterController.vActions
                 //when using a GetButtonTimer the ResetTriggerSettings will be automatically called at the end of the timer or by releasing the input
                 if (triggerAction != null && (triggerAction.inputType == vTriggerGenericAction.InputType.GetButtonTimer && triggerAction.playAnimationWhileHoldingButton)) return;
 
-                DebugAction("Force ResetTriggerSettings ");
+               if(debugMode)Debug.Log($"<b>GenericAction: </b>Force ResetTriggerSettings ");
                 // triggers the OnEndAnimation Event
                 EndAction();
             }
+        }
+
+        protected virtual void EvaluateToTargetPosition()
+        {
+            var matckTargetPosition = triggerAction.matchTarget.position;
+            switch (triggerAction.avatarTarget)
+            {
+                case AvatarTarget.LeftHand:
+                    matckTargetPosition = (triggerAction.matchTarget.position - transform.rotation * transform.InverseTransformPoint(tpInput.animator.GetBoneTransform(HumanBodyBones.LeftHand).position));
+                    break;
+                case AvatarTarget.RightHand:
+                    matckTargetPosition = (triggerAction.matchTarget.position - transform.rotation * transform.InverseTransformPoint(tpInput.animator.GetBoneTransform(HumanBodyBones.RightHand).position));
+                    break;
+                case AvatarTarget.LeftFoot:
+                    matckTargetPosition = (triggerAction.matchTarget.position - transform.rotation * transform.InverseTransformPoint(tpInput.animator.GetBoneTransform(HumanBodyBones.LeftFoot).position));
+                    break;
+                case AvatarTarget.RightFoot:
+                    matckTargetPosition = (triggerAction.matchTarget.position - transform.rotation * transform.InverseTransformPoint(tpInput.animator.GetBoneTransform(HumanBodyBones.RightFoot).position));
+                    break;
+            }
+            AnimationCurve XZ = triggerAction.matchPositionXZCurve;
+            AnimationCurve Y = triggerAction.matchPositionYCurve;
+            float normalizedTime = tpInput.cc.baseLayerInfo.normalizedTime;
+
+            var localRelativeToTarget = triggerAction.matchTarget.InverseTransformPoint(matckTargetPosition);
+            if (!triggerAction.useLocalX) localRelativeToTarget.x = triggerAction.matchTarget.InverseTransformPoint(transform.position).x;           
+            if (!triggerAction.useLocalZ) localRelativeToTarget.z = triggerAction.matchTarget.InverseTransformPoint(transform.position).z;
+
+            matckTargetPosition = triggerAction.matchTarget.TransformPoint(localRelativeToTarget);
+
+            Vector3 rootPosition = tpInput.cc.animator.rootPosition;
+
+            float evaluatedXZ = XZ.Evaluate(normalizedTime);
+            float evaluatedY = Y.Evaluate(normalizedTime);
+
+            if (evaluatedXZ < 1f)
+            {
+               rootPosition.x = Mathf.Lerp(rootPosition.x, matckTargetPosition.x, evaluatedXZ);
+               rootPosition.z = Mathf.Lerp(rootPosition.z, matckTargetPosition.z, evaluatedXZ);
+            }
+
+            if (evaluatedY < 1f)
+            {
+                rootPosition.y = Mathf.Lerp(rootPosition.y, matckTargetPosition.y, evaluatedY);
+            }
+
+            transform.position = rootPosition;
+        }
+
+        protected virtual void EvaluateToTargetRotation()
+        {
+            var targetEuler = new Vector3(transform.eulerAngles.x, triggerAction.transform.eulerAngles.y, transform.eulerAngles.z);
+            Quaternion targetRotation = Quaternion.Euler(targetEuler);
+            Quaternion rootRotation = tpInput.cc.animator.rootRotation;
+            AnimationCurve rotationCurve = triggerAction.matchRotationCurve; 
+            float normalizedTime = tpInput.cc.baseLayerInfo.normalizedTime;
+            float evaluatedCurve = rotationCurve.Evaluate(normalizedTime);
+            if (evaluatedCurve < 1)
+            {
+                rootRotation = Quaternion.Lerp(rootRotation, targetRotation, evaluatedCurve);
+            }
+            transform.rotation = rootRotation;
         }
 
         protected virtual void EndAction()
@@ -234,14 +311,15 @@ namespace Invector.vCharacterController.vActions
             var trigger = triggerAction;
             // triggers the OnEndAnimation Event
             trigger.OnEndAnimation.Invoke();
-
+            // Exit the trigger
+            OnExitTriggerAction.Invoke();
             // reset GenericAction variables so you can use it again
             ResetTriggerSettings();
 
             // Destroy trigger affter reset all settings
             if (trigger.destroyAfter) StartCoroutine(DestroyActionDelay(trigger));
 
-            DebugAction("End Action ");
+           if(debugMode)Debug.Log($"<b>GenericAction: </b>End Action ");
         }
 
         public virtual bool playingAnimation
@@ -252,6 +330,7 @@ namespace Invector.vCharacterController.vActions
                 if (!_playingAnimation && inActionAnimation)
                 {
                     _playingAnimation = true;
+                    triggerAction.OnStartAnimation.Invoke();
                     DisablePlayerGravityAndCollision();
                 }
                 else if (_playingAnimation && !inActionAnimation)
@@ -298,6 +377,7 @@ namespace Invector.vCharacterController.vActions
             if (other.gameObject.CompareTag(actionTag) && actions.ContainsKey(other) && (!_doingAction || other != triggerAction._collider))
             {
                 actions[other].OnPlayerExit.Invoke(gameObject);
+                OnExitTriggerAction.Invoke();
                 actions.Remove(other);
             }
         }
@@ -356,7 +436,7 @@ namespace Invector.vCharacterController.vActions
                         // call the OnFinishActionInput after the buttomTimer is concluded and reset player settings
                         if (triggerAction.actionInput.GetButtonTimer(ref t, ref up, triggerAction.buttonTimer))
                         {
-                            DebugAction("Finish Action Input ");
+                           if(debugMode)Debug.Log($"<b>GenericAction: </b>Finish Action Input ");
                             triggerAction.UpdateButtonTimer(0);
                             triggerAction.OnFinishActionInput.Invoke();
                             ResetActionState();
@@ -366,7 +446,7 @@ namespace Invector.vCharacterController.vActions
                         // trigger the Animation and the ActionEvents while your hold the button
                         if (triggerAction && triggerAction.actionInput.inButtomTimer)
                         {
-                            DebugAction("<color=blue>Holding Input</color>  ");
+                           if(debugMode)Debug.Log($"<b>GenericAction: </b><color=blue>Holding Input</color>  ");
                             triggerAction.UpdateButtonTimer(t);
                             TriggerAnimation();
                         }
@@ -384,7 +464,7 @@ namespace Invector.vCharacterController.vActions
                         // call the OnFinishActionInput after the buttomTimer is concluded and reset player settings
                         if (triggerAction.actionInput.GetButtonTimer(ref t, ref up, triggerAction.buttonTimer))
                         {
-                            DebugAction("Finish Action Input ");
+                           if(debugMode)Debug.Log($"<b>GenericAction: </b>Finish Action Input ");
                             triggerAction.UpdateButtonTimer(0);
                             triggerAction.OnFinishActionInput.Invoke();
                             // destroy the triggerAction if checked with destroyAfter                          
@@ -394,7 +474,7 @@ namespace Invector.vCharacterController.vActions
                         // trigger the ActionEvents while your hold the button
                         if (triggerAction && triggerAction.actionInput.inButtomTimer)
                         {
-                            DebugAction("<color=blue>Holding Input</color>");
+                           if(debugMode)Debug.Log($"<b>GenericAction: </b><color=blue>Holding Input</color>");
                             triggerAction.UpdateButtonTimer(t);
                         }
 
@@ -412,7 +492,7 @@ namespace Invector.vCharacterController.vActions
 
         private void CancelButtonTimer()
         {
-            DebugAction("Cancel Action ");
+           if(debugMode)Debug.Log($"<b>GenericAction: </b>Cancel Action ");
             triggerAction.OnCancelActionInput.Invoke();
             _currentInputDelay = triggerAction.inputDelay;
             triggerAction.UpdateButtonTimer(0);
@@ -432,7 +512,7 @@ namespace Invector.vCharacterController.vActions
 
         public virtual void TriggerActionEvents()
         {
-            DebugAction("TriggerAction Events ", gameObject);
+           if(debugMode)Debug.Log($"<b>GenericAction: </b>TriggerAction Events ", gameObject);
 
             doingAction = true;
 
@@ -450,11 +530,11 @@ namespace Invector.vCharacterController.vActions
         {
             if (playingAnimation || actionStarted) return;
 
-            DebugAction("TriggerAnimation ", gameObject);
+           if(debugMode)Debug.Log($"<b>GenericAction: </b>TriggerAnimation ", gameObject);
 
             if (triggerAction.animatorActionState != 0)
             {
-                DebugAction("Applied ActionState: " + triggerAction.animatorActionState + " ", gameObject);
+               if(debugMode)Debug.Log($"<b>GenericAction: </b>Applied ActionState: " + triggerAction.animatorActionState + " ", gameObject);
                 tpInput.cc.SetActionState(triggerAction.animatorActionState);
             }
 
@@ -485,7 +565,7 @@ namespace Invector.vCharacterController.vActions
 
         public virtual void ResetTriggerSettings()
         {
-            DebugAction("Reset Trigger Settings ");
+           if(debugMode)Debug.Log($"<b>GenericAction: </b>Reset Trigger Settings ");
 
             // reset player gravity and collision
             EnablePlayerGravityAndCollision();
@@ -507,13 +587,13 @@ namespace Invector.vCharacterController.vActions
         {
             if (triggerAction && triggerAction.disableGravity)
             {
-                DebugAction("<color=red>Disable Player's Gravity</color> ");
+               if(debugMode)Debug.Log($"<b>GenericAction: </b><color=red>Disable Player's Gravity</color> ");
                 tpInput.cc._rigidbody.useGravity = false;
                 tpInput.cc._rigidbody.velocity = Vector3.zero;
             }
             if (triggerAction && triggerAction.disableCollision)
             {
-                DebugAction("<color=red>Disable Player's Collision</color> ");
+                if(debugMode)Debug.Log($"<b>GenericAction: </b><color=red>Disable Player's Collision</color> ");
                 tpInput.cc._capsuleCollider.isTrigger = true;
             }
         }
@@ -522,13 +602,13 @@ namespace Invector.vCharacterController.vActions
         {
             if (tpInput.cc._rigidbody.useGravity == false)
             {
-                DebugAction("<color=green>Enable Player's Gravity</color> ");
+               if(debugMode)Debug.Log($"<b>GenericAction: </b><color=green>Enable Player's Gravity</color> ");
                 tpInput.cc._rigidbody.useGravity = true;
             }
 
             if (tpInput.cc._capsuleCollider.isTrigger == true)
             {
-                DebugAction("<color=green>Enable Player's Collision </color> ");
+               if(debugMode)Debug.Log($"<b>GenericAction: </b><color=green>Enable Player's Collision </color> ");
                 tpInput.cc._capsuleCollider.isTrigger = false;
             }
 
@@ -539,8 +619,12 @@ namespace Invector.vCharacterController.vActions
             var _triggerAction = triggerAction;
             yield return new WaitForSeconds(_triggerAction.destroyDelay);
             if (_triggerAction != null && _triggerAction.gameObject != null)
+            {
+                OnExitTriggerAction.Invoke();
                 Destroy(_triggerAction.gameObject);
-            DebugAction("Destroy Trigger ");
+            }
+                
+           if(debugMode)Debug.Log($"<b>GenericAction: </b>Destroy Trigger ");
         }
 
         public virtual void SetLockTriggerEvents(bool value)
@@ -554,15 +638,6 @@ namespace Invector.vCharacterController.vActions
             }
             actions.Clear();
             isLockTriggerEvents = value;
-        }
-
-
-        void DebugAction(string message, UnityEngine.Object context = null)
-        {
-            if (debugMode)
-            {
-                Debug.Log($"<b>GenericAction: </b>{message}", context);
-            }
         }
     }
 }

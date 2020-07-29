@@ -2,6 +2,7 @@
 
 namespace Invector.vMelee
 {
+    using UnityEngine.Events;
     using vCharacterController;
     using vCharacterController.vActions;
 
@@ -17,9 +18,13 @@ namespace Invector.vMelee
         public GenericInput unequipRightInput;
         public GenericInput unequipLeftInput;
         [HideInInspector]
-        public GameObject leftWeapon, rightWeapon;
+        public vCollectableStandalone leftWeapon, rightWeapon;
         public vControlDisplayWeaponStandalone controlDisplayPrefab;
         protected vControlDisplayWeaponStandalone currentDisplay;
+        [vEditorToolbar("Melee Events")]
+        public UnityEngine.Events.UnityEvent onEquipMeleeWeapon, onUnequipMeleeWeapon;
+
+        internal bool wasUsingMeleeWeapon;
 
         protected virtual void Start()
         {
@@ -31,6 +36,7 @@ namespace Invector.vMelee
         protected virtual void Update()
         {
             UnequipWeaponHandle();
+            CheckIsEquipedWifhWeapon();
         }
 
         public virtual void HandleCollectableInput(vCollectableStandalone collectableStandAlone)
@@ -38,39 +44,45 @@ namespace Invector.vMelee
             if (!meleeManager) return;
             if (collectableStandAlone != null && collectableStandAlone.weapon != null)
             {
-                var weapon = collectableStandAlone.weapon.GetComponent<vMeleeWeapon>();
-                if (!weapon) return;
-                if (weapon.meleeType != vMeleeType.OnlyDefense)
-                {
-                    var p = GetEquipPoint(rightHandler, collectableStandAlone.targetEquipPoint);
-                    if (!p) return;
-                    collectableStandAlone.weapon.transform.SetParent(p);
-                    collectableStandAlone.weapon.transform.localPosition = Vector3.zero;
-                    collectableStandAlone.weapon.transform.localEulerAngles = Vector3.zero;
-                    if (rightWeapon && rightWeapon != weapon.gameObject)
-                        RemoveRightWeapon();
-                    
-                    meleeManager.SetRightWeapon(weapon.gameObject);
-                    collectableStandAlone.OnEquip.Invoke();
-                    rightWeapon = weapon.gameObject;
+                EquipMeleeWeapon(collectableStandAlone);
+            }
+        }
 
-                    UpdateRightDisplay(collectableStandAlone);
-                }
-                if (weapon.meleeType != vMeleeType.OnlyAttack && weapon.meleeType != vMeleeType.AttackAndDefense)
-                {
-                    var p = GetEquipPoint(leftHandler, collectableStandAlone.targetEquipPoint);
-                    if (!p) return;
-                    collectableStandAlone.weapon.transform.SetParent(p);
-                    collectableStandAlone.weapon.transform.localPosition = Vector3.zero;
-                    collectableStandAlone.weapon.transform.localEulerAngles = Vector3.zero;
-                    if (leftWeapon && leftWeapon != weapon.gameObject)
-                        RemoveLeftWeapon();
+        protected virtual void EquipMeleeWeapon(vCollectableStandalone collectable)
+        {
+            var weapon = collectable.weapon.GetComponent<vMeleeWeapon>();
+            if (!weapon) return;
 
-                    meleeManager.SetLeftWeapon(weapon.gameObject);
-                    collectableStandAlone.OnEquip.Invoke();
-                    leftWeapon = weapon.gameObject;
-                    UpdateLeftDisplay(collectableStandAlone);
-                }
+            if (weapon.meleeType != vMeleeType.OnlyDefense)
+            {
+                var p = GetEquipPoint(rightHandler, collectable.targetEquipPoint);
+                if (!p) return;
+                collectable.weapon.transform.SetParent(p);
+                collectable.weapon.transform.localPosition = Vector3.zero;
+                collectable.weapon.transform.localEulerAngles = Vector3.zero;
+                if (rightWeapon && rightWeapon.gameObject != collectable.gameObject)
+                    RemoveRightWeapon();
+                if (collectable.twoHandWeapon || leftWeapon && leftWeapon.twoHandWeapon) RemoveLeftWeapon();
+                meleeManager.SetRightWeapon(weapon.gameObject);
+                collectable.OnEquip.Invoke();
+                rightWeapon = collectable;
+
+                UpdateRightDisplay(collectable);
+            }
+            if (weapon.meleeType != vMeleeType.OnlyAttack && weapon.meleeType != vMeleeType.AttackAndDefense)
+            {
+                var p = GetEquipPoint(leftHandler, collectable.targetEquipPoint);
+                if (!p) return;
+                collectable.weapon.transform.SetParent(p);
+                collectable.weapon.transform.localPosition = Vector3.zero;
+                collectable.weapon.transform.localEulerAngles = Vector3.zero;
+                if (leftWeapon && leftWeapon.gameObject != collectable.gameObject)
+                    RemoveLeftWeapon();
+                if (collectable.twoHandWeapon || rightWeapon && rightWeapon.twoHandWeapon) RemoveRightWeapon();
+                meleeManager.SetLeftWeapon(weapon.gameObject);
+                collectable.OnEquip.Invoke();
+                leftWeapon = collectable;
+                UpdateLeftDisplay(collectable);
             }
         }
 
@@ -97,9 +109,8 @@ namespace Invector.vMelee
         {
             if (leftWeapon)
             {
-                leftWeapon.transform.parent = null;
-                var _collectable = leftWeapon.GetComponentInChildren<vCollectableStandalone>();
-                if (_collectable) _collectable.OnDrop.Invoke();
+                leftWeapon.weapon.transform.parent = null;
+                leftWeapon.OnDrop.Invoke();           
             }
             if (meleeManager)
                 meleeManager.leftWeapon = null;
@@ -110,15 +121,47 @@ namespace Invector.vMelee
         {
             if (rightWeapon)
             {
-                rightWeapon.transform.parent = null;
-                var _collectable = rightWeapon.GetComponentInChildren<vCollectableStandalone>();
-                if (_collectable) _collectable.OnDrop.Invoke();
+                rightWeapon.weapon.transform.parent = null;
+                rightWeapon.OnDrop.Invoke();             
             }
             if (meleeManager)
                 meleeManager.rightWeapon = null;
             UpdateRightDisplay();
         }
 
+
+        public virtual bool isUsingTwoHandWeapon
+        {
+            get
+            {
+                return rightWeapon != null && rightWeapon.twoHandWeapon || leftWeapon != null && leftWeapon.twoHandWeapon;
+            }
+        }
+
+        public virtual bool isUsingMeleeWeapon
+        {
+            get
+            {
+                if (!meleeManager) return false;
+                return meleeManager.leftWeapon && meleeManager.leftWeapon.gameObject.activeInHierarchy ||
+                     meleeManager.rightWeapon && meleeManager.rightWeapon.gameObject.activeInHierarchy;
+            }
+        }
+
+        protected virtual void CheckIsEquipedWifhWeapon()
+        {
+            if(wasUsingMeleeWeapon && !isUsingMeleeWeapon)
+            {
+                onUnequipMeleeWeapon.Invoke();
+                wasUsingMeleeWeapon = false;
+            }
+            else if(!wasUsingMeleeWeapon && isUsingMeleeWeapon)
+            {
+                onEquipMeleeWeapon.Invoke();
+                wasUsingMeleeWeapon = true;
+            }
+        }
+    
         protected virtual void UpdateLeftDisplay(vCollectableStandalone collectable = null)
         {
             if (!currentDisplay) return;

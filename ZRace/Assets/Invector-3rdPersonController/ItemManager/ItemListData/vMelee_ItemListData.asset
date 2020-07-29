@@ -620,7 +620,7 @@ MonoBehaviour:
   canBeDestroyed: 1
   EnableAnim: LowFront
   DisableAnim: LowFront
-  enableDelayTime: 0.5
+  enableDelayTime: 0.25
   disableDelayTime: 0.5
   customHandler: 
   twoHandWeapon: 0

@@ -50,8 +50,8 @@ namespace Invector.vCharacterController
         };
         #endregion
 
-        public const string _thirdPersonVersion = "2.5.2";
-        public const string _fsmAIVersion = "1.1.1";
+        public const string _thirdPersonVersion = "2.5.3";
+        public const string _fsmAIVersion = "1.1.2";
 
         public const string _projectSettingsPath = "Assets/Invector-3rdPersonController/Basic Locomotion/Resources/vProjectSettings.unitypackage";
         public const string _mobilePackagePath = "Assets/Invector-3rdPersonController/Basic Locomotion/Resources/vMobileAddon.unitypackage";
@@ -72,6 +72,7 @@ namespace Invector.vCharacterController
         public static Texture2D stealthKillAddon = null;
         public static Texture2D builderAddon = null;
         public static Texture2D ziplineAddon = null;
+        public static Texture2D craftingAddon = null;
 
         public static Vector2 scrollPosition;
 
@@ -110,6 +111,7 @@ namespace Invector.vCharacterController
             stealthKillAddon = (Texture2D)Resources.Load("stealthKillAddon", typeof(Texture2D));
             builderAddon = (Texture2D)Resources.Load("builderAddon", typeof(Texture2D));
             ziplineAddon = (Texture2D)Resources.Load("ziplineAddon", typeof(Texture2D));
+            craftingAddon = (Texture2D)Resources.Load("craftingAddon", typeof(Texture2D));
         }
 
         public void OnGUI()
@@ -232,11 +234,13 @@ namespace Invector.vCharacterController
             DrawNewAddon(pointAndClickIcon, "Point&Click Examples", "Similar to Diablo gameplay, basic and melee scenes included", "Import Package", _pointAndClickPackagePath, false);
             DrawNewAddon(platformIcon, "2.5D Examples", "2.5D with corner transition, basic, melee and shooter scenes included", "Import Package", _platformPackagePath, false);
             DrawNewAddon(vMansionIcon, "Mansion CameraMode Examples", "Cool example of how to use the CameraMode to create a CCTV or oldschool gameplay style", "Import Package", _vMansionPath, false);
+
+            DrawNewAddon(craftingAddon, "Builder Add-on", "Expand Invector's Inventory System to create new items by combining two or more items into a new one.", "Go to AssetStore", "https://assetstore.unity.com/packages/templates/systems/invector-crafting-add-on-168799", true);
             DrawNewAddon(climbAddon, "FreeClimb Add-on", "Climb on any surface such as walls or cliffs.", "Go to AssetStore", "https://assetstore.unity.com/packages/tools/utilities/third-person-freeclimb-add-on-105187", true);
             DrawNewAddon(swimmingAddon, "Swimming Add-on", "Swim on the surface or dive into the water", "Go to AssetStore", "https://assetstore.unity.com/packages/tools/utilities/third-person-swimming-add-on-97418", true);
             DrawNewAddon(ziplineAddon, "Zipline Add-on", "Zipline through pre located ropes", "Go to AssetStore", "https://assetstore.unity.com/packages/tools/utilities/third-person-zipline-add-on-97410", true);
             DrawNewAddon(stealthKillAddon, "Stealth Kill Add-on (Free!)", "Example using the GenericAction feature, animations included.", "Go to AssetStore", "https://assetstore.unity.com/packages/templates/systems/invector-stealth-kill-add-on-135495", true);
-            DrawNewAddon(builderAddon, "Builder Add-on", "Collect Items and Build them anywhere in your scene to create traps or interactables!", "Go to AssetStore", "https://assetstore.unity.com/packages/tools/utilities/third-person-builder-add-on-152689", true);
+            DrawNewAddon(builderAddon, "Builder Add-on", "Collect Items and Build them anywhere in your scene to create traps or interactables!", "Go to AssetStore", "https://assetstore.unity.com/packages/tools/utilities/third-person-builder-add-on-152689", true);            
 
             GUILayout.EndScrollView();
             GUILayout.FlexibleSpace();

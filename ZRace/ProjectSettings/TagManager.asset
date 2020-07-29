@@ -30,11 +30,6 @@ TagManager:
   - CoverPoint
   - Interactable
   - AIAction
-  - ZBot_Active
-  - Vehicle
-  - Wheel
-  - Road
-  - DirtRoad
   layers:
   - Default
   - TransparentFX
@@ -53,8 +48,8 @@ TagManager:
   - HeadTrack
   - BodyPart
   - BlockAIRayCast
-  - LocalPlayer
-  - RemotePlayer
+  - 
+  - 
   - 
   - 
   - 

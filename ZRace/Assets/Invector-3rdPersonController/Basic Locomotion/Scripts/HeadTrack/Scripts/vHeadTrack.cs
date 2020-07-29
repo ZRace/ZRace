@@ -236,16 +236,16 @@ namespace Invector.vCharacterController
 
         Vector3 GetLookPoint()
         {
-            var distanceToLoock = 100;
+            var distanceToLook = 100;
             if (lookConditions && !IgnoreHeadTrack())
             {
                 var dir = transform.forward;
                 if (temporaryLookTime <= 0)
                 {
-                    var lookPosition = headPoint + (transform.forward * distanceToLoock);
+                    var lookPosition = headPoint + (transform.forward * distanceToLook);
                     if (followCamera)
                     {
-                        lookPosition = (cameraMain.transform.position + (cameraMain.transform.forward * distanceToLoock));
+                        lookPosition = (cameraMain.transform.position + (cameraMain.transform.forward * distanceToLook));
                     }
 
                     dir = lookPosition - headPoint;
@@ -325,7 +325,7 @@ namespace Invector.vCharacterController
             var rotB = Quaternion.AngleAxis(xRotation, transform.right);
             var finalRotation = (rotA * rotB);
             var lookDirection = finalRotation * transform.forward;
-            return headPoint + (lookDirection * distanceToLoock);
+            return headPoint + (lookDirection * distanceToLook);
         }
 
         Vector2 GetTargetAngle(Vector3 direction)

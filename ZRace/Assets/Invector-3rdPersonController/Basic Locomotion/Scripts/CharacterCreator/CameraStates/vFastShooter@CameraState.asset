@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -104,7 +105,34 @@ MonoBehaviour:
     rotationOffSet: {x: 0, y: 0, z: 0}
     cullingHeight: 1
     cullingMinDist: 0.1
-    fov: 45
+    fov: 60
+    useZoom: 0
+    fixedAngle: {x: 0, y: 15}
+    lookPoints:
+    - pointName: point_01
+      positionPoint: {x: 27.862371, y: 8.697912, z: -13.253475}
+      eulerAngle: {x: 1.2032634, y: 0.6535967, z: 0.0000026131736}
+      freeRotation: 1
+    cameraMode: 0
+  - Name: ScopeAiming
+    forward: -1
+    right: 0.4
+    defaultDistance: 2
+    maxDistance: 3
+    minDistance: 0.5
+    height: 1.5
+    smooth: 10
+    smoothDamp: 1
+    xMouseSensitivity: 0.2
+    yMouseSensitivity: 0.2
+    yMinLimit: -40
+    yMaxLimit: 80
+    xMinLimit: -360
+    xMaxLimit: 360
+    rotationOffSet: {x: 0, y: 0, z: 0}
+    cullingHeight: 1
+    cullingMinDist: 0.1
+    fov: 60
     useZoom: 0
     fixedAngle: {x: 0, y: 15}
     lookPoints:

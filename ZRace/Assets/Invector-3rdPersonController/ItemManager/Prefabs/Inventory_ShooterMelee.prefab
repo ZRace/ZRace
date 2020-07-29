@@ -11084,7 +11084,7 @@ MonoBehaviour:
       m_Calls: []
   currentSelectedSlot: {fileID: 0}
   lastSelectedSlot: {fileID: 0}
-  indexOfEquipedItem: 0
+  indexOfEquippedItem: 0
   lastEquipedItem: {fileID: 0}
 --- !u!1 &3444320676858910808
 GameObject:
@@ -12984,8 +12984,9 @@ MonoBehaviour:
   selectedToolbar: 0
   itemManager: {fileID: 0}
   getInParent: 1
-  itemChecks:
-  - _itemID: 2
+  itemIDEvents:
+  - name: Enable Use Button
+    _itemsID: 020000000400000005000000
     onIsItemEquipped:
       m_PersistentCalls:
         m_Calls:
@@ -13014,7 +13015,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - _itemID: 23
+  - name: 
+    _itemsID: 
     onIsItemEquipped:
       m_PersistentCalls:
         m_Calls:
@@ -13043,6 +13045,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  itemTypeEvents: []
 --- !u!114 &3966103693986755230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37548,7 +37551,7 @@ MonoBehaviour:
       m_Calls: []
   currentSelectedSlot: {fileID: 0}
   lastSelectedSlot: {fileID: 0}
-  indexOfEquipedItem: 0
+  indexOfEquippedItem: 0
   lastEquipedItem: {fileID: 0}
 --- !u!1 &8440525386782318043
 GameObject:
@@ -41048,7 +41051,7 @@ MonoBehaviour:
       m_Calls: []
   currentSelectedSlot: {fileID: 0}
   lastSelectedSlot: {fileID: 0}
-  indexOfEquipedItem: 0
+  indexOfEquippedItem: 0
   lastEquipedItem: {fileID: 0}
 --- !u!1 &8541731150740155721
 GameObject:

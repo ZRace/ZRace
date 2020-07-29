@@ -24,6 +24,23 @@ ONLINE DOCUMENTATION: https://www.invector.xyz/thirdpersondocumentation
 
 Invector Team - 2020
 
+
+Basic Locomotion  2.5.3 Mobile Update 07/07/2020
+
+- Project updated to Unity 2018.4.23f1
+- New Mobile Controls
+- New Mobile Inventory Prefabs
+- New Mobile Camera Movement (improved sensitivity)
+- New Mobile Demo scenes
+- Improved SnapToGround method and add SnapPower to choose the how much it affect 
+- Improved Headtrack to make the character look at the aim point when aiming
+- Add OnEnterTrigger/OnExitTrigger Events for the GenericAction
+- Add vMatchTarget with Curves for the GenericAction (better results than the Animator MatchTarget)
+- Add Toggle Open/Door in the SimpleDoor
+- Add Option to parent the Character to the Ladder and add Curve to do MatchTarget
+
+-----------------------------------------------------------------------------------------------------
+
 Basic Locomotion v2.5.2 BugFixes - 16/05/2020
 
 - Fix Character Creator Window bug in the button "Create" not working on 2019.x when the prefab of the character is in the scene
